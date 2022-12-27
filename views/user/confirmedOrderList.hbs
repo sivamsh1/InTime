@@ -1,0 +1,69 @@
+
+
+
+
+
+
+  
+  
+  
+  
+    <div class="col-sm-8 col-lg-9 mtb_20 " style="margin-left:16rem;" >
+      <form enctype="multipart/form-data" method="post" action="#" style="width:111rem;margin-left:-5rem">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="text-center">Date</th>
+                <th class="text-left">Address</th>
+                <th class="text-left">Pincode</th>
+                <th class="text-left">Mobile</th>
+                <th class="text-right"> Amount</th>
+                <th class="text-right"> Payment</th>
+                <th class="text-right"> Status</th>
+
+                <td></td>
+
+              </tr>
+            </thead>
+            {{#each orders}}
+            <tbody>
+              <tr>
+                <td>{{this.date}}</td>            
+                <td>{{this.deliveryDetails.address}}</td>            
+                <td>{{this.deliveryDetails.pincode}}</td>            
+                <td>{{this.deliveryDetails.phone}}</td>            
+                <td>{{this.totalAmount}}</td>            
+                <td>{{this.PaymentMethod}}</td>            
+                <td>{{this.status}}</td> 
+                <td>
+                {{#eq this.status "cancelled"}} 
+
+                  <a class="btn btn-success " href="/vieworders/{{this._id}}">View Orders</a>
+                {{else}}
+                <a class="btn btn-success " href="/vieworders/{{this._id}}">View Orders</a>
+
+                <a class="btn btn-danger " href="/cancellorders/{{this._id}}" style="width:14rem;margin-top:1rem">Cancell Order</a>
+                {{/eq}}
+
+                </td>           
+              
+         
+                         
+               </tr>
+            </tbody>
+            {{/each}}
+           
+           
+          </table>
+        </div>
+      </div>
+      <div class="row">
+      
+      
+    </div>
+
+
+    </div>
+  </div>
+</div>

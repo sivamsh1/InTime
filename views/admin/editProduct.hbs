@@ -1,0 +1,27 @@
+
+
+<div class="container">
+
+ <form id="formnvnv" action="/admin/editproduct/{{Product._id}}" method="post" >
+        <label for="">Product Name:</label><br>
+         <input type="text" name="name" id="username1" tabindex="1" class="form-control" value={{Product.name}} required>
+        <label for="">Category Name:</label><br>
+          <select  style="width:18.8rem;"  name="category"> 
+          {{#each categoryDatas }}
+          <option value="category">{{this.name}}</option>
+          {{/each}}
+        <label for="">Price:</label><br>
+         <input type="text" name="price" id="username1" tabindex="1" class="form-control" value={{Product.price}} required>
+         <label for="">Brand </label>
+         <input type="text" name="brand" id="description" class="form-control" value={{Product.brand}}  required>
+         <label for="">Image: </label><br>
+         <img src={{Product.images}} style="height:71px;width:88px" ><br><br>
+         <input type="file" id="description" style="width: 18.9rem;" value={{Product.brand}} class="form-control" >
+         <input type="hidden" name="image" id="description" style="width: 18.9rem;" value={{Product.images}} class="form-control" >
+         <p id="errorId" ></p>
+           <p>{{errorr}}</p>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+
+      </div>

@@ -1,0 +1,104 @@
+
+
+
+
+       {{>userSidebar}}
+
+ <div class="container">
+
+       {{#each Product}}
+            <div class="product-layout product-grid col-md-4 col-xs-6 ">  
+              <div class="item">
+                <div class="product-thumb clearfix mb_30">
+                  <div class="image product-imageblock"> <a href="/productdetails/{{this._id}}"> <img data-name="product_image" src={{this.images}} alt="iPod Classic" title="iPod Classic" class="img-responsive" /> <img src={{this.images}} alt="iPod Classic" title="iPod Classic" class="img-responsive" /> </a>
+                    <div class="button-group text-center">
+                     <a class="btn wishlist " href="/wishlist/{{this._id}}"></a>     
+								
+										<a class=" btn add-to-cart addToCart" data-product={{this._id}} ></a>
+								
+                     <a class="btn quickview " href="/productdetails/{{this._id}}" ></a>
+
+                    </div>
+
+                  </div>
+                  <div class="caption product-detail text-center">
+                    <h3 style="font-weight:#Bestsellers;" data-name="product_name" class="product-name mt_20">{{this.name}}</h3>
+                    <h4 style="font-weight:#Bestsellers;" data-name="product_name" class="product-brand mt_9">{{this.brand}}</h4>
+                    <span class="price mt_3"><span class="amount"><span class="currencySymbol">₹</span> {{this.price}}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>  
+      {{/each}}
+
+          </div>
+          <div class="pagination-nav text-center mt_50">
+            <ul>
+              <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
+              <li class="active"><a href="#">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+ </div> 
+
+<script>
+    
+     const addToCart =async (productId)=>{
+     
+
+      const res= await axios.post(`/addtocart/${productId}`)  
+      console.log(res.data.message)
+    
+         if(res.data.message==="failed"){
+                  Toastify({
+                text: " Please LogIn",
+                duration: 3000,
+                gravity: "bottom",
+                position: "center",
+                style: {
+                    background: '#F0FFFF',
+                    color:"#000000 "
+                },
+            }).showToast(); 
+
+            setTimeout((req,res)=>{
+              location.assign('/login')
+            },2000)
+     }else if(res.data.message==="success"){
+       Toastify({
+                text: "Item Added To Cart",
+                duration: 3000,
+                gravity: "bottom",
+                position: "center",
+                style: {
+                    background: '#00FA9A',
+                   
+                },
+            }).showToast(); 
+      
+     }else{
+       location.assign('/cart')
+     }
+     
+     }
+     
+
+
+
+
+	document.querySelectorAll('.addToCart').forEach(item => {
+		item.addEventListener('click', function (e) {
+			e.preventDefault();
+			addToCart(this.dataset.product);
+		});
+	})
+      
+</script>
+

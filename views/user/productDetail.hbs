@@ -1,0 +1,127 @@
+
+
+
+       {{>userSidebar}}
+
+        <div class="col-sm-8 col-lg-9 mtb_20">
+            
+                 <div class="row mt_10 ">
+            <div class="col-md-6">
+              <div class="xzoom-container">
+                   <img class="img-fluid" id="zoom"  style="height: 36rem;" src={{product.images}}>
+               
+              </div>
+       
+            </div>
+
+
+
+
+            
+            <div class="col-md-6 prodetail caption product-thumb">
+              <h4><a href="">{{product.name}}</a></h4>
+              <div class="rating">
+                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span>
+                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span>
+                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span>
+                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span>
+                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span>
+              </div>
+              <span class="price mb_20"><span class="amount"><span class="currencySymbol">$</span>{{product.price}}</span>
+              </span>
+              <hr>
+              <ul class="list-unstyled product_info mtb_20">
+                <li>
+                  <label>Brand:</label>
+                  <span> {{product.brand}}</span></li>
+                  <label>Availability:</label>
+                  <span> In Stock</span></li>
+              </ul>
+              <hr>
+              <p class="product-desc mtb_30"> Let this classy analog watch from Seiko be a testimony to your love. Its stainless steel bracelet comes in chic hue that elevates the look of the watch. The sleek round dial is nestled in a fine case. It showcases plain three hands along with day and date display.</p>
+              <div id="product">
+              
+              </div>
+            </div>
+          
+
+
+
+          <div class="row">
+          </div>
+            <a class="btn pull-left mt_30" href="/allProducts" >Continue Shopping</a>
+            	<a class=" btn pull-right mt_30 addToCart" data-product={{product._id}} >Add to cart</a>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<script>
+
+  
+	setTimeout(() => {
+		$('#zoom').imagezoomsl();
+	}, 100)
+	function changeImage(element) {
+		var main_product_image = document.getElementById('zoom');
+		main_product_image.src = element;
+		$('#zoom').imagezoomsl();
+	}
+
+
+
+  
+     const addToCart =async (productId)=>{
+     
+
+      const res= await axios.post(`/addtocart/${productId}`)  
+      console.log(res.data.message)
+    
+         if(res.data.message==="failed"){
+                  Toastify({
+                text: " Please LogIn",
+                duration: 3000,
+                gravity: "bottom",
+                position: "center",
+                style: {
+                    background: '#F0FFFF',
+                    color:"#000000 "
+                },
+            }).showToast(); 
+
+            setTimeout((req,res)=>{
+              location.assign('/login')
+            },2000)
+     }else if(res.data.message==="success"){
+       Toastify({
+                text: "Item Added To Cart",
+                duration: 3000,
+                gravity: "bottom",
+                position: "center",
+                style: {
+                    background: '#00FA9A',
+                   
+                },
+            }).showToast(); 
+      
+     }else{
+       location.assign('/cart')
+     }
+     
+     }
+     
+
+
+
+
+	document.querySelectorAll('.addToCart').forEach(item => {
+		item.addEventListener('click', function (e) {
+			e.preventDefault();
+			addToCart(this.dataset.product);
+		});
+	})
+      
+
+  
+</script>

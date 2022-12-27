@@ -1,0 +1,117 @@
+
+
+
+<style>
+  #totalHeader {
+        font-size: 22px;
+    line-height: 26px;
+    color: white;
+    font-weight: 500;
+  }
+</style>
+
+
+
+  
+  
+  <div style="margin-left:13rem;" class="container">
+
+  
+    <div id="cartTable" class="col-sm-8 col-lg-9 mtb_20">
+      <form enctype="multipart/form-data" method="post" action="#">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <td class="text-center">Image</td>
+                <td class="text-left">Product Name</td>
+                <td class="text-left">Brand</td>
+                <td class="text-left">Quantity</td>
+                <td class="text-right"> Price</td>
+
+                <td></td>
+
+              </tr>
+            </thead>
+            {{#each cartItems}}
+            <tbody>
+              <tr>
+               
+                <td class="text-center"><a href="#"><img src={{this.product.images}} style="width: 18rem; height: 12rem;"></a>
+                </td>
+                <td class="text-left"><a href="product.html">{{this.product.name}}</a></td>
+                <td class="text-left">{{this.product.brand}}</td>
+                  
+                <td class="text-left">
+                <button onclick=changeQuantity("{{this._id}}","{{this.product._id}}",-1) >-</button>
+                <span id="quantityId" >{{this.quantity}}</span>
+                <button onclick=changeQuantity("{{this._id}}","{{this.product._id}}",1) >+</button>
+                </td>
+                <td class="text-right">{{this.product.price}}</td>
+               
+         
+                <td class="text-right"><button id="remove" onclick=removeItem("{{this._id}}","{{this.product._id}}") class="btn remove"  >Remove</button></td>
+                {{/each}}             
+               </tr>
+            </tbody>
+           
+           
+          </table>
+        </div>
+      </div>
+      <div class="row">
+      </div>
+    
+      <div id="Total" style="margin-left:95rem;" >
+      <h3 id="totalHeader" >Tota Amount: {{totalAmount}} </h3>
+      </div>
+      <a  class="btn pull-right mt_30" href="/checkout" style="margin-bottom: 2rem;" >Check Out </a>
+  
+  </div>  
+
+    </div>
+  </div>
+</div>
+
+
+<script>  
+
+    
+     const changeQuantity =async (cartId,productId,count)=>{
+     const quantity = document.getElementById('quantityId').innerHTML
+     console.log(quantity)
+        const res = await axios({
+                                 method: 'POST', url: '/changeProductQuantity', data: {cartId,productId,count,quantity}
+                              })
+         if(res.data.message=='success'){
+             location.assign("/cart")
+         }else if(res.data.message=='deleted'){
+           Toastify({
+                text: "Item Deleting From Cart",
+                duration: 3000,
+                gravity: "bottom",
+                position: "center",
+                style: {
+                    background: '#00FA9A',
+                   
+                },
+            }).showToast();
+            setTimeout((req,res)=>{
+            location.assign("/cart") 
+                  
+            },2000)
+     
+         }
+     }
+
+
+   const removeItem = async(cartId,productId)=>{
+        const res = await axios({
+                                 method: 'POST', url: '/removeItem', data: {cartId,productId}
+                              })
+         if(res.data.message=='success'){
+             location.assign("/cart")
+         }
+     }
+
+</script>

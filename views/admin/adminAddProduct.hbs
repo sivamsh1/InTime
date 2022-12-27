@@ -1,0 +1,26 @@
+<div class="container">
+
+ <form id="form" enctype="multipart/form-data"  action="/admin/addproduct" method="post" >
+        <label for="">Product Name:</label><br>
+         <input type="text" name="name" id="username1" tabindex="1" class="form-control" placeholder="Enter Product Name" required>
+         <label for="category">Select Category:</label><br>
+         <select  style="width:18.8rem;"  name="category"> 
+          {{#each categoryDatas }}
+          <option >{{this.name}}</option>
+          {{/each}}
+          
+         </select><br>
+        <label for="">Price:</label><br>
+         <input type="number" name="price" id="username1" tabindex="1" class="form-control" placeholder="Enter Price" required>
+         <label for="">Brand </label>
+         <input type="text" name="brand" id="description" class="form-control" placeholder="Enter Brand" required>
+         <label for="">Add Image </label>
+         <input type="file" name="image" id="description" style="width: 18.9rem;" class="form-control" >
+         <p id="errorId" ></p>
+    
+        <button type="submit" class="btn btn-primary">Add</button>
+  
+      </form>
+
+
+      </div>

@@ -1,0 +1,42 @@
+
+<div class="container">
+ <h1> <b> Products </b></h1>             
+ <table class="product-table" id="product-table">
+  
+  <div class="container">
+          <tbody>
+      <tr>  <th>Number</th>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Brand</th>
+            <th>Image</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <a id="AID" class="btn btn-success" href="/admin/addproduct">Add</a>
+          </tr>
+
+{{#each Product}}
+          <tr>
+            <td sope="row" > {{inc @index}} </td>
+            <td > {{this.name}}</td>
+            <td> {{this.category}}</td>
+            <td> {{this.price}}</td>
+            <td> {{this.brand}}</td>
+            <td><img src={{this.images}} style="height:71px;width:88px" ></td>
+
+            <td><a class="btn btn-primary" href="/admin/editproduct/{{this._id}}">Edit</a></td>
+            <td><a class="btn btn-primary" href="/admin/deleteproduct/{{this._id}}"> Delete</a></td>
+          </tr>
+
+{{/each}}
+</div>
+
+
+        </tbody>
+        </table>
+      </div>
+      </div>
+
+
+

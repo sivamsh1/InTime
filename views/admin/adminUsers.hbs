@@ -1,0 +1,37 @@
+
+
+
+
+<div class="container">
+
+
+<h1> <b> All Users </b></h1>
+
+<table>
+       <tr>    <th>Number</th>
+               <th>UserName</th>
+               <th>Email</th>
+               <th>Status</th>
+               <th style="width: 2rem" >Block</th>
+         </tr> 
+         {{#each users }}
+         <tr>    <td> {{inc @index}}</td>
+                 <td>{{this.name}}</td>
+                 <td>{{this.email}}</td>
+                 {{#if this.isValid}}
+                  <td>active</td>
+                  {{else}}
+                  <td>Blocked</td>
+                {{/if}}
+                {{#if this.isValid}}
+                <td><a  class="btn btn btn-danger" style="margin-right: 2rem;" href="/admin/userBlock/{{this._id}}">Block</a></td>
+                {{else}}
+                <td ><a class="btn  btn-success" href="/admin/userUnBlock/{{this._id}}">Unblock</a></td>
+                {{/if}}
+         </tr>  
+         {{/each}} 
+  
+</table>
+</div>
+</div>  
+

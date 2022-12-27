@@ -1,0 +1,110 @@
+        <div class="container">
+
+         <h1> <b> Category </b></h1>      
+ <table>
+  
+          <tbody>
+      <tr>  <th>Number</th>
+            <th>CategoryName</th>
+            <th>Description</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <button id="AID" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">  Add </button>
+          </tr>
+
+{{#each categoryDatas}}
+          <tr>
+            <td> {{inc @index}}</td>
+            <td> {{this.name}}</td>
+            <td> {{this.description}}</td>
+            <td><a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" href="/admin/cdelete/{{this._id}}"> Edit</a></td>
+            <td><a class="btn btn-primary" href="/admin/cdelete/{{this._id}}"> Delete</a></td>
+          </tr>
+
+
+
+
+
+
+
+<!-- Add Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">ADD CATEGORY</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form id="form">
+        <label for="">Category Name:</label><br>
+         <input type="text" name="name" id="username1" tabindex="1" class="form-control" placeholder="Enter Category" required>
+         <label for="">Category Description</label>
+         <input type="text" name="description" id="description" class="form-control" placeholder="Enter Description Here" required>
+         <p id="errorId" ></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">EDIT CATEGORY</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form id="form">
+        <label for="">Category Name:</label><br>
+         <input type="text" name="name" id="username1" tabindex="1" class="form-control" value={{this.name}} required>
+         <label for="">Category Description:</label>
+         <textarea type="text" name="description" id="description" class="form-control"  required>{{this.description}}</textarea>
+         <p id="errorId" ></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{/each}}
+        </tbody>
+        </table>
+    
+
+
+<script>
+      
+     const form = document.getElementById("form")
+     form.addEventListener('submit',async (e)=>{ 
+     e.preventDefault()
+     const data = new FormData(form)
+     const formData = {}
+     data.forEach((data,i)=>{
+       formData[i] = data
+     })
+     const res = await axios.post("/admin/acategory",formData)
+     if(res.data.message=="success"){
+      location.assign("/admin/acategory")
+     }else{
+     document.getElementById("errorId").textContent=res.data.errorr
+     }
+     })
+</script>
+
+  </div>  

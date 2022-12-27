@@ -1,0 +1,57 @@
+
+<div class="container" >
+ <h1> <b> Orders </b></h1>             
+ <table class="product-table" id="product-table" style="overflow-x:none;" >
+  
+  <div class="container">
+          <tbody>
+     <tr>       <th class="text-left">Number</th>
+                <th class="text-center">Date</th>
+                <th class="text-left">Address</th>
+                <th class="text-left">Pincode</th>
+                <th class="text-left">Mobile</th>
+                <th class="text-right"> Amount</th>
+                <th class="text-right"> Payment</th>
+                <th class="text-right"> Status</th>
+
+                <th class="text-right" >Order Management</th>
+
+              </tr>
+
+{{#each orders}}
+           <tr>
+                <td> {{inc @index}}</td>
+                <td>{{this.date}}</td>            
+                <td>{{this.deliveryDetails.address}}</td>            
+                <td>{{this.deliveryDetails.pincode}}</td>            
+                <td>{{this.deliveryDetails.phone}}</td>            
+                <td>{{this.totalAmount}}</td>            
+                <td>{{this.PaymentMethod}}</td>            
+                <td>{{this.status}}</td>            
+                 <td>
+                {{#eq this.status "cancelled"}} 
+
+                  <a class="btn btn-success " href="/admin/vieworders/{{this._id}}" style="width:6rem;">View </a>
+                {{else}}
+                <a class="btn btn-success " href="/admin/vieworders/{{this._id}}" style="width:6rem;">View </a>
+
+                <a class="btn btn-danger " href="/admin/cancellorders/{{this._id}}" style="width:6rem;margin-top:1rem">Cancell </a>
+                {{/eq}}
+
+                </td>            
+              
+         
+                         
+               </tr>
+
+{{/each}}
+</div>
+
+
+        </tbody> 
+        </table>
+      </div>
+      </div>
+
+
+

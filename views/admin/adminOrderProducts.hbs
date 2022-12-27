@@ -1,0 +1,38 @@
+
+<div class="container" >
+ <h1> <b> OrderedProducts </b></h1>             
+ <table class="product-table" id="product-table" style="overflow-x:none;" >
+  
+  <div class="container">
+          <tbody> <tr> 
+                <th class="text-left">Number</th>
+                 <th class="text-left">Image</th>
+                <th class="text-center">ProductName</th>
+                <th class="text-left">Brand</th>
+                <th class="text-left">Quantity</th>
+                <th class="text-left">Price</th>
+      
+
+              </tr>
+
+{{#each orderProducts}}
+           <tr>
+                <td> {{inc @index}}</td>
+                 <td class="text-center"><a href="#"><img src={{this.product.images}} style="width: 13rem; height: 8rem;"></a>            
+                <td>{{this.product.name}}</td>            
+                <td>{{this.product.brand}}</td>            
+                <td>{{this.quantity}}</td>                    
+                <td>{{this.product.price}}</td>                    
+              
+         
+                         
+               </tr>
+
+{{/each}}
+</div>
+
+
+        </tbody> 
+        </table>
+      </div>
+      </div>

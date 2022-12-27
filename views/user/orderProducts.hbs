@@ -1,0 +1,51 @@
+
+  {{!-- {{>userSidebar}} --}}
+  
+   <div class="col-sm-8 col-lg-9 mtb_20 " style="margin-left:16rem;" >
+      <form enctype="multipart/form-data" method="post" action="#" style="width:111rem;margin-left:-5rem">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <td class="text-center">Image</td>
+                <td class="text-left">Product Name</td>
+                <td class="text-left">Brand</td>
+                <td class="text-left">Quantity</td>
+                <td class="text-right"> Price</td>
+
+                <td></td>
+
+              </tr>
+            </thead>
+            {{#each orderProducts}}
+            <tbody>
+              <tr>
+               
+                <td class="text-center"><a href="#"><img src={{this.product.images}} style="width: 18rem; height: 12rem;"></a>
+                </td>
+                <td class="text-left"><a href="product.html">{{this.product.name}}</a></td>
+                <td class="text-left">{{this.product.brand}}</td>
+                  
+                <td class="text-left">
+                <span id="quantityId" >{{this.quantity}}</span>
+                </td>
+                <td class="text-right">{{this.product.price}}</td>
+               
+         
+                {{/each}}             
+               </tr>
+            </tbody>
+           
+           
+          </table>
+        </div>
+      </div>
+      <div class="row">
+      </div>
+     
+
+
+    </div>
+  </div>
+</div>
+
