@@ -2,36 +2,98 @@
 
 
 
-<div class="container">
+<div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-light position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+            <a href="/admin" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+        </nav>
+        <!-- Navbar End -->
+        <div class="container">
+            <div class="col-12" style="margin-top:3rem">
+                <div class="bg-secondary rounded h-100 p-4">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">name</th>
+                                    <th scope="col">email</th>
+                                    <th scope="col">phone</th>
+                                    <th scope="col">status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each users}}
+                                <tr>
+                                    <th scope="row">{{inc @index}}</th>
+                                    <td>{{this.name}}</td>
+                                    <td>{{this.email}}</td>
+                                    <td>{{this.number}}</td>
+                                    <td>
+                                        <a>
+                                            {{#if this.isValid}}
+                                            <h6 class="mb-4"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#hii{{inc @index}}">Active</button></h6>
+                                            {{else}}
+                                            <h6 class="mb-4"><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#hii{{inc @index}}">Blocked</button></h6>
+                                            {{/if}}
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                {{!-- modal  --}}
+                                <div class="modal fade" id="hii{{inc @index}}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Block User</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                              {{#if isValid }}
+                                                <p>{{this.email}} is currently blocked.Do you want to unblock?</p>
+                                               {{else}}
+                                               <p>{{this.email}} is currently active.Do you want to block?</p>
+                                               {{/if}}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                {{#if isValid}}
+                                               <a href="/admin/userBlock/{{this._id}}"><button type="button" class="btn btn-danger">Block</button></a>
+                                                  {{else}}
+                                                <a href="/admin/userUnBlock/{{this._id}}"><button type="button" class="btn btn-success">UnBlock</button></a>
+                                                  {{/if}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
-<h1> <b> All Users </b></h1>
-
-<table>
-       <tr>    <th>Number</th>
-               <th>UserName</th>
-               <th>Email</th>
-               <th>Status</th>
-               <th style="width: 2rem" >Block</th>
-         </tr> 
-         {{#each users }}
-         <tr>    <td> {{inc @index}}</td>
-                 <td>{{this.name}}</td>
-                 <td>{{this.email}}</td>
-                 {{#if this.isValid}}
-                  <td>active</td>
-                  {{else}}
-                  <td>Blocked</td>
-                {{/if}}
-                {{#if this.isValid}}
-                <td><a  class="btn btn btn-danger" style="margin-right: 2rem;" href="/admin/userBlock/{{this._id}}">Block</a></td>
-                {{else}}
-                <td ><a class="btn  btn-success" href="/admin/userUnBlock/{{this._id}}">Unblock</a></td>
-                {{/if}}
-         </tr>  
-         {{/each}} 
-  
-</table>
-</div>
-</div>  
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
 

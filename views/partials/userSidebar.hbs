@@ -1,15 +1,15 @@
 <div class="container">
   <div class="row ">
 
-    <div id="column-left" class="col-sm-4 col-lg-3 "  >
-      <div id="category-menu" class="navbar collapse in mb_40" aria-expanded="true" style="" role="button">
+    <div id="column-left" class="col-sm-4 col-lg-3" style="height:0rem;"  >
+      <div id="category-menu" class="navbar collapse in mb_40" aria-expanded="true"  role="button">
         <div class="nav-responsive">
           <div class="heading-part">
             <h2 class="main_title">CATEGORY</h2>
           </div>
           <ul class="nav  main-navigation collapse in">
             {{#each category}}
-            <li><a href="#">{{this.name}}</a></li>
+            <li><a href="/category/{{this.name}}">{{this.name}}</a></li>
             {{/each}}
           </ul>
         </div>

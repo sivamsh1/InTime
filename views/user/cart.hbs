@@ -37,7 +37,7 @@
             <tbody>
               <tr>
                
-                <td class="text-center"><a href="#"><img src={{this.product.images}} style="width: 18rem; height: 12rem;"></a>
+                <td class="text-center"><img src={{this.product.images}} style="width: 18rem; height: 12rem;">  
                 </td>
                 <td class="text-left"><a href="product.html">{{this.product.name}}</a></td>
                 <td class="text-left">{{this.product.brand}}</td>
@@ -78,7 +78,7 @@
 
     
      const changeQuantity =async (cartId,productId,count)=>{
-     const quantity = document.getElementById('quantityId').innerHTML
+     const quantity = document.getElementById("quantityId").innerHTML
      console.log(quantity)
         const res = await axios({
                                  method: 'POST', url: '/changeProductQuantity', data: {cartId,productId,count,quantity}
@@ -90,16 +90,15 @@
                 text: "Item Deleting From Cart",
                 duration: 3000,
                 gravity: "bottom",
-                position: "center",
+                position: "center",  
                 style: {
                     background: '#00FA9A',
                    
                 },
             }).showToast();
-            setTimeout((req,res)=>{
+
+            
             location.assign("/cart") 
-                  
-            },2000)
      
          }
      }

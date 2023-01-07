@@ -790,11 +790,12 @@ h1 {
   font-family: serif;
 }
 
- #AID {
-    margin-top: -9rem;
-    position: relative;
-    left: 63.7rem;
-    top: 3.4rem;
+#AID {
+  margin-top: -9rem;
+  position: relative;
+  left: 0.7rem;
+  top: 3.4rem;
+  width: 8rem;
 }
   
 

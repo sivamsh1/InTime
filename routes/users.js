@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const { getDb } = require('../db');
 const jwt = require("jsonwebtoken")
-const { authentication, authentcation2 } = require("../Authentication")
+const { authentication, authentcation2, authentication3 , blockedAuthentication} = require("../Authentication")
 const multer = require("multer")
 const databaseHelpers = require('../helpers/database-helpers');
 const { ObjectId } = require('mongodb');
@@ -16,12 +16,12 @@ paypal.configure({
 });
 
 
-
+ 
 // Home page
 router.route('/')
-  .get(async (req, res, next) => {
+  .get(blockedAuthentication,async (req, res, next) => {
     if (req.cookies.userjwt) {
-      cookie = true;
+      cookie = true;              
     } else {
       cookie = false;
     }
@@ -35,7 +35,6 @@ router.route('/login')
   .get(authentcation2, (req, res, next) => {
     res.render('user/Login', { user: true })
   })
-
 
   .post(async (req, res, next) => {
     let { email, password } = req.body;
@@ -136,22 +135,24 @@ router.get('/logout', (req, res) => {
   res.redirect('/login')
 })
 
-
+  
 //Product page
 router.route('/allProducts')
   .get(async (req, res) => {
     const Product = await getDb().collection('products').find().toArray()
     const category = await getDb().collection('category').find().toArray()
-
-    res.render('user/allProducts', { user: true, Product, category })
+  let listedProducts = Product.filter((pro)=>{
+    return pro.listed==true;
   })
 
-
-
-
+    console.log(listedProducts);
+  
+    res.render('user/allProducts', { user: true, listedProducts, category })
+  })
+  
 //Cart route
-router.route('/cart')
-  .get(async (req, res) => {
+router.route('/cart',)
+  .get(async(req, res) => {
     const category = await getDb().collection('category').find().toArray()
     if (req.cookies.userjwt) {
       const userId = await jwt.verify(req.cookies.userjwt, process.env.JWT_SECRET).userId;
@@ -177,14 +178,15 @@ router.route('/cart')
               foreignField: '_id',
               as: 'product'
             }
-          },{
+          },
+          {
             $project:{
               item:1,quantity:1,product:{$arrayElemAt:['$product',0]}
             }
           }
           
-
         ]).toArray()
+    
         
       // Total Amount
         const total = await getDb().collection('cart').aggregate([
@@ -211,30 +213,34 @@ router.route('/cart')
             $project:{
               item:1,quantity:1,product:{$arrayElemAt:['$product',0]}
             }
-          },{
+          },
+          {
             $group:{
               _id:null,
               total:{$sum:{$multiply:["$quantity","$product.price"]}}
             }
-          }
-          
-
+          }           
+                                                
+  
         ]).toArray()
+
+        console.log(total);
+
        let totalAmount= total.length==0? 00 : total[0].total
 
-    
      
 
-        res.render('user/cart', { user: true, category,cartItems,totalAmount })
+        res.render('user/cart', { user: true, category,cartItems,totalAmount})
       } else {
         res.render('user/cart', { user: true, category })
-      }
+      }   
     } else {
       res.send('cart Not exist')
     }
-  })
+  })   
 
   .post((req, res) => {
+
   })
 
 
@@ -254,10 +260,11 @@ router.route('/checkout')
   .get(async (req, res) => {
     
     const category = await getDb().collection('category').find().toArray()
-    const product = await getDb().collection('products').findOne() 
-    
+    const product = await getDb().collection('products').findOne()   
     const userId = await jwt.verify(req.cookies.userjwt, process.env.JWT_SECRET).userId;
+    const user = await getDb().collection('users').findOne({ _id: ObjectId(userId) })
     
+
         const total = await getDb().collection('cart').aggregate([
           {
             $match: { userId: ObjectId(userId) }
@@ -295,7 +302,7 @@ router.route('/checkout')
         let totalAmount= total.length==0? 00 : total[0].total
            
 
-    res.render('user/checkout', { user: true, category, product,totalAmount,userId })
+    res.render('user/checkout', { user: true,user, category, product,totalAmount,userId })
   })
 
 
@@ -316,7 +323,7 @@ router.route('/wishlist')
 
 //Addto cart Axios route
 router.post('/addtocart/:id', async (req, res) => {
-
+console.log("csjcvhdvchjhha")
 
   const productId = req.params.id
   if (req.cookies.userjwt) {
@@ -434,9 +441,9 @@ router.get('/confirmedOrders',async(req,res)=>{
 //////////////////////////////////////////////////////////////////////////////////////////
 // checkout Form  route
 router.post('/checkoutsubmit', async (req,res)=>{
-  const{coupen,name,address,email,phone,pin,userId}=req.body;
+  const{coupen,name,address,phone,pin,userId}=req.body;
    const order = req.body
-   console.log(order);
+ 
 
   //Taking the product array same as in the cart 
   const products = await getDb().collection('cart').aggregate([
@@ -467,25 +474,31 @@ router.post('/checkoutsubmit', async (req,res)=>{
     
 
   ]).toArray()
-  let status =  order.Paymentmethod==="COD"?'placed':'Pending'
+ let totalAmount = order.totalAmount
+totalAmount=parseInt(totalAmount)
+  // let status =  order.Paymentmethod==="COD"?'placed':'Pending'
+  let status = 'Placed'
   // creating order Object    
   let orderObj={
       deliveryDetails:{
         phone:order.phone,
         address:order.address,
         pincode:order.pin,
-
       },
       userId:ObjectId(userId),
       PaymentMethod:order.Paymentmethod,
       products:products,
       status:status,
-      totalAmount:order.totalAmount,
-      date: new Date()
+      totalAmount:totalAmount,
+      date: new Date().toDateString()
 
   }
   //Ading items to order collection
   await getDb().collection('orders').insertOne(orderObj)
+  //Ading address to users list
+
+   const userlist = await getDb().collection('users').updateOne({_id:ObjectId(userId)},{$set:{Address:{name:name,address:address,phone:phone,pincode:pin}  }})
+
 //removing Items From cart
  await getDb().collection('cart').deleteOne({userId:ObjectId(userId)})
   
@@ -624,10 +637,154 @@ router.get('/cancellorders/:id',async(req,res)=>{
 
 
 
+//category Page
+router.route('/category/:category')
+  .get(async (req, res) => {
+    const categoryname = req.params.category
+    const Product = await getDb().collection('products').find({category:categoryname}).toArray()
+    const category = await getDb().collection('category').find().toArray()
+   console.log(Product);
+    res.render('user/category', { user: true, Product, category })
+  })
 
 
 
+    // User Profile
+    router.route('/userProfile')
+    .get(async(req,res)=>{
+      const userId = await jwt.verify(req.cookies.userjwt, process.env.JWT_SECRET).userId;
+      const currentUser = await getDb().collection('users').findOne({_id:ObjectId(userId)})  
+      res.render('user/userProfile',{currentUser})
+    })
+    .post(async(req,res)=>{
+      console.log(req.body);
+      let {name,email,number,Address}= req.body
+      const userId = await jwt.verify(req.cookies.userjwt, process.env.JWT_SECRET).userId;
+      const currentUser = await getDb().collection('users').findOne({_id:ObjectId(userId)})  
+    console.log(currentUser.Address[0]);
+    Address = Address.trim();
+      if(name==currentUser.name && email==currentUser.email && number==currentUser.number && currentUser.Address[0] == Address ){
+        console.log('if Part');
+       res.json({
+        status:200,
+        message:'failed',
+        error:'Details Already Exist'
+       })
+      }else{
+        console.log('ElsePart');
+        await getDb().collection('users').updateOne({_id:ObjectId(userId)},{$set:{name:name,email:email,number:number}})
+     res.json({
+      status:200,
+       message:'success'
+     })
+     }})
 
+     .patch(async(req,res)=>{
+       let {currentPassword,newPassword} = req.body;
+       const userId = await jwt.verify(req.cookies.userjwt, process.env.JWT_SECRET).userId;
+       const user =  await getDb().collection('users').findOne({_id:ObjectId(userId)})
+       const dbPassword = user.password;
+     
+       const isPasswordCorrect = await bcrypt.compare(currentPassword, dbPassword)
+     if(isPasswordCorrect){
+       
+       let password = await bcrypt.hash(newPassword,8)
+       let updation =  await getDb().collection('users').updateOne({_id:ObjectId(userId)},{$set:{password:password}})
+        res.json({
+          status:200,
+          message:'success',
+        })
+   
+     }else{
+      res.json({
+        status :404,
+        message:"failled",
+        error:"Incorrect Password"
+
+      })
+     }
+
+
+     })
+  
+
+
+     
+
+router.post('/addCoupon', async (req, res) => {
+      let {coupon} = req.body
+      const existCoupon= await getDb().collection('coupons').findOne({name:coupon})
+      console.log(existCoupon);
+      if(existCoupon){
+
+
+        const userId = await jwt.verify(req.cookies.userjwt, process.env.JWT_SECRET).userId;
+         
+      // Total Amount
+      const total = await getDb().collection('cart').aggregate([
+        {
+          $match: { userId: ObjectId(userId) }
+        },
+        {
+          $unwind: '$products'
+        },
+        {
+          $project: { 
+            item: '$products.item',
+            quantity: '$products.quantity'
+          }
+        },
+        {
+          $lookup: {
+            from: 'products',
+            localField: "item",
+            foreignField: '_id',
+            as: 'product'
+          }
+        },{
+          $project:{
+            item:1,quantity:1,product:{$arrayElemAt:['$product',0]}
+          }
+        },
+        {
+          $group:{
+            _id:null,
+            total:{$sum:{$multiply:["$quantity","$product.price"]}}
+          }
+        }           
+                                              
+
+      ]).toArray()
+
+
+     let totalAmount= total.length==0? 00 : total[0].total
+
+
+
+let offer = existCoupon.discount
+offerAmount = totalAmount * (offer/100)
+let Grandtotal = totalAmount - offerAmount  
+
+
+res.json({
+  status:200,
+  message:'success',
+  total:Grandtotal
+})
+   
+      }else{
+        res.json({
+          status:404,
+          message:"failed",
+          error:"Coupon is not vaild"
+        })
+      }
+
+
+
+})
+
+   
 
 
 

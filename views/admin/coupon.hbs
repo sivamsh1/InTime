@@ -1,0 +1,165 @@
+<div class="container-fluid position-relative d-flex p-0">
+    
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+            <a href="/admin" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+        </nav>
+        <!-- Navbar End -->
+
+        <div class="container mt-5 mx-auto">
+            <div class="row gap-3 ms-5">
+                <div class="col-8 bg-white" style="border-radius: 11px;">
+                    <h6 class="mb-4"><button class="btn btn-primary mt-3" data-bs-toggle="modal"
+                            data-bs-target="#addcouponmodal">Add Coupon</button></h6>
+                    <table class="table mt-5">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Coupon</th>
+                                <th scope="col">Discount</th>
+                                <th scope="col">Expire On</th>
+                                <th scope="col">MaxAmount</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each coupons}}
+                            <tr>
+                                <th scope="row">{{inc @index}}</th>
+                                <td>{{this.name}}</td>
+                                <td>{{this.discount}}%</td>
+                                <td>{{this.expiryDate}}</td>
+                                <td>{{this.MaxAmount}}</td>
+                                <td><button data-bs-toggle="modal" data-bs-target="#hui{{inc @index}}"><i
+                                            class="fas fa-edit"></i></button>
+
+                                    {{!-- edit modal --}}
+                                    <div class="modal fade" id="hui{{inc @index}}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel"
+                                                        style="color: black;">Edit Coupon</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <form id="categoryEdit" action="/admin/editCoupon/{{this._id}}" method="post">
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label for="recipient-name" class="col-form-label">Coupon
+                                                                Name</label>
+                                                            <input type="text" class="form-control" id="eName"
+                                                                value="{{this.name}}" name="name">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="recipient-name"
+                                                                class="col-form-label">Discount</label>
+                                                            <input type="number" class="form-control" id="eDiscount"
+                                                                name="discount" value="{{this.discount}}">
+                                                        </div>
+                                                        <div class="mb-1">
+                                                            <label for="date" class="col-form-label">Expiry Date</label>
+                                                            <input type="date" class="form-control" id="eExpiryDate"
+                                                                name="expiryDate" value="{{this.expiryDate}}">
+                                                        </div>
+                                                        <div class="mb-1">
+                                                            <label for="MaxAmount" class="col-form-label">Maximum Amount</label>
+                                                            <input type="number" class="form-control" id="eExpiryDate"
+                                                                name="expiryDate" value="{{this.MaxAmount}}">
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Update</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <a href="/admin/deletecoupon/{{this._id}}"><button> <i class="fas fa-trash"></i></button></a> 
+                                </td>
+                            </tr>
+                            {{/each}}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {{!-- add coupon modal --}}
+        <div class="modal fade" id="addcouponmodal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" style="color: black;">Add product Offer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="addCouponForm">
+                        <div class="modal-body">
+
+
+                            <div class="mb-3">
+                                <label for="coupon" class="col-form-label">Coupon</label>
+                                <input type="text" class="form-control" id="coupon" name="name">
+                            </div>
+                            <div class="mb-1">
+                                <label for="recipient-name" class="col-form-label">Discount</label>
+                                <input type="number" class="form-control" id="discount" name="discount">
+                            </div>
+                            <div class="mb-1">
+                                <label for="date" class="col-form-label">Expiry Date</label>
+                                <input type="date" class="form-control" id="expiryDate" name="expiryDate">
+                            </div>
+                            <div class="mb-1">
+                                <label for="MaxAmount" class="col-form-label">Maximum Amount</label>
+                                <input type="number" class="form-control" id="MaxAmount" name="MaxAmount">
+                            </div>
+
+                        </div>
+                        <div id="duplicateAlert" class="ms-2" style="color: rgb(173, 32, 32);">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+   <script>
+     const form = document.getElementById("addCouponForm")
+      form.addEventListener("submit",async(e)=>{
+      e.preventDefault()
+      const data = new FormData(form)
+      const formdata={}
+      data.forEach((data,i)=>{
+        formdata[i] = data
+      })
+      const res = await axios.post("/admin/coupon",formdata)
+      console.log(res.data.message)
+      if(res.data.message=="success"){
+        location.assign('/admin/coupon')
+      }
+      
+      })
+   </script>

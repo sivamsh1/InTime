@@ -1,239 +1,30 @@
 
 
 
-     
-
-<style>
-   
-a {
-  line-height: 4rem;
-}
-.nav-pills > li > a {
-   border-radius: 0;
-}
-
-#wrapper {
-   padding-left: 0;
-   -webkit-transition: all 0.5s ease;
-   -moz-transition: all 0.5s ease;
-   -o-transition: all 0.5s ease;
-   transition: all 0.5s ease;
-   overflow: hidden;
-}
-
-#wrapper.toggled {
-   padding-left: 250px;
-   overflow: hidden;
-}
-
-#sidebar-wrapper {
-   z-index: 1000;
-   position: absolute;
-   left: 250px;
-   width: 0;
-   height: 100%;
-   margin-left: -250px;
-   overflow-y:hiden;
-   background: #000;
-   -webkit-transition: all 0.5s ease;
-   -moz-transition: all 0.5s ease;
-   -o-transition: all 0.5s ease;
-   transition: all 0.5s ease;
-}
-
-#wrapper.toggled #sidebar-wrapper {
-   width: 250px;
-}
-
-#page-content-wrapper {
-   position: absolute;
-   padding: 15px;
-   width: 100%;
-   overflow-x: hidden;
-}
-
-.xyz {
-   min-width: 360px;
-}
-
-#wrapper.toggled #page-content-wrapper {
-   position: relative;
-   margin-right: 0px;
-}
-
-.fixed-brand {
-   width: auto;
-}
-/* Sidebar Styles */
-
-.sidebar-nav {
-   position: absolute;
-   top: 0;
-   width: 250px;
-   margin: 0;
-   padding: 0;
-   list-style: none;
-   margin-top: 2px;
-}
-
-.sidebar-nav li {
-   text-indent: 15px;
-   line-height: 40px;
-}
-
-.sidebar-nav li a {
-   display: block;
-   text-decoration: none;
-   color: #999999;
-}
-
-.sidebar-nav li a:hover {
-   text-decoration: none;
-   color: #fff;
-   background: rgba(255, 255, 255, 0.2);
-   border-left: red 2px solid;
-}
-
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus {
-   text-decoration: none;
-}
-
-.sidebar-nav > .sidebar-brand {
-   height: 65px;
-   font-size: 18px;
-   line-height: 60px;
-}
-
-.sidebar-nav > .sidebar-brand a {
-   color: #999999;
-}
-
-.sidebar-nav > .sidebar-brand a:hover {
-   color: #fff;
-   background: none;
-}
-
-.no-margin {
-   margin: 0;
-}
-
-@media (min-width: 768px) {
-   #wrapper {
-      padding-left: 250px;
-   }
-   .fixed-brand {
-      width: 250px;
-   }
-   #wrapper.toggled {
-      padding-left: 0;
-   }
-   #sidebar-wrapper {
-      width: 250px;
-   }
-   #wrapper.toggled #sidebar-wrapper {
-      width: 250px;
-   }
-   #wrapper.toggled-2 #sidebar-wrapper {
-      width: 50px;
-   }
-   #wrapper.toggled-2 #sidebar-wrapper:hover {
-      width: 250px;
-   }
-   #page-content-wrapper {
-      padding: 20px;
-      position: relative;
-      -webkit-transition: all 0.5s ease;
-      -moz-transition: all 0.5s ease;
-      -o-transition: all 0.5s ease;
-      transition: all 0.5s ease;
-   }
-   #wrapper.toggled #page-content-wrapper {
-      position: relative;
-      margin-right: 0;
-      padding-left: 250px;
-   }
-   #wrapper.toggled-2 #page-content-wrapper {
-      position: relative;
-      margin-right: 0;
-      margin-left: -200px;
-      -webkit-transition: all 0.5s ease;
-      -moz-transition: all 0.5s ease;
-      -o-transition: all 0.5s ease;
-      transition: all 0.5s ease;
-      width: auto;
-   }
-}
-
-</style>
-      <!-- bs-example-navbar-collapse-1 -->
-   </nav>
-   <div id="wrapper">
-      <!-- Sidebar -->
-      <div id="sidebar-wrapper">
-         <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-            <li>
-               <a href="/admin"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> Dashboard</a>
-    
-            </li>
-            <li>
-               <a href="/admin/Users"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>Users</a>
-         
-            </li>
-            <li>
-               <a href="/admin/product"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>Product</a>
-            </li>
-            <li>
-               <a href="/admin/category"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>Category</a>
-            </li>
-            <li>
-               <a href="/admin/orders"><span class="fa-stack fa-lg pull-left"><i class="fa fa-youtube-play fa-stack-1x "></i></span>Orders</a>
-            </li>
-            <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-wrench fa-stack-1x "></i></span>Services</a>
-            </li>
-            <li>
-               <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-server fa-stack-1x "></i></span>Contact</a>
-            </li>
-         </ul>
-      </div>
-      <!-- /#sidebar-wrapper -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 
+ <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-secondary navbar-dark">
+                <a href="/admin" class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>ADMIN</h3>
+                </a>
+            
+                <div class="navbar-nav w-100">
+                    <a href="/admin" class="nav-item nav-link {{dashboardClass}}"><i class="fa fa-home me-2"></i>Dashboard</a>
+                    <a href="/admin/Users" class="nav-item nav-link {{usersClass}}"><i class="fa fa-user me-2"></i>Users</a>
+                    <a href="/admin/product" class="nav-item nav-link {{productClass}}"><i class="fas fa-file-signature me-2"></i>Products</a>
+                    <a href="/admin/category" class="nav-item nav-link {{categoryClass}}"><i class="fa fa-th-large me-2"></i>Category</a>
+                    <a href="/admin/brand" class="nav-item nav-link {{brandClass}}"><i class="fa fa-building me-2"></i>Brand</a>
+                    <a href="/admin/orders" class="nav-item nav-link {{ordersClass}}"><i class="fa fa-file me-2"></i>Orders</a>
+                    <a href="/admin/offers" class="nav-item nav-link {{offersClass}}"><i class="fas fa-percentage me-2"></i>Offers</a>
+                    <a href="/admin/coupon" class="nav-item nav-link {{couponsClass}}"><i class="fas fa-tags me-2"></i>Coupons</a>
+                    <a href="/admin/report" class="nav-item nav-link {{salesClass}}"><i class="fas fa-file-signature me-2"></i>Sales Report</a>
+                </div>
+                <a href="/admin/logout"><button class="ms-3 mt-3 btn btn-danger">logout</button></a>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
 
-
-
-<script>
-  $("#menu-toggle").click(function(e) {
-   e.preventDefault();
-   $("#wrapper").toggleClass("toggled");
-});
-$("#menu-toggle-2").click(function(e) {
-   e.preventDefault();
-   $("#wrapper").toggleClass("toggled-2");
-   $('#menu ul').hide();
-});
-
-function initMenu() {
-   $('#menu ul').hide();
-   $('#menu ul').children('.current').parent().show();
-   //$('#menu ul:first').show();
-   $('#menu li a').click(
-      function() {
-         var checkElement = $(this).next();
-         if ((checkElement.is('ul')) && (checkElement.is(':visible'))) {
-            return false;
-         }
-         if ((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
-            $('#menu ul:visible').slideUp('normal');
-            checkElement.slideDown('normal');
-            return false;
-         }
-      }
-   );
-}
-$(document).ready(function() {
-   initMenu();
-});
-</script>

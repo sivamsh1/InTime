@@ -1,110 +1,148 @@
-        <div class="container">
-
-         <h1> <b> Category </b></h1>      
- <table>
-  
-          <tbody>
-      <tr>  <th>Number</th>
-            <th>CategoryName</th>
-            <th>Description</th>
-            <th>Edit</th>
-            <th>Delete</th>
-            <button id="AID" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">  Add </button>
-          </tr>
-
-{{#each categoryDatas}}
-          <tr>
-            <td> {{inc @index}}</td>
-            <td> {{this.name}}</td>
-            <td> {{this.description}}</td>
-            <td><a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" href="/admin/cdelete/{{this._id}}"> Edit</a></td>
-            <td><a class="btn btn-primary" href="/admin/cdelete/{{this._id}}"> Delete</a></td>
-          </tr>
 
 
+<div class="container-fluid position-relative d-flex p-0">
+
+  <!-- Content Start -->
+  <div class="content">
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+      <a href="/admin" class="navbar-brand d-flex d-lg-none me-4">
+        <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+      </a>
+      <a href="#" class="sidebar-toggler flex-shrink-0">
+        <i class="fa fa-bars"></i>
+      </a>
+    </nav>
+    <!-- Navbar End -->
+    <div class="container">
+      <div class="col-12" style="margin-top:3rem">
+        <div class="bg-secondary rounded h-100 p-4">
+
+          <h6 class="mb-4"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add
+              Category</button></h6>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Category name</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each categoryDatas}}
+
+
+                <tr>
+                  <th scope="row">{{inc @index}}</th>
+                  <td>{{this.name}}</td>
+                  <td>{{this.description}}</td>
+                  <td>
+                    <a class="btn btn-primary" href="/admin/editCategory/{{this._id}}" > <i class="fas fa-edit"></i></a>
+                    <button data-bs-toggle="modal" data-bs-target="#delete{{inc @index}}"> <i
+                        class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
 
 
 
 
 
-<!-- Add Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">ADD CATEGORY</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <!-- Add Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">ADD CATEGORY</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form id="form">
+                          <label for="">Category Name:</label><br>
+                          <input type="text" name="name" id="username1" tabindex="1" class="form-control"
+                            placeholder="Enter Category" required>
+                          <label for="">Category Description</label>
+                          <input type="text" name="description" id="description" class="form-control"
+                            placeholder="Enter Description Here" required>
+                          <p id="errorId" class="text-danger"></p>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                {{!-- delete modal --}}
+                <div class="modal fade" id="delete{{inc @index}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title text-dark" id="exampleModalLabel">Delete Category</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        {{#if this.productCount}}
+                        <h5 class="text-dark">There are {{this.productCount}} products in this category.Are you sure?
+                        </h5>
+                        {{else}}
+                        <h5 class="text-dark">Are you sure?</h5>
+                        {{/if}}
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a href="/admin/cdelete/{{this._id}}"> <button type="button"
+                            class="btn btn-danger">delete</button></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+
+
+        </div>
       </div>
-      <div class="modal-body">
-      <form id="form">
-        <label for="">Category Name:</label><br>
-         <input type="text" name="name" id="username1" tabindex="1" class="form-control" placeholder="Enter Category" required>
-         <label for="">Category Description</label>
-         <input type="text" name="description" id="description" class="form-control" placeholder="Enter Description Here" required>
-         <p id="errorId" ></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
-      </div>
-      </form>
+
+
+
+
+      <!-- Back to Top -->
+      <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
-  </div>
-</div>
+
+    <script src="/validations/editCategory.js"></script>
 
 
 
 
+    <script>
 
 
-<!-- Edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">EDIT CATEGORY</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <form id="form">
-        <label for="">Category Name:</label><br>
-         <input type="text" name="name" id="username1" tabindex="1" class="form-control" value={{this.name}} required>
-         <label for="">Category Description:</label>
-         <textarea type="text" name="description" id="description" class="form-control"  required>{{this.description}}</textarea>
-         <p id="errorId" ></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
+      const form = document.getElementById("form")
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        const data = new FormData(form)
+        const formData = {}
+        data.forEach((data, i) => {
+          formData[i] = data
+        })
+        const res = await axios.post("/admin/category", formData)
+        if (res.data.message == "success") {
+          location.assign("/admin/category")
+        } else {
+          document.getElementById("errorId").textContent = res.data.error
+        }
+      })
 
-{{/each}}
-        </tbody>
-        </table>
-    
-
-
-<script>
-      
-     const form = document.getElementById("form")
-     form.addEventListener('submit',async (e)=>{ 
-     e.preventDefault()
-     const data = new FormData(form)
-     const formData = {}
-     data.forEach((data,i)=>{
-       formData[i] = data
-     })
-     const res = await axios.post("/admin/acategory",formData)
-     if(res.data.message=="success"){
-      location.assign("/admin/acategory")
-     }else{
-     document.getElementById("errorId").textContent=res.data.errorr
-     }
-     })
-</script>
-
-  </div>  
+    </script>

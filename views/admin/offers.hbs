@@ -1,0 +1,387 @@
+<div class="container-fluid position-relative d-flex p-0">
+ 
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+            <a href="/admin" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+        </nav>
+        <!-- Navbar End -->
+
+        <div class="container mt-5 mx-auto">
+            <div class="row gap-3 ms-5">
+                <div class="col-5 bg-white" style="border-radius: 11px;">
+                    <h6 class="mb-4"><button class="btn btn-primary mt-3" data-bs-toggle="modal"
+                            data-bs-target="#addproductmodal">Add Product Offer</button></h6>
+                    <table class="table mt-5">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Discount</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each offerProducts}}
+                            <tr>
+                                <th scope="row">{{inc @index}}</th>
+                                <td>{{this.name}}</td>
+                                <td>{{this.productOffer}}%</td>
+                                <td><button data-bs-toggle="modal" data-bs-target="#product{{inc @index}}"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+
+                            {{!-- delete product offer modal --}}
+                            <div class="modal fade" id="product{{inc @index}}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                         <div class="modal-header">
+                        <h5 class="modal-title text-dark" id="exampleModalLabel">Delete Product Offer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        {{#if this.productCount}}
+                        <h5 class="text-dark">There are {{this.productCount}} products in this category.Are you sure?
+                        </h5>
+                        {{else}}
+                        <h5 class="text-dark">Are you sure?</h5>
+                        {{/if}}
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a href="/admin/deleteProductOffer/{{this._id}}"> <button type="button"
+                            class="btn btn-danger">delete</button></a>
+                      </div>
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-5 bg-white" style="border-radius: 11px;">
+                    <h6 class="mb-4"><button class="btn btn-primary mt-3" data-bs-toggle="modal"
+                            data-bs-target="#addcatogorymodal">Add Category Offer</button></h6>
+                    <table class="table mt-5">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Category Name</th>
+                                <th scope="col">Discount</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each offerCategories}}
+                            <tr>
+                                <th scope="row">{{inc @index}}</th>
+                                <td>{{this.name}}</td>
+                                <td>{{this.categoryOffer}}%</td>
+                                <td><button data-bs-toggle="modal" data-bs-target="#category{{inc @index}}">  <i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+
+                            
+                            {{!-- delete category modal  --}}
+                            <div class="modal fade" id="category{{inc @index}}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                         <div class="modal-header">
+                        <h5 class="modal-title text-dark" id="exampleModalLabel">Delete Category Offer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        {{#if this.productCount}}
+                        <h5 class="text-dark">There are {{this.productCount}} products in this category.Are you sure?
+                        </h5>
+                        {{else}}
+                        <h5 class="text-dark">Are you sure?</h5>
+                        {{/if}}
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a href="/admin/deleteCategoryOffer/{{this._id}}"> <button type="button"
+                            class="btn btn-danger">delete</button></a>
+                      </div>
+                                    
+                                    </div>
+                                </div>
+                            </div>
+
+
+                
+
+
+ 
+
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {{!-- add product offer modal --}}
+        <div class="modal fade" id="addproductmodal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" style="color: black;">Add product Offer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="addProductOffer">
+                        <div class="modal-body">
+                            <div class="form-floating mb-3">
+
+                                <select class="form-select" id="product" aria-label="Floating label select example" name="product">
+                                    <option selected="" disabled="disabled">Select a product</option>
+                                    {{#each Products}}
+                                    <option value="{{this._id}}">{{this.name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">Discount</label>
+                                <input type="number" class="form-control" id="discount" name="discount">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {{!-- category offer modal --}}
+        <div class="modal fade" id="addcatogorymodal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" style="color: black;">Add category Offer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form  method="post" action="/admin/addCategoryOffer" >
+                        <div class="modal-body">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="category" aria-label="Floating label select example"
+                                    name="category">
+                                    <option selected="" disabled="disabled">Select a category</option>
+                                    {{#each Category}}
+                                    <option value="{{this._id}}">{{this.name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="cdiscount" class="col-form-label">Discount</label>
+                                <input type="number" class="form-control" id="cdiscount" name="discount">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+
+<script>
+
+    
+     const form = document.getElementById("addProductOffer")
+     form.addEventListener('submit',async (e)=>{ 
+     e.preventDefault()
+     const data = new FormData(form)
+     const formData = {}
+     data.forEach((data,i)=>{
+       formData[i] = data
+     })
+     const res = await axios.post("/admin/addProductOffer",formData)
+     if(res.data.message=="success"){
+      location.assign("/admin/offers")
+     }else{
+     document.getElementById("errorId").textContent=res.data.errorr
+     }
+     
+  })
+
+  
+
+
+
+     const categoryForm = document.getElementById("addCategoryOffer")
+     categoryForm.addEventListener('submit',async (e)=>{ 
+     e.preventDefault()
+     const data = new FormData(form)
+     const formData = {}
+     data.forEach((data,i)=>{
+       formData[i] = data
+     })
+     const res = await axios.post("/admin/categoryOffer",formData)
+     if(res.data.message=="success"){
+      location.assign("/admin/offers")
+     }
+     
+  })
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+{{!-- 
+    <script>
+
+        const editProductOffer=async(productId,discount)=>{
+            console.log(productId,discount)
+             try {
+                const res = await axios({
+                    method: 'PATCH', url: '/admin/edit-product-offer', data: { productId, discount }
+                })
+                location.reload();
+            } catch (err) {
+                document.getElementById('errorAlert').textContent=err.response.data.message
+            }
+        }
+    
+        const editProductDiscount=async(id)=>{
+            let discount = document.getElementById(`editProductDButton${id}`).value
+            editProductOffer(id,discount)
+        }
+
+         const editCategoryOffer=async(categoryId,discount)=>{
+            console.log(categoryId,discount)
+             try {
+                const res = await axios({
+                    method: 'PATCH', url: '/admin/edit-category-offer', data: { categoryId, discount }
+                })
+                location.reload();
+            } catch (err) {
+                document.getElementById('errorAlert').textContent=err.response.data.message
+            }
+        }
+
+         const editCategoryDiscount=async(id)=>{
+            let discount = document.getElementById(`editCategoryDButton${id}`).value
+            console.log(id,discount)
+            editCategoryOffer(id,discount)
+        }
+
+    </script>
+
+    <script>
+        const addProductDiscount = async (productId, discount) => {
+            try {
+                const res = await axios({
+                    method: 'PATCH', url: '/admin/add-product-offer', data: { productId, discount }
+                })
+                location.reload();
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+        $(document).ready(function () {
+            $("#addProductOffer").validate({
+                errorClass: 'errors',
+                rules: {
+                    product: {
+                        required: true,
+                    },
+                    discount: {
+                        required: true,
+                        max: 100
+                    }
+                },
+                messages: {
+
+                    product: {
+                        required: "Please enter product",
+                    },
+                    discount: {
+                        required: "Please enter discount",
+                        max: "the maximum is 100"
+                    },
+                },
+                submitHandler: function () {
+                    const e = document.getElementById('product');
+                    const product = e.options[e.selectedIndex].value;
+                    const discount = document.getElementById('discount').value;
+                    addProductDiscount(product, discount);
+
+                }
+            });
+        });
+
+
+        const addCategoryDiscount = async (categoryId, discount) => {
+            try {
+                const res = await axios({
+                    method: 'PATCH', url: '/admin/add-category-offer', data: { categoryId, discount }
+                })
+                location.reload();
+            } catch (err) {
+                document.getElementById('categoryErrorAlert').textContent=err.response.data.message
+            }
+        }
+
+        $(document).ready(function () {
+            $("#addCategoryOffer").validate({
+                errorClass: 'errors',
+                rules: {
+                    category: {
+                        required: true,
+                    },
+                    discount: {
+                        required: true,
+                        max: 100
+                    }
+                },
+                messages: {
+
+                    category: {
+                        required: "Please enter category",
+                    },
+                    discount: {
+                        required: "Please enter discount",
+                        max: "the maximum is 100"
+                    },
+                },
+                submitHandler: function () {
+                    const e = document.getElementById('category');
+                    const category = e.options[e.selectedIndex].value;
+                    const discount = document.getElementById('cdiscount').value;
+                    addCategoryDiscount(category, discount);
+                }
+            });
+        });
+
+    </script> --}}

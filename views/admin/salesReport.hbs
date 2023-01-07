@@ -1,0 +1,91 @@
+
+
+
+
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-light position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+            <a href="/admin" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+        </nav>
+        <!-- Navbar End -->
+        <div class="container">
+        
+                <div class="col-12 mt-5">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h3 class="mb-4 text-dark">SALES</h3>
+                            <div class="mb-3 d-flex">
+                            <button class="btn btn-primary" onclick="ExportToExcel('xlsx')">Export to excel</button>
+                         <input class="ms-5" type="text" name="daterange" value="01/01/2022 - 12/01/2023" />
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table" id="salesTable"  name="salesTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">OrderedDate</th>
+                                            <th scope="col">DeliveredDate</th>
+                                            <th scope="col">Payment method</th>
+                                            <th scope="col">Total Amount</th>
+                                            <th scope="col">Products</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each deliveredOrders}}
+                                        <tr style="color: black; font-weight:500">
+                                            <th scope="row">{{inc @index}}</th>
+                                            <td>{{this.date}}</td>
+                                            <td>{{this.deliverydate}}</td>
+                                            <td>{{this.PaymentMethod}}</td>
+                                            <td>{{this.totalAmount}}</td>
+                                            <td> <a  href="/admin/vieworders/{{this._id}}" style="width:6rem;"><i class="fa-solid fa-eye"></i></a></td>
+                                        </tr>
+                                       {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+         <h5 style="color:gray">Grand Total:</h5>
+                        </div>
+                    </div>
+        </div>
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+     <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+
+
+
+ <script>
+
+    
+    function ExportToExcel(type, fn, dl) {
+       var elt = document.getElementById('salesTable');
+       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+       return dl ?
+         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+         XLSX.writeFile(wb, fn || ('MySheetName.' + (type || 'xlsx')));
+    }
+
+ </script>
+

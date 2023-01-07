@@ -1,57 +1,112 @@
 
-<div class="container" >
- <h1> <b> Orders </b></h1>             
- <table class="product-table" id="product-table" style="overflow-x:none;" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+
+    <!-- Spinner End -->
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+            <a href="/admin" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+        </nav>
+        <!-- Navbar End -->
+        <div class="container">
+            <div class="col-12" style="margin-top:3rem">
+                <div class="bg-secondary rounded h-100 p-4">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Number</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col"> Total Amount</th>
+                                    <th scope="col">Payment</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each orders}}
+                                <tr>
+                                    <th scope="row">{{inc @index}}</th>
+                                    <td>{{this.date}}</td>
+                                    <td>{{this.deliveryDetails.address}}</td>
+                                    <td>{{this.totalAmount}}</td>
+                                    <td>{{this.PaymentMethod}}</td>
+                                    <td>{{this.status}}</td>
+                                     <td>
+            
+                  {{#eq this.status "cancelled" }} 
+                  <a  href="/admin/vieworders/{{this._id}}" style="width:6rem;"><i class="fa-solid fa-eye"></i></a>
+                  {{else}}
+                     <button data-bs-toggle="modal"  data-bs-target="#changeStatus{{@index}}" ><i class="fa-solid fa-pen-to-square"></i> </button>
+                     <a  href="/admin/vieworders/{{this._id}}" style="width:6rem;"><i class="fa-solid fa-eye"></i></a>
+                 {{/eq}}  
   
-  <div class="container">
-          <tbody>
-     <tr>       <th class="text-left">Number</th>
-                <th class="text-center">Date</th>
-                <th class="text-left">Address</th>
-                <th class="text-left">Pincode</th>
-                <th class="text-left">Mobile</th>
-                <th class="text-right"> Amount</th>
-                <th class="text-right"> Payment</th>
-                <th class="text-right"> Status</th>
-
-                <th class="text-right" >Order Management</th>
-
-              </tr>
-
-{{#each orders}}
-           <tr>
-                <td> {{inc @index}}</td>
-                <td>{{this.date}}</td>            
-                <td>{{this.deliveryDetails.address}}</td>            
-                <td>{{this.deliveryDetails.pincode}}</td>            
-                <td>{{this.deliveryDetails.phone}}</td>            
-                <td>{{this.totalAmount}}</td>            
-                <td>{{this.PaymentMethod}}</td>            
-                <td>{{this.status}}</td>            
-                 <td>
-                {{#eq this.status "cancelled"}} 
-
-                  <a class="btn btn-success " href="/admin/vieworders/{{this._id}}" style="width:6rem;">View </a>
-                {{else}}
-                <a class="btn btn-success " href="/admin/vieworders/{{this._id}}" style="width:6rem;">View </a>
-
-                <a class="btn btn-danger " href="/admin/cancellorders/{{this._id}}" style="width:6rem;margin-top:1rem">Cancell </a>
-                {{/eq}}
-
-                </td>            
-              
-         
-                         
-               </tr>
-
-{{/each}}
-</div>
+                  {{!-- <a class="btn btn-danger " href="/admin/cancellorders/{{this._id}}" style="width:6rem;margin-top:1rem">Cancell </a> --}}
+                
 
 
-        </tbody> 
-        </table>
-      </div>
-      </div>
+    
+        {{!-- modal for change status --}}
+                        <div class="modal fade" id="changeStatus{{@index}}" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel" style="color:black" >Change Status</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                        <form action="/admin/change-order-status/{{this._id}}" method="post">
+                                    <div class="modal-body mb-5">
+                                            <div class="form-floating mb-3">
+                                                <select class="form-select" id="floatingSelect"
+                                                    aria-label="Floating label select example" name="orderStatus">
+                                                    <option selected="" value="confirmed">Confirmed</option>
+                                                    <option value="delivered">Delivered</option>
+                                                    <option value="cancelled">Cancelled</option>
+                                                </select>
+                                                <label for="floatingSelect">Select the status of the order</label>
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Change</button>
+                                    </div>
+                                        </form>
+                                </div>
+                            </div>
+                        </div>
 
 
 
+
+                </td>  
+                                </tr>
+
+
+                             
+
+
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>

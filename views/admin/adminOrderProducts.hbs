@@ -1,4 +1,4 @@
-
+{{!-- 
 <div class="container" >
  <h1> <b> OrderedProducts </b></h1>             
  <table class="product-table" id="product-table" style="overflow-x:none;" >
@@ -11,10 +11,10 @@
                 <th class="text-left">Brand</th>
                 <th class="text-left">Quantity</th>
                 <th class="text-left">Price</th>
-      
+         
 
               </tr>
-
+    
 {{#each orderProducts}}
            <tr>
                 <td> {{inc @index}}</td>
@@ -35,4 +35,63 @@
         </tbody> 
         </table>
       </div>
-      </div>
+      </div> --}}
+
+
+
+      
+<div class="container-fluid position-relative d-flex p-0">
+    
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+            <a href="/admin" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+        </nav>
+        <!-- Navbar End -->
+        <div class="container">
+            <div class="col-12" style="margin-top:3rem">
+                <div class="bg-secondary rounded h-100 p-4">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col" style="width: 0rem;" >Image</th>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Brand</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                      {{#each orderProducts}}
+                                <tr>
+                                    <td scope="row">{{inc @index}}</td>
+                                     <td class="text-center"><a href="#"><img src={{this.product.images}} style="width: 10rem; height: 7rem;"></a>            
+                                    <td>{{this.product.name}}</td>            
+                                    <td>{{this.product.brand}}</td>            
+                                    <td>{{this.quantity}}</td>                    
+                                    <td>{{this.product.price}}</td>    
+                                 
+                                </tr>
+
+                               
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+

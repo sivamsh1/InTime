@@ -20,7 +20,7 @@
                 <li class="currency dropdown"> <span class="dropdown-toggle" id="dropdownMenu12" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">My Account <span class="caret"></span> </span>
                   <ul class="dropdown-menu" aria-labelledby="dropdownMenu12">
                     {{#if cookie}}
-                    <li><a href="/logout">UserProfile</a></li>
+                    <li><a  href="/userProfile">UserProfile</a></li>
                     <li><a href="/logout">logout</a></li>
                     {{else}}
                     <li><a href="/login">Login</a></li>
@@ -73,7 +73,7 @@
                     <li class="col-md-3">
                       <ul>
                         {{#each category}}
-                        <li><a class="collectionLink" href="#">{{this.name}}</a></li>
+                        <li><a class="collectionLink" href="/category/{{this.name}}">{{this.name}}</a></li>
                         {{/each}}
                       </ul>
                     </li>

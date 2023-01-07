@@ -8,181 +8,167 @@
     font-weight: 600;
     font-family: fangsong;
   }
+
+
+
+
+  #checkoutDiv {
+    position: absolute;
+    left: 62rem;
+    top: 3rem;
+    height: 36rem;
+  }
+
+  #ctr {
+    position: relative;
+
+  }
 </style>
 
 
 
-<div class="container">
+<div id="ctr" class="container">
   <div class="row ">
 
-<div class="paymentFormDiv">  
-     
-
-    <form method="post" action="/checkoutsubmit"> 
-  <input type="text" name="coupen" placeholder="Enter Coupon Code"><br><br>
-  <button> Apply</button><br><br>
-  <h3>Address</h3><br>
-  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-  <label class="form-check-label" for="flexRadioDefault1">
-   Palakkal(ho),kralmanna(po),cherpulassery,palakkad,kerala 
-  </label>
-
-    <div class="modal-dialog" style="margin-left:0rem;" role="document">
-      <div id="checkoutModal" class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalHeader">
-            <h1 id="modalHeader2">Address</h1>
-          <div class="form-check">
-
-          </h5>
-        </div>
-        <div class="modal-body">
-          <div class="card-body">
-
-              <div class="col">
-                <labe class="form-label" for="form7Example1">Name</label>
-              </div>
-          </div>
-
-          <!-- Text input -->
-          <div class="form-outline mb-4">
-            <input name="name" type="text" id="form7Example4" class="form-control"  required />
-            <label class="form-label" for="form7Example4">Address</label>
-          </div>
-
-          <!-- Email input -->
-          <div class="form-outline mb-4">
-            <input name="address" type="text" id="form7Example5" class="form-control" required />
-            <label class="form-label" for="form7Example5">Email</label>
-          </div>
-
-          <!-- Number input -->
-          <div class="form-outline mb-4">
-            <input name="email" type="email" id="form7Example6" class="form-control" required />
-            <label class="form-label" for="form7Example6">Phone</label>
-            <input name="phone" type="number" id="form7Example6" class="form-control"  required/>
-          </div>
-
-      
-          <div class="form-outline mb-4">
-            <label class="form-label" for="form7Example6">Pin Code</label>
-            <input name="pin" type="number" id="form7Example6" class="form-control"  required/>
-          </div>
-
-          <input name="userId" value={{userId}} hidden >
-          <input name="totalAmount" value={{totalAmount}} hidden >
-
-        </div>
-    
-      </div>
-    </div><br>
-    <div id="paymentmethod">
-
-<input type="radio" name="Paymentmethod" value="COD" >
-  <label class="form-check-label" for="flexRadioDefault1">
-     Cash On Delivery
-  </label><br>
-
-<input type="radio" name="Paymentmethod" value="Paypal" >
-  <label class="form-check-label" for="flexRadioDefault1">
-     Paypal
-  </label><br>
-
-<input type="radio" name="Paymentmethod" value="Razorpay" >
-  <label class="form-check-label" for="flexRadioDefault1">
-     Razorpay
-  </label><br>
+    <div class="paymentFormDiv">
 
 
-  <button class="btn" type="submit">Confirm Order</button>
+      <form method="post" action="/checkoutsubmit">
 
-    </div>
-  
-  </form>
-  
-</div>
-{{!-- 
-<div id="tableDiv" >
-          <div class="panel-heading">
-                <h4 class="panel-title"> Confirm Order</h4>
-              </div>
-              <div >
-                <div >
-                  <div id="checkOutTable" class="table-responsive">
-                    <table id="tableContent" class="table table-bordered table-hover">
-                      <thead>
-                        <tr>
-                          <td class="text-left">Product Name</td>
-                          <td class="text-left">Model</td>
-                          <td class="text-right">Quantity</td>
-                          <td class="text-right">Unit Price</td>
-                          <td class="text-right">Total</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td class="text-left"><a href="http://localhost/opc001/index.php?route=product/product&amp;product_id=46">Sony VAIO</a></td>
-                          <td class="text-left">Product 19</td>
-                          <td class="text-right">1</td>
-                          <td class="text-right">$1,000.00</td>
-                          <td class="text-right">$1,000.00</td>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                        <tr>
-                          <td class="text-right" colspan="4"><strong>Sub-Total:</strong></td>
-                          <td class="text-right">$1,000.00</td>
-                        </tr>
-                        <tr>
-                          <td class="text-right" colspan="4"><strong>Flat Shipping Rate:</strong></td>
-                          <td class="text-right">$5.00</td>
-                        </tr>
-                        <tr>
-                          <td class="text-right" colspan="4"><strong>Total:</strong></td>
-                          <td class="text-right">$1,005.00</td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                  <div class="buttons">
-                    <div class="pull-right">
-                      <input type="button" data-loading-text="Loading..." class="btn" id="button-confirm" value="Confirm Order">
-                    </div>
-                  </div>
+        <div class="modal-dialog" style="margin-left:0rem;" role="document">
+          <div id="checkoutModal" class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalHeader">
+                <h1 id="modalHeader2">Address</h1>
+                <div class="form-check">
+
+              </h5>
+            </div>
+            <div class="modal-body">
+              <div class="card-body">
+                {{#user}}
+                <div class="col">
+                  <labe class="form-label" for="form7Example1">Name</label>
                 </div>
               </div>
 
-</div> --}}
+              <!-- Text input -->
+              <div class="form-outline mb-4">
+                <input name="name" type="text" id="form7Example4" class="form-control" value="{{this.Address.name}}"
+                  required />
+                <label class="form-label" for="form7Example4">Address</label>
+              </div>
+
+              <!-- Email input -->
+              <div class="form-outline mb-4">
+                <input name="address" type="text" id="form7Example5" class="form-control"
+                  value="{{this.Address.address}}" required />
+              </div>
+
+              <!-- Number input -->
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form7Example6">Phone</label>
+                <input name="phone" type="number" id="form7Example6" class="form-control" value="{{this.Address.phone}}"
+                  required />
+              </div>
+
+
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form7Example6">Pin Code</label>
+                <input name="pin" type="number" id="form7Example6" class="form-control" value={{this.Address.pincode}}
+                  required />
+              </div>
+              {{/user}}
+              <input name="userId" value={{userId}} hidden>
+              <input name="totalAmount" value={{totalAmount}} hidden>
+
+            </div>
+
+          </div>
+        </div><br>
+        <div id="paymentmethod">
 
 
 
+          <input type="radio" name="Paymentmethod" value="COD">
+          <label class="form-check-label" for="flexRadioDefault1">
+            Cash On Delivery
+          </label><br>
 
+          <input type="radio" name="Paymentmethod" value="Paypal">
+          <label class="form-check-label" for="flexRadioDefault1">
+            Paypal
+          </label><br>
+
+          <input type="radio" name="Paymentmethod" value="Razorpay">
+          <label class="form-check-label" for="flexRadioDefault1">
+            Razorpay
+          </label><br>
+
+
+          <button class="btn" type="submit">Confirm Order</button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+<form id="form">
+    <div class="modal-dialog" style="margin-left:0rem;" role="document" id="checkoutDiv">
+      <div id="checkoutModal" class="modal-content" style="height:35.5rem;">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHeader">
+            <h1 id="modalHeader2"> Checkout</h1>
+            <div class="form-check">
+
+          </h5>
+        </div> <br><br>
+        <h3 id="modalHeader2">Total Amount :<span id="totalAmount" > {{totalAmount}} </span> </h3><br>
+        <h3 id="modalHeader2">Enter Coupon Code If You have:</h3><br>
+        <input name="coupon" type="text" id="form7Example6" class="form-control" required /><br>
+        <p id="errorId"></p><br>
+        <button type="submit" >Apply Coupon</button>
+      </div>
+
+    </div>
+    </form>
+
+  </div>
 
 </div>
 </div>
 </div>
 </div>
 
-{{!-- 
+
 
 <script>
-  const form = document.getElementById("paymentForm")
-      form.addEventListener("submit",async(e)=>{
-      e.preventDefault()
-      const data = new FormData(form)
-      const formdata={}
-      data.forEach((data,i)=>{
-        formdata[i] = data
-      })
-      const res = await axios.post("/checkoutsubmit",formdata)
-      if(res.data.message=='success'){
+    const form = document.getElementById("form")
+     form.addEventListener('submit',async (e)=>{ 
+     e.preventDefault()
+     const data = new FormData(form)
+     const formData = {}
+     data.forEach((data,i)=>{
+       formData[i] = data
+     })
+     const res = await axios.post("/addcoupon",formData)
+     if(res.data.message=="success"){
+           document.getElementById("totalAmount").textContent=res.data.total
+           Toastify({
+                text: "Coupon Is added",
+                duration: 3000,
+                gravity: "bottom",
+                position: "center",  
+                style: {
+                    background: ' #e74c3c'    ,
+                   
+                },
+            }).showToast();
 
-        location.assign('/success')
-      }else if(res.data.message=='paypal'){
-        console.log('okkkk guys')
- 
-
-      }
-      
-      })
-</script> --}}
+     }else{
+     document.getElementById("errorId").textContent=res.data.error
+     }
+     
+  })
+</script>

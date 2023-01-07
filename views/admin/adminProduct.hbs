@@ -1,42 +1,115 @@
-
-<div class="container">
- <h1> <b> Products </b></h1>             
- <table class="product-table" id="product-table">
-  
-  <div class="container">
-          <tbody>
-      <tr>  <th>Number</th>
-            <th>Product</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Brand</th>
-            <th>Image</th>
-            <th>Edit</th>
-            <th>Delete</th>
-            <a id="AID" class="btn btn-success" href="/admin/addproduct">Add</a>
-          </tr>
-
-{{#each Product}}
-          <tr>
-            <td sope="row" > {{inc @index}} </td>
-            <td > {{this.name}}</td>
-            <td> {{this.category}}</td>
-            <td> {{this.price}}</td>
-            <td> {{this.brand}}</td>
-            <td><img src={{this.images}} style="height:71px;width:88px" ></td>
-
-            <td><a class="btn btn-primary" href="/admin/editproduct/{{this._id}}">Edit</a></td>
-            <td><a class="btn btn-primary" href="/admin/deleteproduct/{{this._id}}"> Delete</a></td>
-          </tr>
-
-{{/each}}
-</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
-        </tbody>
-        </table>
-      </div>
-      </div>
+<div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-light position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+            <a href="/admin" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+        </nav>
+        <!-- Navbar End -->
+        <div class="container">
+            <div class="col-12" style="margin-top:3rem">
+                <div class="bg-secondary rounded h-100 p-4">
+                    <a href="/admin/addProduct">
+                        <h6 class="mb-4"><button class="btn btn-primary">Add Product</button></h6>
+                    </a>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Product name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col" style="padding-left:1rem;;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each Product}}
+                                <tr>
+                                    <th scope="row">{{inc @index}}</th>
+                                    <td>{{this.name}}</td>
+                                    <td>{{this.price}}</td>
+                                    <td><img src={{this.images}} width="35px" height="24px"></td>
+                                    <td>{{this.category}}</td>
+                                    <td>
+                                        <a href="/admin/editproduct/{{this._id}}"
+                                            style="color: rgb(19, 62, 155);"><button><i
+                                                    class="fas fa-edit"></i></button></a>
+                                        {{!-- <a href="/admin/deleteproduct/{{this._id}}"><button><i
+                                                    class="fas fa-trash"></i></button></a> --}}
+                                        <button data-bs-toggle="modal" data-bs-target="#delete{{inc @index}}"> <i
+                                                class="fas fa-trash"></i></button>
+                                        {{#if this.listed}}
+                                        <a href="/admin/unlisted/{{this._id}}"><i class="fa-solid fa-eye"></i></a>
+                                        {{else}}
+                                        <a href="/admin/listed/{{this._id}}"><i
+                                                class="fa-sharp fa-solid fa-eye-slash"></i></a>
+                                        {{/if}}
+                                    </td>
+                                </tr>
+
+                                <div class="modal fade" id="delete{{inc @index}}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title text-dark" id="exampleModalLabel">Delete Category
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {{#if this.productCount}}
+                                                <h5 class="text-dark">There are {{this.productCount}} products in this
+                                                    category.Are you sure?
+                                                </h5>
+                                                {{else}}
+                                                <h5 class="text-dark">Are you sure?</h5>
+                                                {{/if}}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <a href="/admin/deleteproduct/{{this._id}}"> <button type="button"
+                                                        class="btn btn-danger">delete</button></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
 
 
 
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
