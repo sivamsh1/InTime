@@ -80,7 +80,7 @@
               </div>
               {{/user}}
               <input name="userId" value={{userId}} hidden>
-              <input name="totalAmount" value={{totalAmount}} hidden>
+              <input name="totalAmount" id="total" value={{totalAmount}} hidden>
 
             </div>
 
@@ -155,14 +155,15 @@
      const res = await axios.post("/addcoupon",formData)
      if(res.data.message=="success"){
            document.getElementById("totalAmount").textContent=res.data.total
+           document.getElementById("total").value=res.data.total
            Toastify({
                 text: "Coupon Is added",
                 duration: 3000,
                 gravity: "bottom",
                 position: "center",  
                 style: {
-                    background: ' #e74c3c'    ,
-                   
+                    background: ' #FFFFFF' ,
+                    color:"#000000"
                 },
             }).showToast();
 

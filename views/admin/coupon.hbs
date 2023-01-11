@@ -57,23 +57,23 @@
                                                             <label for="recipient-name" class="col-form-label">Coupon
                                                                 Name</label>
                                                             <input type="text" class="form-control" id="eName"
-                                                                value="{{this.name}}" name="name">
+                                                                value="{{this.name}}" name="name" required >
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="recipient-name"
                                                                 class="col-form-label">Discount</label>
                                                             <input type="number" class="form-control" id="eDiscount"
-                                                                name="discount" value="{{this.discount}}">
+                                                                name="discount" value="{{this.discount}}" required >
                                                         </div>
                                                         <div class="mb-1">
                                                             <label for="date" class="col-form-label">Expiry Date</label>
                                                             <input type="date" class="form-control" id="eExpiryDate"
-                                                                name="expiryDate" value="{{this.expiryDate}}">
+                                                                name="expiryDate" value="{{this.expiryDate}}" required >
                                                         </div>
                                                         <div class="mb-1">
                                                             <label for="MaxAmount" class="col-form-label">Maximum Amount</label>
-                                                            <input type="number" class="form-control" id="eExpiryDate"
-                                                                name="expiryDate" value="{{this.MaxAmount}}">
+                                                            <input type="number" class="form-control" id="MaxAmount"
+                                                                name="MaxAmount" value="{{this.MaxAmount}}" required >
                                                         </div>
 
                                                     </div>
@@ -104,7 +104,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel" style="color: black;">Add product Offer</h5>
+                        <h5 class="modal-title" id="exampleModalLabel" style="color: black;">Add Coupon</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form id="addCouponForm">
@@ -113,21 +113,21 @@
 
                             <div class="mb-3">
                                 <label for="coupon" class="col-form-label">Coupon</label>
-                                <input type="text" class="form-control" id="coupon" name="name">
+                                <input type="text" class="form-control" id="coupon" name="name" required >
                             </div>
                             <div class="mb-1">
                                 <label for="recipient-name" class="col-form-label">Discount</label>
-                                <input type="number" class="form-control" id="discount" name="discount">
+                                <input type="number" class="form-control" id="discount" name="discount" required >
                             </div>
                             <div class="mb-1">
                                 <label for="date" class="col-form-label">Expiry Date</label>
-                                <input type="date" class="form-control" id="expiryDate" name="expiryDate">
+                                <input type="date" class="form-control" id="expiryDate" name="expiryDate" required >
                             </div>
                             <div class="mb-1">
                                 <label for="MaxAmount" class="col-form-label">Maximum Amount</label>
-                                <input type="number" class="form-control" id="MaxAmount" name="MaxAmount">
-                            </div>
-
+                                <input type="number" class="form-control" id="MaxAmount" name="MaxAmount" required >
+                            </div><br>
+                              <p id="error" class="text-danger" ></p>
                         </div>
                         <div id="duplicateAlert" class="ms-2" style="color: rgb(173, 32, 32);">
                         </div>
@@ -159,6 +159,8 @@
       console.log(res.data.message)
       if(res.data.message=="success"){
         location.assign('/admin/coupon')
+      }else{
+        document.getElementById('error').innerHTML = res.data.error
       }
       
       })

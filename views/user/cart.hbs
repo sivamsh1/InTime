@@ -33,21 +33,21 @@
 
               </tr>
             </thead>
-            {{#each cartItems}}
+            {{#each cartItemsWithSubTotal}}
             <tbody>
               <tr>
                
-                <td class="text-center"><img src={{this.product.images}} style="width: 18rem; height: 12rem;">  
+                <td class="text-center"><img src={{this.product.images.[0]}} style="width: 10rem; height: 10rem;">  
                 </td>
                 <td class="text-left"><a href="product.html">{{this.product.name}}</a></td>
                 <td class="text-left">{{this.product.brand}}</td>
                   
-                <td class="text-left">
-                <button onclick=changeQuantity("{{this._id}}","{{this.product._id}}",-1) >-</button>
-                <span id="quantityId" >{{this.quantity}}</span>
-                <button onclick=changeQuantity("{{this._id}}","{{this.product._id}}",1) >+</button>
+                <td class="text-left"> 
+                <a class="btn" onclick=changeQuantity("{{this._id}}","{{this.product._id}}",-1,"{{this.subTotal}}",) > -</a>
+                <span id='{{this.product._id}}' >{{this.quantity}}</span>
+                <a class="btn" onclick=changeQuantity("{{this._id}}","{{this.product._id}}",1,"{{this.subTotal}}",) >+</a>
                 </td>
-                <td class="text-right">{{this.product.price}}</td>
+                <td class="text-right" > <span id="{{this.subTotal}}" > {{this.subTotal}} </span> </td>
                
          
                 <td class="text-right"><button id="remove" onclick=removeItem("{{this._id}}","{{this.product._id}}") class="btn remove"  >Remove</button></td>
@@ -55,7 +55,7 @@
                </tr>
             </tbody>
            
-           
+ 
           </table>
         </div>
       </div>
@@ -63,7 +63,7 @@
       </div>
     
       <div id="Total" style="margin-left:95rem;" >
-      <h3 id="totalHeader" >Tota Amount: {{totalAmount}} </h3>
+      <h3 id="totalHeader" >Total Amount: <span id="totalAmount" > {{totalAmount}}</span> </h3>
       </div>
       <a  class="btn pull-right mt_30" href="/checkout" style="margin-bottom: 2rem;" >Check Out </a>
   
@@ -77,14 +77,17 @@
 <script>  
 
     
-     const changeQuantity =async (cartId,productId,count)=>{
-     const quantity = document.getElementById("quantityId").innerHTML
-     console.log(quantity)
+     const changeQuantity =async (cartId,productId,count,productSubtotal)=>{
+     const quantity = document.getElementById(productId).innerHTML
+     const subTotal = document.getElementById(productSubtotal).innerHTML
+     console.log(subTotal)
         const res = await axios({
-                                 method: 'POST', url: '/changeProductQuantity', data: {cartId,productId,count,quantity}
+                                 method: 'POST', url: '/changeProductQuantity', data: {cartId,productId,count,quantity,subTotal}
                               })
          if(res.data.message=='success'){
-             location.assign("/cart")
+     document.getElementById('totalAmount').innerHTML = res.data.totalAmount
+     document.getElementById(productId).innerHTML = res.data.qty
+     document.getElementById(productSubtotal).innerHTML = res.data.subTotal
          }else if(res.data.message=='deleted'){
            Toastify({
                 text: "Item Deleting From Cart",

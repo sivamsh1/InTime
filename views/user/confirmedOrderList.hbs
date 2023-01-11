@@ -15,14 +15,14 @@
             <thead>
               <tr>
                 <th class="text-center">Date</th>
-                <th class="text-left">Address</th>
+                <th class="text-center">Address</th>
                 <th class="text-left">Pincode</th>
-                <th class="text-left">Mobile</th>
+                <th class="text-center">Mobile</th>
                 <th class="text-right"> Amount</th>
                 <th class="text-right"> Payment</th>
                 <th class="text-right"> Status</th>
+                <th class="text-center"> Action</th>
 
-                <td></td>
 
               </tr>
             </thead>
@@ -36,15 +36,46 @@
                 <td>{{this.totalAmount}}</td>            
                 <td>{{this.PaymentMethod}}</td>            
                 <td>{{this.status}}</td> 
-                <td>
+                <td style="width:0rem" >
                 {{#eq this.status "cancelled"}} 
 
                   <a class="btn btn-success " href="/vieworders/{{this._id}}">View Orders</a>
-                {{else}}
+               
+                {{/eq}}
+
+                {{#eq this.status "delivered"}} 
+
+                  <a class="btn btn-success " href="/vieworders/{{this._id}}">View orders</a>
+
+                  <a class="btn btn-danger " href="/returnorders/{{this._id}}" style="width:14rem;margin-top:1rem ">return</a>
+
+               {{/eq}}
+
+
+                 {{#eq this.status "Placed"}}
                 <a class="btn btn-success " href="/vieworders/{{this._id}}">View Orders</a>
 
-                <a class="btn btn-danger " href="/cancellorders/{{this._id}}" style="width:14rem;margin-top:1rem">Cancell Order</a>
+                <a class="btn btn-danger " href="/cancellorders/{{this._id}}" style="width:14rem;margin-top:1rem ">Cancell</a>
+               
                 {{/eq}}
+
+                 {{#eq this.status "shipped"}}
+                <a class="btn btn-success " href="/vieworders/{{this._id}}">View Orders</a>
+
+                <a class="btn btn-danger " href="/cancellorders/{{this._id}}" style="width:14rem;margin-top:1rem">Cancell</a>
+               
+                {{/eq}}
+
+                 {{#eq this.status "returned"}}
+                <a class="btn btn-success " href="/vieworders/{{this._id}}">View Orders</a>
+               
+                {{/eq}}
+
+
+
+
+                 
+               
 
                 </td>           
               

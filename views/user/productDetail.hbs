@@ -8,7 +8,7 @@
                  <div class="row mt_10 ">
             <div class="col-md-6">
               <div class="xzoom-container">
-                   <img class="img-fluid" id="zoom"  style="height: 36rem;" src={{product.images}}>
+                   <img class="img-fluid" id="zoom"  style="height: 36rem;" src={{product.images.[0]}}>
                
               </div>
        
@@ -100,8 +100,8 @@
                 gravity: "bottom",
                 position: "center",
                 style: {
-                    background: '#00FA9A',
-                   
+                    background: '#FFFFFF',
+                    color:"#000000"
                 },
             }).showToast(); 
       

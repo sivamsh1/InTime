@@ -34,7 +34,6 @@
               alt=" " style="height:7rem;" > 
             <h5 class="my-3">{{currentUser.name}}</h5>
             <p class="text-muted mb-1">{{currentUser.email}}</p>
-            <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
             <div class="d-flex justify-content-center mb-2">
               <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</a> <br>
             </div>
@@ -81,7 +80,16 @@
                 <p class="mb-0">Address:</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0"> {{currentUser.Address.[0]}}</p>
+                <p class="text-muted mb-0"> {{currentUser.Address.address}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Wallet</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"> ₹ {{currentUser.wallet}}</p>
               </div>
             </div>
           </div>

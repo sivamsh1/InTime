@@ -9,9 +9,8 @@
             <div class="product-layout product-grid col-md-4 col-xs-6 " style="width:28rem;height:auto" >  
               <div class="item">
                 <div class="product-thumb clearfix mb_30">
-                  <div class="image product-imageblock"> <a href="/productdetails/{{this._id}}"> <img data-name="product_image" src={{this.images}} alt="iPod Classic" title="iPod Classic" class="img-responsive" style="height: 13rem; !important "  /> <img src={{this.images}} alt="iPod Classic" title="iPod Classic" class="img-responsive" style="height:13rem;!important" /> </a>
+                  <div class="image product-imageblock"> <a href="/productdetails/{{this._id}}"> <img data-name="product_image" src={{this.images.[0]}} alt="iPod Classic" title="iPod Classic" class="img-responsive" style="height: 25rem; !important "  /> <img src={{this.images.[1]}} alt="iPod Classic" title="iPod Classic" class="img-responsive" style="height:25rem;!important" /> </a>
                     <div class="button-group text-center">
-                     <a class="btn wishlist " href="/wishlist/{{this._id}}"></a>     
 								
 										<a class=" btn add-to-cart addToCart" data-product={{this._id}} ></a>
 								
@@ -82,7 +81,8 @@
                 gravity: "bottom",
                 position: "center",
                 style: {
-                    background: '#00FA9A',
+                    background: '#FFFFFF',
+                    color:'#000000'
                    
                 },
             }).showToast(); 
