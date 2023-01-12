@@ -1,4 +1,8 @@
-
+<style>
+  body {
+    overflow-x: hidden;
+  }
+</style>
    
     <!-- =====  BANNER STRAT  ===== -->
     <div class="banner">
@@ -57,7 +61,7 @@
                   <div class="product-grid">
                     <div class="item">
                       <div class="product-thumb">
-                        <div class="image product-imageblock"> <a href="/productdetails/{{this._id}}"> <img data-name="product_image" src={{this.images}} alt="iPod Classic" title="iPod Classic" class="img-responsive" style="height: 20rem;" > <img src={{this.images}} alt="iPod Classic" title="iPod Classic" class="img-responsive" style="height:21rem " > </a>
+                        <div class="image product-imageblock"> <a href="/productdetails/{{this._id}}"> <img data-name="product_image" src={{this.images.[0]}} alt="iPod Classic" title="iPod Classic" class="img-responsive" style="height: 26rem;" > <img src={{this.images.[0]}} alt="iPod Classic" title="iPod Classic" class="img-responsive" style="height:27rem " > </a>
                           <div class="button-group text-center">
                            </div>
                         </div>

@@ -204,8 +204,10 @@ module.exports = ({
 
     let totalAmount = total.length == 0 ? 00 : total[0].total
 
+    let Address = user.address
+    
 
-    res.render('user/checkout', { user: true, user, category, product, totalAmount, userId })
+    res.render('user/checkout', { user: true, user, category, product, totalAmount, userId,Address })
   },
 
   renderWishlist: async (req, res) => {
@@ -385,9 +387,40 @@ module.exports = ({
   },
 
   checkoutSubmit: async (req, res) => {
-    const { coupen, name, address, phone, pin, userId } = req.body;
+    const {  name, address, phone, pin,  } = req.body;
     const order = req.body
-    console.log(order);
+    
+     let AddressId = order.addressId
+      const PaymentMethod =  order.Paymentmethod
+     
+      const userId = await jwt.verify(req.cookies.userjwt, process.env.JWT_SECRET).userId;
+
+     if (AddressId && PaymentMethod){
+
+   
+    const User = await getDb().collection('users').aggregate([
+      {
+        '$match': {
+          '_id': new ObjectId(userId)
+        }
+      }, {
+        '$unwind': {
+          'path': '$address'
+        }
+      }, {
+        '$project': {
+          'address': 1, 
+          '_id': 0
+        }
+      }, {
+        '$match': {
+          'address.id': new ObjectId(AddressId)
+        }
+      }
+    ]).toArray()
+    
+    const Address = User[0].address
+    console.log(Address);
 
 
     //Taking the product array same as in the cart 
@@ -426,9 +459,9 @@ module.exports = ({
     // creating order Object    
     let orderObj = {
       deliveryDetails: {
-        phone: order.phone,
-        address: order.address,
-        pincode: order.pin,
+        phone: Address.phone,
+        address: Address.Address,
+        pincode: Address.pin,
       },
       userId: ObjectId(userId),
       PaymentMethod: order.Paymentmethod,
@@ -439,6 +472,8 @@ module.exports = ({
       detailedDate: new Date()
 
     }
+
+    console.log(Address);
     //Ading items to order collection
     await getDb().collection('orders').insertOne(orderObj)
     //Ading address to users list
@@ -496,7 +531,9 @@ module.exports = ({
     }
 
 
-  },
+ }else{
+  res.redirect('/checkOut')
+ } },
 
   paypalSucces: (req, res) => {
     const payerId = req.query.PayerID;
@@ -524,7 +561,7 @@ module.exports = ({
       }
     });
   },
-
+ 
   renderViewOrders: async (req, res) => {
     const orderId = req.params.id
     const orders = await getDb().collection('orders').findOne({ _id: ObjectId(orderId) })
@@ -597,8 +634,9 @@ module.exports = ({
     const categoryname = req.params.category
     const Product = await getDb().collection('products').find({ category: categoryname }).toArray()
     const category = await getDb().collection('category').find().toArray()
+    const offerPrice = Product.offerPrice
     console.log(Product);
-    res.render('user/category', { user: true, Product, category })
+    res.render('user/category', { user: true, Product, category,offerPrice})
   },
 
   renderUserProfile: async (req, res) => {
@@ -853,17 +891,35 @@ module.exports = ({
       const accountSid = "AC0e70c9e8e3caa07ed6329cccf0acf716";
       const authToken = "fb457e6b81e7ddb2ddc86780f2b119c4";
       const client = require("twilio")(accountSid, authToken);
+      
 
-     client.messages
-    . create({ body: "1234", from: "+13148974734", to: "+919744707392" })
-   .  then(message => console.log(message.sid)); 
+// Function to generate a random OTP
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000);
+}
 
--
-              
-      res.json({
-        status:200,
-        message:"success"
-      })
+// Function to send the OTP via SMS
+async function sendOTP(toNumber) {
+  const otp = generateOTP();
+  console.log(otp);
+
+    const accountSid = "AC0e70c9e8e3caa07ed6329cccf0acf716";
+    const authToken = "bd77f71d6db860983ce0fa9042529538";
+    const client = require("twilio")(accountSid, authToken);
+    
+    client.messages
+      .create({ body: `Your OTP is ${otp}`, from: "+13148974734", to:`+91${number}`})
+      .then(message => console.log(message.sid));
+
+}
+
+// Usage:
+const toNumber = '+919744707392';
+sendOTP(toNumber);
+console.log("OTP Sent Successfully");
+
+
+    
     }else{
       res.json({
         status:404,
@@ -877,18 +933,65 @@ module.exports = ({
     res.render('user/sendOtp',{user:true})
 },
 otpVerification : async (req,res)=>{
-   let {number: otp} = req.body
-   
-   const accountSid = "AC0e70c9e8e3caa07ed6329cccf0acf716" ;
-   const authToken ="fb457e6b81e7ddb2ddc86780f2b119c4";
-   const client = require('twilio')("AC0e70c9e8e3caa07ed6329cccf0acf716", "fb457e6b81e7ddb2ddc86780f2b119c4");
-   
-   client.verify.v2.services('SM88366c5b17d52f50ff2fdad9f131197e')
-                   .verifications
-                   .create({to: '+919744707392', channel: 'sms'})
-                   .then(verification => console.log(verification.sid));
+let {enteredOtp,phone,SendedOtp} = req.body 
+enteredOtp = parseInt(enteredOtp)
+SendedOtp = parseInt(SendedOtp)
 
+
+if(SendedOtp === enteredOtp){
+
+  const user = await getDb().collection('users').findOne({number:phone })
+
+  const userId = user._id 
+ //Token creation
+ const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+  expiresIn: "1d",
+});
+//storing in cookies
+res.cookie("userjwt", token, {
+  httpOnly: true,
+  sameSite: "lax",
+  secure: false,
+  maxAge: 24 * 60 * 60 * 1000,
+});
+
+
+  res.json({
+    status:200,
+    message:"success"
+  })
+}else{
+  res.json({
+    status:404,
+    message:"failed",
+    error:"OTP is incorrect"
+  })
 }
+
+
+},addAddress: async (req,res)=>{
+    
+  const userId = await jwt.verify(req.cookies.userjwt, process.env.JWT_SECRET).userId;
+
+let {name,address,phone,pin} = req.body
+
+ let Address = {
+  name:name,
+  Address:address,
+  phone:phone,
+  pin:pin,
+  id:ObjectId()
+ }
+  console.log(Address);
+
+   let updation = await getDb().collection('users').updateOne({ _id: ObjectId(userId) },{ 
+    $push:{address:Address}
+   })
+console.log(updation);
+ 
+res.redirect('/checkOut')
+
+},
 
 
 })

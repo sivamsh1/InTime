@@ -6,6 +6,7 @@ var logger = require('morgan');
 const hbs=require('express-handlebars');
 const helpers=require('handlebars-helpers')();
 const handlebars = require('handlebars');
+const colors=require('colors')
 
 
 
@@ -43,7 +44,7 @@ initDb((err, db) => {
   if (err) {
     console.log(err);
   } else {
-   console.log("\n \n mongo connection successfull \n \n");
+   console.log(`\n mongo connection successfull \n`.bold);
   }
 });
 

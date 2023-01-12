@@ -3,6 +3,7 @@ const router = express.Router();
 const userControllers = require('../controllers/userController')
 const authControllers = require('../controllers/authController');
 const { route } = require('./admin');
+const { getDb } = require('../db');
 
 
 
@@ -122,6 +123,9 @@ router.get('/sendOtp',userControllers.renderSendOtpPage)
 
 router.post('/otpVerification',userControllers.otpVerification)
 
+router.post('/addAddress',authControllers.isLoggedin,userControllers.addAddress)
+
+router.post('/numberVetify',authControllers.numberVerify)
 
 
 module.exports = router;      

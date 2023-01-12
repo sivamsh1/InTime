@@ -33,7 +33,6 @@
     <div class="paymentFormDiv">
 
 
-      <form method="post" action="/checkoutsubmit">
 
         <div class="modal-dialog" style="margin-left:0rem;" role="document">
           <div id="checkoutModal" class="modal-content">
@@ -41,12 +40,11 @@
               <h5 class="modal-title" id="modalHeader">
                 <h1 id="modalHeader2">Address</h1>
                 <div class="form-check">
-
+<form action="/addAddress" method="post" >
               </h5>
             </div>
             <div class="modal-body">
               <div class="card-body">
-                {{#user}}
                 <div class="col">
                   <labe class="form-label" for="form7Example1">Name</label>
                 </div>
@@ -54,42 +52,55 @@
 
               <!-- Text input -->
               <div class="form-outline mb-4">
-                <input name="name" type="text" id="form7Example4" class="form-control" value="{{this.Address.name}}"
-                  required />
+                <input name="name" type="text" id="form7Example4" class="form-control" 
+                 required >
                 <label class="form-label" for="form7Example4">Address</label>
               </div>
 
               <!-- Email input -->
               <div class="form-outline mb-4">
-                <input name="address" type="text" id="form7Example5" class="form-control"
-                  value="{{this.Address.address}}" required />
+                <input name="address" type="text" id="form7Example5" class="form-control" required >
               </div>
 
               <!-- Number input -->
               <div class="form-outline mb-4">
                 <label class="form-label" for="form7Example6">Phone</label>
-                <input name="phone" type="number" id="form7Example6" class="form-control" value="{{this.Address.phone}}"
-                  required />
+                <input name="phone" type="number" id="form7Example6" class="form-control" required >
               </div>
 
 
               <div class="form-outline mb-4">
                 <label class="form-label" for="form7Example6">Pin Code</label>
-                <input name="pin" type="number" id="form7Example6" class="form-control" value={{this.Address.pincode}}
-                  required />
+                <input name="pin" type="number" id="form7Example6" class="form-control" required >
               </div>
-              {{/user}}
-              <input name="userId" value={{userId}} hidden>
-              <input name="totalAmount" id="total" value={{totalAmount}} hidden>
 
             </div>
+        <button type="submit"  >Add Address</button>
 
           </div>
         </div><br>
+
+        </form>
+              <form method="post" action="/checkoutsubmit">
+
+<h3> <b> Address </b> </h3>
+<hr>
+<div class="address">
+
+{{#each Address}}
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="addressId" value="{{this.id}}">
+  <label class="form-check-label" for="flexRadioDefault1">
+ {{this.name}} ,{{this.Address}},{{this.phone}} 
+  </label>
+</div>
+{{/each}}
+<hr>
+<h3> <b> Payment </b> </h3>
+</div>
+               <input name="totalAmount" id="total" value={{totalAmount}} hidden>
+
         <div id="paymentmethod">
-
-
-
           <input type="radio" name="Paymentmethod" value="COD">
           <label class="form-check-label" for="flexRadioDefault1">
             Cash On Delivery

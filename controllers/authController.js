@@ -58,8 +58,9 @@ module.exports = ({
         if (dbEmail == null) {
           //Data Insertion
           let isValid = true;
+          let address = []
           password = await bcrypt.hash(password, 8)
-          await getDb().collection('users').insertOne({ name, email, password, number, isValid })
+          await getDb().collection('users').insertOne({ name, email, password, number, isValid,address })
           const user = await getDb().collection('users').findOne({ email })
           const userId = user._id;
     
@@ -198,11 +199,56 @@ if(req.cookies.userjwt){
    }
   },
   renderOtpLogin: async (req,res,next)=>{
-   console.log('okkkkkkk');
   res.render('user/otpLogin',{user:true})
+  },
+  numberVerify : async(req,res)=>{
+
+
+    let {number} = req.body
+
+    let isExistNumber = await getDb().collection('users').findOne({number:number })
+   
+    if(isExistNumber){
+
+      const accountSid = "AC0e70c9e8e3caa07ed6329cccf0acf716";
+      const authToken = "fb457e6b81e7ddb2ddc86780f2b119c4";
+      const client = require("twilio")(accountSid, authToken);
+      
+
+// Function to generate a random OTP
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000);
+}
+const otp = generateOTP();
+
+// Function to send the OTP via SMS
+async function sendOTP(toNumber) {
+  console.log(otp);
+
+    const accountSid = "AC0e70c9e8e3caa07ed6329cccf0acf716";
+    const authToken = "bd77f71d6db860983ce0fa9042529538";
+    const client = require("twilio")(accountSid, authToken);
+    
+    client.messages
+      .create({ body: `Your OTP is ${otp}`, from: "+13148974734", to:`+91${toNumber}`})
+      .then(message => console.log(message.sid));
+
+}
+
+// Usage:
+const toNumber = number;
+sendOTP(toNumber);
+console.log("OTP Sent Successfully");
+
+res.render('user/sendOtp',{user:true,otp,number})
+       
+    }else{
+      let errorss = "Please Enter Valid Number "
+      res.render('user/otpLogin',{user:true,errorss})
+    }
   }
 
-
+ 
 
 
 

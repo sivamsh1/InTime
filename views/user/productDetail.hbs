@@ -1,12 +1,50 @@
+<div class="container">
+  <div class="row ">
+
+    <div id="column-left" class="col-sm-4 col-lg-3" style="height:0rem;"  >
+      <div id="category-menu" class="navbar collapse in mb_40" aria-expanded="true"  role="button">
+        <div class="nav-responsive">
+          <div class="heading-part">
+            <h2 class="main_title">Images</h2>
+          </div>
+         <div>
+          <img src={{product.images.[0]}} alt="" style="height: 12rem;" >
+         </div><br>
+         <div>
+          <img src={{product.images.[1]}} alt="" style="height: 12rem;" >
+         </div><br>
+         <div>
+          <img src={{product.images.[2]}} alt="" style="height: 12rem;" >
+         </div><br>
+        </div>
+      </div>
+      <div class="filter left-sidebar-widget mb_50">
+        <div class="filter-block">
+
+          <div id="slider-range" class="mtb_20"></div>
+
+        </div>
+      </div>
+      <div class="left-special left-sidebar-widget mb_50">
+
+        <div id="left-special" class="owl-carousel">
 
 
+        </div>
+      </div>
+    </div>
 
-       {{>userSidebar}}
+
+       
+
 
         <div class="col-sm-8 col-lg-9 mtb_20">
-            
-                 <div class="row mt_10 ">
-            <div class="col-md-6">
+
+                 <div class="row mt_10 ">                   
+     <div class="col-md-6">
+
+       
+
               <div class="xzoom-container">
                    <img class="img-fluid" id="zoom"  style="height: 36rem;" src={{product.images.[0]}}>
                

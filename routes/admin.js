@@ -6,29 +6,12 @@ const adminControllers = require('../controllers/adminControllers')
 const authControllers = require('../controllers/authController')
 
 
-// upload = multer({
-//       storage: multer.diskStorage({}),
-//       fileFilter: (req, file, cb) => {
-//         let ext = path.extname(file.originalname)
-//         if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png" && ext !== ".webp") {
-//           cb(new Error("File type is not supported"), false)
-//           console.log('Its workinggggggggggggggggggggg');
-//           return
-//         }
-//         cb(null, true)
-//       }
-//     })
-
-
-
-
 upload = multer({
       storage: multer.diskStorage({}),
       fileFilter: (req, file, cb) => {
         let ext = path.extname(file.originalname)
         if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png" && ext !== ".webp") {
           cb(new Error("File type is not supported"), false)
-          console.log('Its workinggggggggggggggggggggg');
           return
         }
         cb(null, true)
