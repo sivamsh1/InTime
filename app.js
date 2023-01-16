@@ -1,8 +1,8 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const hbs=require('express-handlebars');
 const helpers=require('handlebars-helpers')();
 const handlebars = require('handlebars');
@@ -10,12 +10,12 @@ const colors=require('colors')
 
 
 
-var userRouter = require('./routes/users');
+const userRouter = require('./routes/users');
 const adminrouter = require('./routes/admin')
 const {initDb}= require('./db')
 const dotenv=require('dotenv')
 dotenv.config({path:"./config.env"})
-var app = express();
+const app = express();
 
 
 

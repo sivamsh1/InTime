@@ -68,7 +68,9 @@
                     <li class="col-md-3">
                       <ul>
                         {{#each category}}
-                        <li><a class="collectionLink" href="/category/{{this.name}}">{{this.name}}</a></li>
+                                {{#if this.listed}}
+                                 <li><a class="collectionLink" href="/category/{{this.name}}">{{this.name}}</a></li>
+                                 {{/if}}
                         {{/each}}
                       </ul>
                     </li>

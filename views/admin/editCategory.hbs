@@ -4,7 +4,7 @@
 
 
 
-
+{{!-- 
 
 <div class="container-fluid position-relative d-flex p-0">
     <!-- Spinner Start -->
@@ -52,6 +52,72 @@
                         
   
       </form>
+
+
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div> --}}
+
+
+
+
+
+
+
+
+
+
+    
+
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.js"></script>
+     
+
+
+
+<div class="container-fluid position-relative d-flex p-0 ">
+
+    <!-- Content Start -->
+    <div class="content  ">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+            <a href="/admin" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+        </nav>
+        <!-- Navbar End -->
+        <div class="container">
+            <div class="col-12 border border-black " style="margin-top:3rem">
+                <div class="bg-secondary rounded h-100 p-4">
+                <div class="container">
+
+ <form  id="form" style="margin-left:18rem;width:19rem" >
+
+      <h3 style="color:cornflowerblue;" >Category Edit Page</h3>
+      <hr>
+                          <label for="">Category Name:</label><br>
+                          <input type="text" name="name" id="category name" tabindex="1" class="form-control"
+                            value={{category.name}} required>
+                            <input type="hidden" name="categoryId" value={{category._id}} >
+                          <label for="">Category Description</label>
+                          <textarea name="description" id="description" class="form-control"
+                            required>{{category.description}}</textarea>
+                          <p id="errorId" class="text-danger"></p>
+
+                          
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                        
+  
+      </form>
+
 
 
                 </div>

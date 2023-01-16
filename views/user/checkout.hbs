@@ -15,109 +15,171 @@
   #checkoutDiv {
     position: absolute;
     left: 62rem;
-    top: 3rem;
+    top: -44rem;
     height: 36rem;
   }
 
-  #ctr {
-    position: relative;
 
+
+ 
+
+  #paymentmethod {
+    position: absolute;
+    left: 68rem;
+    top: -2rem;
+  }
+
+  .address {
+    height: 24rem;
+  }
+
+  .addressColor {
+    color: black;
+  }
+
+  .color {
+    color: black;
+    !important
+  }
+
+  .checkoutButton {
+    background: gainsboro;
+    position: absolute;
+    left: 1rem;
+    top: 19rem;
+    width: 17rem;
+    border: 1rem
+  }
+
+  .checkOUT {
+    height: 85rem;
   }
 </style>
 
 
 
-<div id="ctr" class="container">
-  <div class="row ">
+<div  class="container">
+  <div class="row checkOUT ">
 
-    <div class="paymentFormDiv">
+    
 
 
+
+      <div class="modal-dialog" style="margin-left:0rem;" role="document">
+        <div id="checkoutModal" class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalHeader">
+              <h1 id="modalHeader2"> Add Address</h1>
+              <div class="form-check">
+                <form action="/addAddress" method="post">
+            </h5>
+          </div>
+          <div class="modal-body">
+            <div class="card-body">
+              <div class="col">
+                <labe class="form-label" for="form7Example1">Name</label>
+              </div>
+            </div>
+
+            <!-- Text input -->
+            <div class="form-outline mb-4">
+              <input name="name" type="text" id="form7Example4" class="form-control" required>
+              <label class="form-label" for="form7Example4">Address</label>
+            </div>
+
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+              <input name="address" type="text" id="form7Example5" class="form-control" required>
+            </div>
+
+            <!-- Number input -->
+            <div class="form-outline mb-4">
+              <label class="form-label" for="form7Example6">Phone</label>
+              <input name="phone" type="number" id="form7Example6" class="form-control" required>
+            </div>
+
+
+            <div class="form-outline mb-4">
+              <label class="form-label" for="form7Example6">Pin Code</label>
+              <input name="pin" type="number" id="form7Example6" class="form-control" required>
+            </div>
+
+          </div>
+          <button type="submit">Add Address</button>
+
+        </div>
+      </div>
+      <br>
+
+      </form>
+      <form method="post" action="/checkoutsubmit">
 
         <div class="modal-dialog" style="margin-left:0rem;" role="document">
-          <div id="checkoutModal" class="modal-content">
+          <div id="checkoutModal" class="modal-content" style="margin-top: -3rem;">
             <div class="modal-header">
               <h5 class="modal-title" id="modalHeader">
-                <h1 id="modalHeader2">Address</h1>
+                <h1 id="modalHeader2"> Select Address</h1>
                 <div class="form-check">
-<form action="/addAddress" method="post" >
               </h5>
             </div>
             <div class="modal-body">
-              <div class="card-body">
-                <div class="col">
-                  <labe class="form-label" for="form7Example1">Name</label>
-                </div>
+
+
+              {{#each Address}}
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="addressId" value="{{this.id}}">
+                <label class="form-check-label" for="flexRadioDefault1" style="color: black;">
+                  {{this.name}} ,{{this.Address}},
+                </label> <br><br>
               </div>
+              {{/each}}
+              <hr>
+              <input name="totalAmount" id="total" value={{totalAmount}} hidden>
 
-              <!-- Text input -->
-              <div class="form-outline mb-4">
-                <input name="name" type="text" id="form7Example4" class="form-control" 
-                 required >
-                <label class="form-label" for="form7Example4">Address</label>
+            </div>
+
+          </div>
+        </div>
+
+        <div id="paymentmethod">
+          <div class="modal-dialog" style="margin-left:-6rem; margin-top:2rem " role="document">
+            <div id="checkoutModal" class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalHeader">
+                  <h1 id="modalHeader2"> Select Payment Method</h1>
+                  <div class="form-check">
+                </h5>
               </div>
+              <div class="modal-body">
 
-              <!-- Email input -->
-              <div class="form-outline mb-4">
-                <input name="address" type="text" id="form7Example5" class="form-control" required >
-              </div>
+                <input type="radio" name="Paymentmethod" value="COD">
+                <label class="form-check-label color " for="flexRadioDefault1">
+                  Cash On Delivery
+                </label><br><br>
 
-              <!-- Number input -->
-              <div class="form-outline mb-4">
-                <label class="form-label" for="form7Example6">Phone</label>
-                <input name="phone" type="number" id="form7Example6" class="form-control" required >
-              </div>
+                <input type="radio" name="Paymentmethod" value="Paypal">
+                <label class="form-check-label color " for="flexRadioDefault1">
+                  Paypal
+                </label><br><br>
+
+                <input type="radio" name="Paymentmethod" value="Razorpay">
+                <label class="form-check-label color " for="flexRadioDefault1">
+                  Razorpay
+                </label><br><br>
+
+                <input type="radio" name="Paymentmethod" value="stripe">
+                <label class="form-check-label color " for="flexRadioDefault1">
+                  Stripe
+                </label><br><br>
 
 
-              <div class="form-outline mb-4">
-                <label class="form-label" for="form7Example6">Pin Code</label>
-                <input name="pin" type="number" id="form7Example6" class="form-control" required >
+                <button class="btn checkoutButton " type="submit">Checkout </button>
+
+
               </div>
 
             </div>
-        <button type="submit"  >Add Address</button>
-
           </div>
-        </div><br>
-
-        </form>
-              <form method="post" action="/checkoutsubmit">
-
-<h3> <b> Address </b> </h3>
-<hr>
-<div class="address">
-
-{{#each Address}}
-<div class="form-check">
-  <input class="form-check-input" type="radio" name="addressId" value="{{this.id}}">
-  <label class="form-check-label" for="flexRadioDefault1">
- {{this.name}} ,{{this.Address}},{{this.phone}} 
-  </label>
-</div>
-{{/each}}
-<hr>
-<h3> <b> Payment </b> </h3>
-</div>
-               <input name="totalAmount" id="total" value={{totalAmount}} hidden>
-
-        <div id="paymentmethod">
-          <input type="radio" name="Paymentmethod" value="COD">
-          <label class="form-check-label" for="flexRadioDefault1">
-            Cash On Delivery
-          </label><br>
-
-          <input type="radio" name="Paymentmethod" value="Paypal">
-          <label class="form-check-label" for="flexRadioDefault1">
-            Paypal
-          </label><br>
-
-          <input type="radio" name="Paymentmethod" value="Razorpay">
-          <label class="form-check-label" for="flexRadioDefault1">
-            Razorpay
-          </label><br>
-
-
-          <button class="btn" type="submit">Confirm Order</button>
 
         </div>
 
@@ -125,62 +187,62 @@
 
     </div>
 
-<form id="form">
-    <div class="modal-dialog" style="margin-left:0rem;" role="document" id="checkoutDiv">
-      <div id="checkoutModal" class="modal-content" style="height:35.5rem;">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalHeader">
-            <h1 id="modalHeader2"> Checkout</h1>
-            <div class="form-check">
+    <form id="form">
+      <div class="modal-dialog" style="margin-left:0rem;" role="document" id="checkoutDiv">
+        <div id="checkoutModal" class="modal-content" style="height:38rem;">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalHeader">
+              <h1 id="modalHeader2"> Apply Coupon</h1>
+              <div class="form-check">
 
-          </h5>
-        </div> <br><br>
-        <h3 id="modalHeader2">Total Amount :<span id="totalAmount" > {{totalAmount}} </span> </h3><br>
-        <h3 id="modalHeader2">Enter Coupon Code If You have:</h3><br>
-        <input name="coupon" type="text" id="form7Example6" class="form-control" required /><br>
-        <p id="errorId"></p><br>
-        <button type="submit" >Apply Coupon</button>
+            </h5>
+          </div> <br><br>
+          <h3 id="modalHeader2">Total Amount :<span id="totalAmount"> {{totalAmount}} </span> </h3><br>
+          <h3 id="modalHeader2">Enter Coupon Code If You have:</h3><br>
+          <input name="coupon" type="text" id="form7Example6" class="form-control" required /><br>
+          <p id="errorId"></p><br>
+          <button type="submit">Apply Coupon</button>
+        </div>
+
       </div>
-
-    </div>
     </form>
 
   </div>
 
 </div>
-</div>
-</div>
-</div>
 
+</div>
+</div>
+</div>
 
 
 <script>
-    const form = document.getElementById("form")
-     form.addEventListener('submit',async (e)=>{ 
-     e.preventDefault()
-     const data = new FormData(form)
-     const formData = {}
-     data.forEach((data,i)=>{
-       formData[i] = data
-     })
-     const res = await axios.post("/addcoupon",formData)
-     if(res.data.message=="success"){
-           document.getElementById("totalAmount").textContent=res.data.total
-           document.getElementById("total").value=res.data.total
-           Toastify({
-                text: "Coupon Is added",
-                duration: 3000,
-                gravity: "bottom",
-                position: "center",  
-                style: {
-                    background: ' #FFFFFF' ,
-                    color:"#000000"
-                },
-            }).showToast();
+  const form = document.getElementById("form")
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const data = new FormData(form)
+    const formData = {}
+    data.forEach((data, i) => {
+      formData[i] = data
+    })
+    const res = await axios.post("/addcoupon", formData)
+    if (res.data.message == "success") {
+      document.getElementById("totalAmount").textContent = res.data.total
+      document.getElementById("total").value = res.data.total
+      Toastify({
+        text: "Coupon Is added",
+        duration: 3000,
+        gravity: "bottom",
+        position: "center",
+        style: {
+          background: ' #FFFFFF',
+          color: "#000000"
+        },
+      }).showToast();
 
-     }else{
-     document.getElementById("errorId").textContent=res.data.error
-     }
-     
+    } else {
+      document.getElementById("errorId").textContent = res.data.error
+    }
+
   })
 </script>

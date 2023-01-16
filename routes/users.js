@@ -8,6 +8,7 @@ const { getDb } = require('../db');
 
 
 
+
 // Home page
 router.get('/', authControllers.blockedAuthentication, userControllers.renderHomepage)
 

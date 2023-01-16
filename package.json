@@ -26,6 +26,7 @@
     "multer": "^1.4.5-lts.1",
     "path": "^0.12.7",
     "paypal-rest-sdk": "^1.8.1",
+    "stripe": "^11.6.0",
     "twilio": "^2.5.2"
   },
   "devDependencies": {

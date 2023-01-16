@@ -1,30 +1,4 @@
 
-{{!-- 
-<div class="container">
-
- <form id="formnvnv" action="/admin/editproduct/{{Product._id}}" method="post" style="margin-left:18rem;width:19rem" >
-        <label for="">Product Name:</label><br>
-         <input type="text" name="name" id="username1" tabindex="1" class="form-control" value={{Product.name}} required>
-        <label for="">Category Name:</label><br>
-          <select  style="width:18.8rem;"  name="category"> 
-          {{#each categoryDatas }}
-          <option>{{this.name}}</option>
-          {{/each}}
-        <label for="">Price:</label><br>
-         <input type="text" name="price" id="username1" tabindex="1" class="form-control" value={{Product.price}} required>
-         <label for="">Brand </label>
-         <input type="text" name="brand" id="description" class="form-control" value={{Product.brand}}  required>
-         <label for="">Image: </label><br>
-         <img src={{Product.images}} style="height:71px;width:88px" ><br><br>
-         <input type="file" id="description" style="width: 18.9rem;" value={{Product.brand}} class="form-control" >
-         <input type="hidden" name="image" id="description" style="width: 18.9rem;" value={{Product.images}} class="form-control" >
-         <p id="errorId" ></p>
-           <p>{{errorr}}</p>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-
-
-      </div> --}}
 
 
 
@@ -36,17 +10,10 @@
 
 
 
-<div class="container-fluid position-relative d-flex p-0">
-    <!-- Spinner Start -->
-    <div id="spinner"
-        class="show bg-light position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div>
-    <!-- Spinner End -->
+<div class="container-fluid position-relative d-flex p-0 ">
+
     <!-- Content Start -->
-    <div class="content">
+    <div class="content  ">
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
             <a href="/admin" class="navbar-brand d-flex d-lg-none me-4">
@@ -58,22 +25,28 @@
         </nav>
         <!-- Navbar End -->
         <div class="container">
-            <div class="col-12" style="margin-top:3rem">
+            <div class="col-12 border border-black " style="margin-top:3rem">
                 <div class="bg-secondary rounded h-100 p-4">
                 <div class="container">
 
 
 
 
-       <form  action="/admin/editproduct/{{Product._id}}"  enctype="multipart/form-data" autocomplete="off"   method="post" style="margin-left:18rem;width:19rem" >
+       <form  action="/admin/editproduct/{{Product._id}}"  enctype="multipart/form-data" autocomplete="off"   method="post" style="margin-left:6rem;width:52rem">
+
+           <h3 style="color: black;    font-family: serif;" >Edit Product</h3>
+   <hr style="color: black;"  >
+
         <label for="">Product Name:</label><br>
          <input type="text" name="name" id="username1" tabindex="1" class="form-control" value={{Product.name}} required>
         <label for="">Category Name:</label><br>
-          <select  style="width:18.8rem;"  name="category"> 
+          <select  style="width:51.8rem;"  name="category">  
           {{#each categoryDatas }}
           <option>{{this.name}}</option>
-          {{/each}}
-        <label for="">Price:</label><br>
+          {{/each}} 
+         </select>
+        <label for="price">Price:</label><br>
+        
          <input type="text" name="price" id="username1" tabindex="1" class="form-control" value={{Product.price}} required>
          <label for="">Brand </label>
          <input type="text" name="brand" id="description" class="form-control" value={{Product.brand}}  required>
@@ -86,13 +59,13 @@
 
             <div class="d-flex">
 
-            <div class="mt-5  col-md-4">
+            <div class=" col-md-4"  style=" margin-left: 13rem; margin-top: -10rem;" >
                 <label for="productimage" class="">
                 Image
                 </label>
 
                 <input type="file"  id="id_image1" name="image1" accept="image/*" class="form-control"
-                onchange="viewImage1(event)" style="width:100%;"><br>
+                onchange="viewImage1(event)" style="width:44rem;margin-left:-5rem"><br>
                 <img src="" id="imgView1" alt="" class="clr" style="height:100px">
 
                 <div class="vald-info" id="info"></div>

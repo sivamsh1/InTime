@@ -18,24 +18,32 @@
         </nav>
         <!-- Navbar End -->
         <div class="container">
-            <div class="col-12" style="margin-top:3rem">
+            <div class="col-12 border border-black " style="margin-top:3rem">
                 <div class="bg-secondary rounded h-100 p-4">
                 <div class="container">
 
 
 
-    <form id="form" enctype="multipart/form-data"  autocomplete="off"  action="/admin/addproduct" method="post" style="margin-left:18rem;width:19rem" >
+    <form id="form" enctype="multipart/form-data"  autocomplete="off"  action="/admin/addproduct" method="post" style="margin-left:6rem;width:52rem" >
+ 
+   <h3 style="color: black;    font-family: serif;" >Add Product</h3>
+   <hr style="color: black;"  >
+
             <label for="">Product Name:</label><br>
             <input type="text" name="name" id="username1" tabindex="1" class="form-control" placeholder="Enter Product Name" required>
             <label for="category">Select Category:</label><br>
-            <select  style="width:18.8rem;"  name="category"> 
+            <select  style="width:51.8rem;"  name="category"> 
             {{#each categoryDatas }}
+ 
+  {{#if this.listed}}
                 <option >{{this.name}}</option>
+  {{/if}}             
+               
                 {{/each}}
             
             </select><br>
             <label for="">Price:</label><br>
-            <input type="number" name="price" id="username1" tabindex="1" class="form-control" placeholder="Enter Price" style= " width:19rem " required>
+            <input type="number" name="price" id="username1" tabindex="1" class="form-control" placeholder="Enter Price" style= " width:52rem " required>
             <label for="">Brand </label>
             <input type="text" name="brand" id="description" class="form-control" placeholder="Enter Brand" required>
      
@@ -97,7 +105,7 @@
                 </label>
 
                 <input type="file" required id="id_image3" name="image3" accept="image/*" class="form-control"
-                onchange="viewImage3(event)" style="width:100%;"><br>
+                onchange="viewImage3(event)" style="width:100%; margin-left: 1rem "><br>
                 <img src="" id="imgView3" class="clr" alt="" style="height:100px">
 
                 <div class="vald-info" id="info"></div>

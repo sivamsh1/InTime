@@ -41,8 +41,15 @@
                   <td>{{this.description}}</td>
                   <td>
                     <a class="btn btn-primary" href="/admin/editBrand/{{this._id}}" > <i class="fas fa-edit"></i></a>
-                    <button data-bs-toggle="modal" data-bs-target="#delete{{inc @index}}"> <i
-                        class="fas fa-trash"></i></button>
+                   
+
+                            {{#if this.listed}}
+                                        <a href="/admin/unlistBrand/{{this._id}}"><i class="fa-solid fa-eye"></i></a>
+                                        {{else}}
+                                        <a href="/admin/listedBrand/{{this._id}}"><i
+                                                class="fa-sharp fa-solid fa-eye-slash"></i></a>
+                                        {{/if}} 
+ 
                   </td>
                 </tr>
 
@@ -81,31 +88,7 @@
                 </div>
 
 
-                {{!-- delete modal --}}
-                <div class="modal fade" id="delete{{inc @index}}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                  aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title text-dark" id="exampleModalLabel">Delete Category</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        {{#if this.productCount}}
-                        <h5 class="text-dark">There are {{this.productCount}} products in this category.Are you sure?
-                        </h5>
-                        {{else}}
-                        <h5 class="text-dark">Are you sure?</h5>
-                        {{/if}}
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <a href="/admin/Branddelete/{{this._id}}"> <button type="button"
-                            class="btn btn-danger">delete</button></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              
                 {{/each}}
               </tbody>
             </table>
@@ -120,8 +103,8 @@
       <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
-    <script src="/validations/editCategory.js"></script>
 
+    <script src="/validations/editCategory.js"></script>
 
 
 

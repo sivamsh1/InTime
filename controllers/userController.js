@@ -7,14 +7,14 @@ const multer = require("multer")
 const { ObjectId } = require('mongodb');
 const paypal = require('paypal-rest-sdk');
 const { checkout } = require('../routes/users');
-
+const { config } = require('dotenv');
 paypal.configure({
   'mode': 'sandbox', //sandbox or live
   'client_id': 'AUFHI7HTEu0_5eU0l5A8liBeOvo2VdZk8bpxEimqZBctwFb1_B3DOfrKEwStiS1E3FGCZofjlU0PDaXk',
   'client_secret': 'EKSfRdbLkmXABaadk1pO6zRq3YHsZcaOok0-AcF0LuBYQ33cGIzOs8A5SQe3ixJ8jSBCs391AXwtklnc'
 });
 
-
+    
 
 module.exports = ({
   renderHomepage: async (req, res, next) => {
@@ -356,8 +356,6 @@ module.exports = ({
   subTotal = subTotal-price
  }
   
-
-
       res.json({
         status: 200,
         message: "success",
@@ -420,7 +418,6 @@ module.exports = ({
     ]).toArray()
     
     const Address = User[0].address
-    console.log(Address);
 
 
     //Taking the product array same as in the cart 
@@ -452,6 +449,9 @@ module.exports = ({
 
 
     ]).toArray()
+
+    console.log(products);
+
     let totalAmount = order.totalAmount
     totalAmount = parseInt(totalAmount)
     // let status =  order.Paymentmethod==="COD"?'placed':'Pending'
@@ -473,7 +473,6 @@ module.exports = ({
 
     }
 
-    console.log(Address);
     //Ading items to order collection
     await getDb().collection('orders').insertOne(orderObj)
     //Ading address to users list
@@ -501,10 +500,10 @@ module.exports = ({
         "transactions": [{
           "item_list": {
             "items": [{
-              "name": "Redhock Bar Soap",
+              "name": "InTime Watches",
               "sku": "001",
-              "price": "25.00",
-              "currency": "USD",
+              "price": totalAmount,
+              "currency": "RS",
               "quantity": 1
             }]
           },
@@ -512,7 +511,7 @@ module.exports = ({
             "currency": "USD",
             "total": "25.00"
           },
-          "description": "Washing Bar soap"
+          "description": "Watch"
         }]
       }
 
@@ -528,6 +527,51 @@ module.exports = ({
           }
         }
       });
+    }else if(order.Paymentmethod == "stripe"){
+
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY
+const stripePublicKey = process.env.STRIPE_PUBLIC_KEY
+///////////////////////////////
+
+
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
+
+let stripeTotalamount = orderObj.totalAmount
+
+let  items =  [
+  { id: 1, quantity: 1,priceInCent: stripeTotalamount,name: "InTime Product" },
+]
+
+try {
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    mode: "payment",
+    line_items: items.map(item => {
+      return {
+        price_data: {
+          currency: "inr",
+          product_data: {
+            name:item.name,
+          },
+          unit_amount:item.priceInCents,
+        },
+        quantity: item.quantity,
+      }
+    }),
+    success_url: `http://localhost:5000/successpage`,
+    cancel_url: `http://localhost:5000`,
+
+  })
+  res.redirect(session.url)
+} catch (e) {
+  res.status(500).json({ error: e.message })
+}
+
+    
+
+
+///////////////////////////////////////////////////////////
+      
     }
 
 
@@ -734,9 +778,10 @@ module.exports = ({
       let offer = existCoupon.discount
       offerAmount = totalAmount * (offer / 100)
       let validAmount = existCoupon.MaxAmount >= offerAmount
-
-
-
+      let minAmount = totalAmount >= existCoupon.minAmount
+   
+   
+if (minAmount){
 
       if (validAmount) {
 
@@ -799,11 +844,6 @@ module.exports = ({
 
       } else {
 
-
-
-
-
-
         const userId = await jwt.verify(req.cookies.userjwt, process.env.JWT_SECRET).userId;
 
         // Total Amount
@@ -862,6 +902,16 @@ module.exports = ({
 
 
       }
+
+
+    }else{
+      res.json({
+        status: 404,
+        message: "failed",
+        error: `Coupon is only valid for above ${ existCoupon.minAmount}  Purchases `
+      })
+
+    }      
 
 
     } else {
@@ -995,9 +1045,6 @@ res.redirect('/checkOut')
 
 
 })
-
-
-
 
 
 

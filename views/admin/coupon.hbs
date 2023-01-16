@@ -26,6 +26,7 @@
                                 <th scope="col">Discount</th>
                                 <th scope="col">Expire On</th>
                                 <th scope="col">MaxAmount</th>
+                                <th scope="col">MinAmount</th>
                                 <th scope="col">Handle</th>
                             </tr>
                         </thead>
@@ -37,6 +38,7 @@
                                 <td>{{this.discount}}%</td>
                                 <td>{{this.expiryDate}}</td>
                                 <td>{{this.MaxAmount}}</td>
+                                <td>{{this.minAmount}}</td>
                                 <td><button data-bs-toggle="modal" data-bs-target="#hui{{inc @index}}"><i
                                             class="fas fa-edit"></i></button>
 
@@ -74,6 +76,11 @@
                                                             <label for="MaxAmount" class="col-form-label">Maximum Amount</label>
                                                             <input type="number" class="form-control" id="MaxAmount"
                                                                 name="MaxAmount" value="{{this.MaxAmount}}" required >
+                                                        </div>
+                                                        <div class="mb-1">
+                                                            <label for="minAmount" class="col-form-label">Minimum Amount</label>
+                                                            <input type="number" class="form-control" id="MaxAmount"
+                                                                name="minAmount" value="{{this.minAmount}}" required >
                                                         </div>
 
                                                     </div>
@@ -126,6 +133,10 @@
                             <div class="mb-1">
                                 <label for="MaxAmount" class="col-form-label">Maximum Amount</label>
                                 <input type="number" class="form-control" id="MaxAmount" name="MaxAmount" required >
+                            </div><br>
+                            <div class="mb-1">
+                                <label for="minAmount" class="col-form-label">Minimum Purchase Amount </label>
+                                <input type="number" class="form-control" id="MaxAmount" name="minAmount" required >
                             </div><br>
                               <p id="error" class="text-danger" ></p>
                         </div>

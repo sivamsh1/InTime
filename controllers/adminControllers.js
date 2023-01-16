@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const bcrypt = require("bcrypt");
 const { getDb } = require('../db');
 const { ObjectId } = require('mongodb');
@@ -118,7 +118,8 @@ categorychecking:async (req, res) => {
           })
     } else {
           //Data Insertion
-          const Insertion = await getDb().collection('category').insertOne({ name: name, description: description })
+          name = name.toUpperCase()
+          const Insertion = await getDb().collection('category').insertOne({ name: name, description: description,listed:true })
           console.log(Insertion);
           res.json({
                 status: 200,
@@ -580,9 +581,10 @@ renderCoupon : async (req, res) => {
     res.render("admin/coupon", { admin: true, coupons })
 },
 addCoupon:async (req, res) => {
-    let { name, discount, expiryDate, MaxAmount } = req.body
+    let { name, discount, expiryDate, MaxAmount,minAmount } = req.body
     discount = parseInt(discount)
     MaxAmount = parseInt(MaxAmount)
+    minAmount = parseInt(minAmount)
     name = name.toUpperCase()
 
     const isExistCoupon = await getDb().collection('coupons').findOne({ name : name })
@@ -595,7 +597,7 @@ addCoupon:async (req, res) => {
                       })
  }else{
 
-    const Insertion = await getDb().collection('coupons').insertOne({ name: name, discount: discount, expiryDate: expiryDate, MaxAmount: MaxAmount })
+    const Insertion = await getDb().collection('coupons').insertOne({ name: name, discount: discount, expiryDate: expiryDate, MaxAmount: MaxAmount,minAmount:minAmount })
     res.json({
           status: 200,
           message: "success"
@@ -612,14 +614,41 @@ deleteCoupon:async (req, res) => {
 },
 editCoupon: async (req, res) => {
     const couponId = req.params.id
-    let { name, discount, expiryDate, MaxAmount } = req.body
+    let { name, discount, expiryDate, MaxAmount ,minAmount} = req.body
     console.log(req.body);
     MaxAmount = parseInt(MaxAmount)
+    minAmount= parseInt(minAmount)
   name = name.toUpperCase()
-    const updation = await getDb().collection('coupons').updateOne({ _id: ObjectId(couponId) }, { $set: { name: name, discount: discount, expiryDate: expiryDate, MaxAmount: MaxAmount } });
+    const updation = await getDb().collection('coupons').updateOne({ _id: ObjectId(couponId) }, { $set: { name: name, discount: discount, expiryDate: expiryDate, MaxAmount: MaxAmount,minAmount:minAmount } });
     res.redirect('/admin/coupon')
 
-}
+},listCategory: async (req,res)=>{
+let categoryId= req.params.id
+let updation = await getDb().collection('category').updateOne({_id:ObjectId(categoryId)},{$set:{listed:true}})
+console.log(updation);
+
+res.redirect('/admin/category')
+},unlistCategory: async (req,res)=>{
+      let categoryId= req.params.id
+      let updation = await getDb().collection('category').updateOne({_id:ObjectId(categoryId)},{$set:{listed:false}})
+      console.log(updation);
+      
+      res.redirect('/admin/category')
+ },
+ listBrand: async (req,res)=>{
+      console.log("okkkkkkkk");
+      let brandId= req.params.id
+      let updation = await getDb().collection('brand').updateOne({_id:ObjectId(brandId)},{$set:{listed:true}},{upsert:true})
+      
+      res.redirect('/admin/brand')
+      },unlistBrand: async (req,res)=>{
+
+            let brandId= req.params.id
+      
+            let updation = await getDb().collection('brand').updateOne({_id:ObjectId(brandId)},{$set:{listed:false}},{upsert:true})
+            
+            res.redirect('/admin/brand')
+       }
 
 
 })

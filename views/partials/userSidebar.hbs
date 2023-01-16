@@ -9,7 +9,9 @@
           </div>
           <ul class="nav  main-navigation collapse in">
             {{#each category}}
-            <li><a href="/category/{{this.name}}">{{this.name}}</a></li>
+                    {{#if this.listed}}
+                         <li><a href="/category/{{this.name}}">{{this.name}}</a></li>
+                    {{/if}}
             {{/each}}
           </ul>
           <hr>

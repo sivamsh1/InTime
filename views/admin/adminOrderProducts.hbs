@@ -73,7 +73,7 @@
                       {{#each orderProducts}}
                                 <tr>
                                     <td scope="row">{{inc @index}}</td>
-                                     <td class="text-center"><a href="#"><img src={{this.product.images}} style="width: 10rem; height: 7rem;"></a>            
+                                     <td class="text-center"><a href="#"><img src={{this.product.images.[0]}} style="width: 7rem; height:5rem;margin-left:-1rem "></a>            
                                     <td>{{this.product.name}}</td>            
                                     <td>{{this.product.brand}}</td>            
                                     <td>{{this.quantity}}</td>                    

@@ -1,25 +1,26 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const multer = require('multer')
 const path = require('path')
 const adminControllers = require('../controllers/adminControllers')
-const authControllers = require('../controllers/authController')
+const authControllers = require('../controllers/authController');
+const { getDb } = require('../db');
 
 
 upload = multer({
       storage: multer.diskStorage({}),
       fileFilter: (req, file, cb) => {
-        let ext = path.extname(file.originalname)
-        if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png" && ext !== ".webp") {
-          cb(new Error("File type is not supported"), false)
-          return
-        }
-        cb(null, true)
+            let ext = path.extname(file.originalname)
+            if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png" && ext !== ".webp") {
+                  cb(new Error("File type is not supported"), false)
+                  return
+            }
+            cb(null, true)
       }
-    })
+})
 
 //Admin Home
-router.get('/',adminControllers.adminHomeRendering)
+router.get('/', adminControllers.adminHomeRendering)
 
 //Admin Login Page
 router.route('/login')
@@ -59,7 +60,7 @@ router.route('/category')
 
 
 // User Logout
-router.get('/logout',adminControllers.adminLogout)
+router.get('/logout', adminControllers.adminLogout)
 
 // Delete category
 
@@ -72,12 +73,12 @@ router.route('/cdelete/:id')
 
 router.route('/addproduct')
       .get(adminControllers.renderaddProduct)
-      .post( upload.fields([
+      .post(upload.fields([
             { name: 'image1', maxCount: 1 },
             { name: 'image2', maxCount: 1 },
             { name: 'image3', maxCount: 1 },
             //multer code
-          ]),adminControllers.addProduct)
+      ]), adminControllers.addProduct)
 
 
 router.route('/deleteproduct/:id')
@@ -91,12 +92,11 @@ router.post('/editproduct/:id', upload.fields([
       { name: 'image2', maxCount: 1 },
       { name: 'image3', maxCount: 1 },
       //multer code
-    ]),adminControllers.editProduct)
+]), adminControllers.editProduct)
 
 
 
 // Admin Orders
-
 
 router.route('/orders')
       .get(adminControllers.renderOrders)
@@ -109,7 +109,7 @@ router.get('/cancellorders/:id', adminControllers.cancellOrder)
 
 
 //View order list
-router.get('/vieworders/:id',adminControllers.renderViewOrders)
+router.get('/vieworders/:id', adminControllers.renderViewOrders)
 
 //Return Orders
 
@@ -122,7 +122,7 @@ router.route('/report')
 
 
 
-router.get('/editCategory/:id',adminControllers.renderEditCategory)
+router.get('/editCategory/:id', adminControllers.renderEditCategory)
 
 router.post('/editCategory', adminControllers.editCategory)
 
@@ -156,7 +156,7 @@ router.get('/unlisted/:id', adminControllers.unlistingProducts);
 
 //Chane Order Status
 
-router.post('/change-order-status/:id',adminControllers.changeOrderStatus)
+router.post('/change-order-status/:id', adminControllers.changeOrderStatus)
 
 
 
@@ -170,15 +170,15 @@ router.post('/addProductOffer', adminControllers.addProductOffer)
 
 
 //Add category Offer
-router.post('/addCategoryOffer',adminControllers.addCategoryOffer)
+router.post('/addCategoryOffer', adminControllers.addCategoryOffer)
 
 
 // delete product  offer
-router.get('/deleteProductOffer/:id',adminControllers.deleteProductOffer)
+router.get('/deleteProductOffer/:id', adminControllers.deleteProductOffer)
 
 // Delete Category offer
 
-router.get('/deleteCategoryOffer/:id',adminControllers.deleteCategoryOffer)
+router.get('/deleteCategoryOffer/:id', adminControllers.deleteCategoryOffer)
 
 //Render Coupon
 
@@ -194,7 +194,54 @@ router.get('/deletecoupon/:id', adminControllers.deleteCoupon)
 
 //edit coupon
 
-router.post('/editCoupon/:id',adminControllers.editCoupon)
+router.post('/editCoupon/:id', adminControllers.editCoupon)
+
+//List Category
+router.get('/listedCategory/:id', adminControllers.listCategory)
+
+//unList Category
+router.get('/unlistCategory/:id', adminControllers.unlistCategory)
+
+
+//List Brand
+router.get('/listedBrand/:id', adminControllers.listBrand)
+
+//unList Brand
+router.get('/unlistBrand/:id', adminControllers.unlistBrand)
+
+
+//Sales Report
+router.get('/sales-report',async (req,res)=>{
+let {start,end} = req.query
+
+start = new Date(start)
+end = new Date(end)
+
+start = start.toISOString()
+
+console.log(start,end);
+
+
+console.log(start);
+
+let Datas = await getDb().collection('orders').aggregate([
+      {
+        $match:
+          
+          {
+            detailedDate: {
+              $gte:start,
+              $lte: end, 
+            },
+            status:"delivered"
+          },
+      },
+    ]).toArray()
+
+    console.log(Datas);
+
+})
+
 
 
 
@@ -202,3 +249,7 @@ router.post('/editCoupon/:id',adminControllers.editCoupon)
 
 
 module.exports = router;
+
+
+
+   

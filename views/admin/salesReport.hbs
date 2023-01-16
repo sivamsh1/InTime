@@ -1,7 +1,5 @@
 
 
-
-
       <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -27,8 +25,13 @@
                             <h3 class="mb-4 text-dark">SALES</h3>
                             <div class="mb-3 d-flex">
                             <button class="btn btn-primary" onclick="ExportToExcel('xlsx')">Export to excel</button>
+                            <button type="button" class="btn btn-primary ms-3 btn_print me-3" id="rep"
+                    value="Download as Pdf">Download PDF</button>
+                            <input class="ms-1" type="text" name="daterange" value="01/01/2022 - 12/01/2023" />     
                             </div>
+                             
                             <div class="table-responsive">
+                                  <div id="container_content">
                                 <table class="table" id="salesTable"  name="salesTable">
                                     <thead>
                                         <tr>
@@ -55,6 +58,7 @@
                                 </table>
                             </div>
          <h5 style="color:gray">Grand Total: {{grandTotal}} </h5>
+         </div>
                         </div>
                     </div>
         </div>
@@ -64,11 +68,28 @@
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
-     <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+     
 
-
-
+<!-- PDF AND EXCEL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
  <script>
+    
+ 
+    $(document).ready(function ($) {
+        $(document).on('click', '.btn_print', function (event) {
+            event.preventDefault();
+            var element = document.getElementById('container_content');
+            let randomNumber = Math.floor(Math.random() * (10000000000 - 1)) + 1;
+            var opt = {
+                margin: 0,
+                filename: 'SalesReport' + randomNumber + '.pdf',
+                html2canvas: { scale: 10 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        });
+    });
 
     
     function ExportToExcel(type, fn, dl) {
@@ -78,6 +99,21 @@
          XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
          XLSX.writeFile(wb, fn || ('MySheetName.' + (type || 'xlsx')));
     }
+
+
+    
+   
+$(function() {
+  $('input[name="daterange"]').daterangepicker({
+    opens: 'left'
+  }, function(start, end, label) {
+    console.log("A new date selection was made: " + start.format('DD-MM-YYYY') + ' to ' + end.format('DD-MM-YYYY'));
+    start=start.format('YYYY-MM-DD')
+    end=end.format('YYYY-MM-DD')
+    console.log(start,end)
+    location.assign(`/admin/sales-report?start=${start}&end=${end}`)
+  });
+});
 
  </script>
 

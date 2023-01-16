@@ -23,7 +23,7 @@
                     <h3 style="font-weight:#Bestsellers;" data-name="product_name" class="product-name mt_20">{{this.name}}</h3>
                           {{#eq this.offerPrice this.price}}
                     <span class="price mt_3"><span class="amount"><span class="currencySymbol"> Price ₹ :</span>  {{this.price}}</span>
-                      <h6 style="font-weight:#Bestsellers;" data-name="product_name" class="product-name mt_20" ><span class="currencySymbol"> </span> <strike></strike></h6> 
+                      <h6 style="font-weight:#Bestsellers;" data-name="product_name" class="product-name mt_20" ><span class="currencySymbol"> </span>₹ {{this.price}} (0 %off)</h6> 
 
                           {{else}}
                     <span class="price mt_3"><span class="amount"><span class="currencySymbol">  Price ₹ :</span>  {{this.offerPrice}}</span><br>
