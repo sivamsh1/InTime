@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const { getDb } = require('../db');
+const { getDb } = require('../models/db');
 const { ObjectId } = require('mongodb');
 const jwt = require("jsonwebtoken")
 const multer = require('multer')
 const path = require('path')
 const cloudinary = require('../utils/cloudinary')
 const { order } = require('paypal-rest-sdk');
+const { url } = require('inspector');
 
 const storage = multer.diskStorage({
       destination: './public/uploads/',
@@ -56,7 +57,7 @@ module.exports = ({
     res.render("admin/adminDashboard", { admin: true, TotalUsers, TotalProducts, TodaySales, TotalRevenue, orderStatus, statusArray })
 },
 adminLoginRendering : (req, res, next) => {
-    res.render("admin/adminlogin", { admin: true })
+    res.render("admin/adminlogin")
 },
 adminUserRendering: async (req, res, next) => {
     const users = await getDb().collection('users').find().toArray();
@@ -155,6 +156,10 @@ renderaddProduct  : async (req, res) => {
 },
 addProduct: async (req, res) => {
 
+    
+
+
+
     try {
           
           
@@ -224,8 +229,7 @@ renderEditProduct : async (req, res) => {
 editProduct: async (req, res) => {
     const productId = req.params.id;
     let { name, category, price, brand, image1,image2,image3,dbimage1,dbimage2,dbimage3 } = req.body
-    console.log(req.body);
-
+console.log("okkkkkkkk");
   
        
       //     const { url: images } = await cloudinary.uploader.upload(req.files[0].path)
@@ -278,7 +282,7 @@ editProduct: async (req, res) => {
 },
 renderOrders : async (req, res) => {
     const categoryDatas = await getDb().collection('category').find().toArray()
-    const orders = await getDb().collection('orders').find().toArray()
+    const orders = await getDb().collection('orders').find().sort({detailedDate:-1}).toArray()
     res.render('admin/adminorders', { admin: true, categoryDatas, orders })
 },
 cancellOrder : async (req, res) => {
@@ -288,7 +292,7 @@ cancellOrder : async (req, res) => {
     res.redirect('/admin/orders')
 },
 renderViewOrders: async (req, res) => {
-    const orderId = req.params.id
+    const orderId = req.params.id;
     const orders = await getDb().collection('orders').findOne({ _id: ObjectId(orderId) })
 
     const orderProducts = await getDb().collection('orders').aggregate([
@@ -326,6 +330,8 @@ renderViewOrders: async (req, res) => {
     res.render('admin/adminorderProducts', { admin: true, orderProducts })
 },
 renderReport : async (req, res) => {
+
+
     const categoryDatas = await getDb().collection('category').find().toArray()
     const orders = await getDb().collection('orders').find().sort({"totalAmount":-1}).toArray()
     let userId = orders.userId
@@ -648,7 +654,166 @@ res.redirect('/admin/category')
             let updation = await getDb().collection('brand').updateOne({_id:ObjectId(brandId)},{$set:{listed:false}},{upsert:true})
             
             res.redirect('/admin/brand')
-       }
+       },
+       salesReport : async (req,res)=>{
+            let {start,end} = req.query;
+                
+            console.log(start,end);
+            start = new Date(start).toDateString();
+            end = new Date(end).toDateString();
+            
+            const categoryDatas = await getDb().collection('category').find().toArray()
+            let deliveredOrders = await getDb().collection('orders').aggregate([
+                  {
+                    $match:
+                      
+                      {
+                        date: {
+                          $gte:start,
+                          $lte: end, 
+                        },
+                        status:"delivered"
+                      },
+                  },
+                ]).toArray()
+            
+       console.log(deliveredOrders);
+
+
+                let TotalAmount =  await getDb().collection('orders').aggregate([{
+                  $match :{status: 'delivered' }
+                 },
+                 {
+                  "$group":{
+                        _id:null,
+                        totalAmount:{$sum:"$totalAmount"} 
+                  }
+                 },
+            ]).toArray() 
+              
+             const  grandTotal = TotalAmount[0].totalAmount
+            
+                res.render('admin/salesReport', { admin: true, categoryDatas,deliveredOrders,grandTotal})
+            
+            },
+            bannerMannagement : async (req,res)=>{
+
+                  const banner = await getDb().collection('banner').find().toArray();
+                  console.log(banner);
+
+
+                  res.render('admin/banner',{admin:true,banner})
+            },
+            addBanner : async(req,res)=>{
+
+             
+                  try {
+          
+          
+                        console.log(req.files);
+                        const cloudinaryImageUploadMethod = (file) => {
+                          console.log("qwertyui");
+                          return new Promise((resolve) => {
+                            cloudinary.uploader.upload(file, (err, res) => {
+                              console.log(err, " asdfgh");
+                              if (err) return res.status(500).send("Upload Image Error")
+                              resolve(res.secure_url)
+                            })
+                          })
+                        }
+                      
+                        const files = req.files
+                        let arr1 = Object.values(files)
+                        let arr2 = arr1.flat()
+                        const urls = await Promise.all(
+                          arr2.map(async (file) => {
+                            const { path } = file
+                            const result = await cloudinaryImageUploadMethod(path)
+                            return result
+                          })
+                        )
+                        console.log(urls);
+
+                        let url = urls[0]
+                        console.log(url);
+
+        let {description} = req.body;
+
+        const Insertion = await getDb().collection('banner').insertOne({ description:description, image:url,listed:true })
+                res.redirect('/admin/banner')
+                        }
+                        catch(err){
+                              throw(err)
+                        }                  
+                  
+            },
+            editBanner:async(req,res)=>{
+                  try {
+                        console.log(req.files);
+                        const cloudinaryImageUploadMethod = (file) => {
+                          console.log("qwertyui");
+                          return new Promise((resolve) => {
+                            cloudinary.uploader.upload(file, (err, res) => {
+                              console.log(err, " asdfgh");
+                              if (err) return res.status(500).send("Upload Image Error")
+                              resolve(res.secure_url)
+                            })
+                          })
+                        }
+                      
+                        const files = req.files
+                        let arr1 = Object.values(files)
+                        let arr2 = arr1.flat()
+                        const urls = await Promise.all(
+                          arr2.map(async (file) => {
+                            const { path } = file
+                            const result = await cloudinaryImageUploadMethod(path)
+                            return result
+                          })
+                        )
+                        console.log(urls);
+
+                        let url = urls[0]
+      
+                         let {userId,previousImage,description} = req.body;
+                         
+                         if(url === undefined){
+                              url = previousImage;
+                         }
+
+        const updation = await getDb().collection('banner').update( { _id: ObjectId(userId) },{ $set: { description: description, image: url } } );    
+      
+
+                res.redirect('/admin/banner')
+                        }
+                        catch(err){
+                              throw(err)
+                        }               
+             
+            },
+            bannerListed:async(req,res)=>{
+               
+ 
+                  //  console.log(req.params);
+        
+                    let {id} = req.params;
+                  
+            
+                    let updation = await getDb().collection('banner').updateOne( { _id: ObjectId(id) },{ $set: { listed:false} })
+
+                    res.redirect('/admin/banner')
+            },
+            bannerUnListed:async(req,res)=>{
+               
+ 
+        
+                    let {id} = req.params;
+                  
+            
+                    let updation = await getDb().collection('banner').updateOne( { _id: ObjectId(id) },{ $set: { listed:true} })
+
+                    res.redirect('/admin/banner')
+            }
 
 
 })

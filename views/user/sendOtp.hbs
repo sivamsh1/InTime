@@ -1,3 +1,39 @@
+          <style>
+            .section .title {
+    font-family: 'PT sans';
+    margin: 50px 0 100px !important;
+    position: relative;
+    z-index: 1;
+}
+
+.section .title .second-title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 120px;
+    z-index: -1;
+    color: #f5f5f5;
+}
+
+.matches {
+    background-color: #fdfdfd;
+}
+
+.matches .match {
+    background: #fff;
+    padding: 20px 15px 5px;
+    border: 1px solid #f1efef;
+}
+#myButton{
+      display: block;
+    background-color: rgb(22 8 8);
+    color: rgb(245, 245, 245);
+    border: none;
+    margin-left: 25rem;
+}
+
+          </style>
 
           <!-- contact  -->
           <div class="row pt-3">
@@ -30,10 +66,19 @@
                           <p id="errorId"></p>
                           <p>{{error}}</p>
                         </div>
+
+                        <div class="level-item">
+                <div class="match-time has-text-centered" style="margin-left: 26rem;" >
+                  <h5>CountDown</h5>
+                  <span class="has-text-weight-bold" value="95" style="margin-left: 3rem;" ></span>
+                </div>
+              </div>
+              <button  id="myButton" style="display: none;margin-left 27rem;  background-color: #424242;color:#f5f5f5;margin-left: 26rem; " > <a   href="/resendOTP/{{number}}"> Resend OTP </a></button>
+                     
                         <div class="form-group">
                           <div class="row">
                             <div class="col-sm-6 col-sm-offset-3">
-                              <button type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login">Log in </button>
+                              <button style="    background-color: #424242;color:#f5f5f5" type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login">Log in </button>
                             </div>
                           </div>
                         </div>
@@ -60,6 +105,17 @@
 
 
 <script>  
+
+setTimeout(function() {
+  document.getElementById("myButton").style.display = "block";
+}, 95500);
+      
+//95500
+        
+       
+
+
+
       const showPassword = ()=>{
       const inputPassword = document.getElementById('password')
       if(inputPassword.type==="password"){
@@ -85,4 +141,39 @@
      }
      
   })
+
+
+
+  // Coundown Timer
+  //TASK MATCH TIME CONTDOWN
+  const matchs = document.querySelectorAll('.match-time');
+  matchs.forEach(function(match) {
+    const timeVal = match.children[1].getAttribute('value');
+    let timeNum = parseInt(timeVal);
+
+    function countDown() {
+      let min = Math.floor(timeNum / 60);
+      let remSec = timeNum % 60;
+      if (min < 10) {
+        min = '0' + min;
+      }
+      if (remSec < 10) {
+        remSec = '0' + remSec;
+      }
+      if (timeNum > 0) {
+        timeNum = timeNum - 1;
+      }
+      match.children[1].textContent = `${min} : ${remSec}`;
+      if (timeNum == 0) {
+        clearInterval(count);
+        match.innerHTML = '<span class="tag is-success"></span>';
+      }
+    }
+    const count = setInterval(function() {
+      countDown();
+    }, 1000);
+  });
+
+
+
 </script>

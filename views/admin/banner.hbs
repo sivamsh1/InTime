@@ -1,0 +1,187 @@
+<div class="container-fluid position-relative d-flex p-0">
+    
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+            <a href="/admin" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+        </nav>
+        <!-- Navbar End -->
+
+        <div class="container mt-5 mx-auto">
+            <div class="row gap-3 ms-5">
+                <div class=" bg-white" style="border-radius: 11px;width:80%">
+                    <h6 class="mb-4"><button class="btn btn-primary mt-3" data-bs-toggle="modal"
+                            data-bs-target="#addcouponmodal">Add Banner</button></h6>
+                    <table class="table mt-5">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Description</th>
+                                 <th scope="col">Image</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each banner}}
+                            <tr>
+                                <th scope="row">{{inc @index}}</th>
+                                <td>{{this.description}}</td>
+                                <td><img src={{this.image}} style=" width: 12rem;height: 7rem;" > </td>
+                                <td style="width: 7rem;" ><button data-bs-toggle="modal" data-bs-target="#hui{{inc @index}}"><i
+                                            class="fas fa-edit"></i></button>
+
+                                    {{!-- Banner edit modal --}}
+                                    <div class="modal fade" id="hui{{inc @index}}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel"
+                                                        style="color: black;">Edit Banner</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+
+
+                                              <form id="form" enctype="multipart/form-data"  autocomplete="off"  action="/admin/editBanner" method="post">
+                        <div class="modal-body">
+
+
+                            <div class="mb-3">
+                                <label for="coupon" class="col-form-label">Description</label>
+                                <input type="hidden" name="userId" value={{this._id}} required>
+                                <input type="hidden" name="previousImage" value={{this.image}}>
+                               <textarea class="form-control" id="coupon" name="description" required >{{ this.description }}</textarea>
+                            </div>
+                            <div class="mb-1">
+   <div class=" col-md-4"  >
+                <label for="productimage" class="">
+                Image
+                </label>
+
+                <input type="file"  id="id_image1" name="image1" accept="image/*" class="form-control"
+                onchange="viewImage1(event)" style="width:29.5rem;"><br>
+                <img src="" id="imgView1" alt="" class="clr" style="height:100px">
+
+                <div class="vald-info" id="info"></div>
+                <h5 class="error_form text-danger" id="image1_error_message"></h5>
+               
+            </div>              
+            
+                         </div>
+                              <p id="error" class="text-danger" ></p>
+                        </div>
+                        <div id="duplicateAlert" class="ms-2" style="color: rgb(173, 32, 32);">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                        </div>
+
+                    </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                     <div style="position: relative; left:3rem;bottom:25px" > 
+                                    {{#if this.listed}}
+                                        <a href="/admin/banerListed/{{this._id}}"><i class="fa-solid fa-eye"></i></a>
+                                        {{else}}
+                                        <a href="/admin/bannerUnListed/{{this._id}}"><i
+                                                class="fa-sharp fa-solid fa-eye-slash"></i></a>
+                                        {{/if}}
+                                        </div>
+                                </td>
+                            </tr>
+                            {{/each}}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {{!-- add Banner modal --}}
+        <div class="modal fade" id="addcouponmodal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" style="color: black;">Add Banner</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="form" enctype="multipart/form-data"  autocomplete="off"  action="/admin/addBanner" method="post">
+                        <div class="modal-body">
+
+
+                            <div class="mb-3">
+                                <label for="coupon" class="col-form-label">Description</label>
+                                <input type="text" class="form-control" id="coupon" name="description" required >
+                            </div>
+                            <div class="mb-1">
+   <div class=" col-md-4"  >
+                <label for="productimage" class="">
+                Image
+                </label>
+
+                <input type="file"  id="id_image1" name="image1" accept="image/*" class="form-control"
+                onchange="viewImage1(event)" style="width:29.5rem;" required ><br>
+                <img src="" id="imgView1" alt="" class="clr" style="height:100px">
+
+                <div class="vald-info" id="info"></div>
+                <h5 class="error_form text-danger" id="image1_error_message"></h5>
+               
+            </div>              
+            
+                         </div>
+                              <p id="error" class="text-danger" ></p>
+                        </div>
+                        <div id="duplicateAlert" class="ms-2" style="color: rgb(173, 32, 32);">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+   <script>
+     const form = document.getElementById("addCouponForm")
+      form.addEventListener("submit",async(e)=>{
+      e.preventDefault()
+      const data = new FormData(form)
+      const formdata={}
+      data.forEach((data,i)=>{
+        formdata[i] = data
+      })
+      const res = await axios.post("/admin/addBanner",formdata)
+      console.log(res.data.message)
+      if(res.data.message=="success"){
+        location.assign('/admin/coupon')
+      }else{
+        document.getElementById('error').innerHTML = res.data.error
+      }
+      
+      })
+
+
+
+
+      //  Zoom
+
+      
+   </script>

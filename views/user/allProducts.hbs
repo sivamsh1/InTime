@@ -1,11 +1,57 @@
 
+<style>
+  #sorting{
+    margin-top: 5rem;
+  }
+  #search{
+    color: white;
+    background-color: black;
+  }
+</style>
+
+
 
 
        {{>userSidebar}}
 
- <div class="container">
+
+       
+      <div class="container">   
+
+       <div id="sorting" style="width: 88rem;" class="category-page-wrapper mb_30">
+            <div class="list-grid-wrapper pull-left">
+              <div class="btn-group btn-list-grid">
+                <button type="button" id="grid-view" class="btn btn-default grid-view active"></button>
+                <button type="button" id="list-view" class="btn btn-default list-view"></button>
+              </div>
+            </div>
+
+            <form  action="/allProducts"  method="get" >
+            <div class="page-wrapper pull-right">
+              <button id="search" >Search</button>
+            </div>
+            <div class="sort-wrapper pull-right">
+              <label class="control-label" for="input-sort" style="margin-top: 4px;" >Sort By :</label>
+              <div class="sort-inner">
+                <select id="input-sort" class="form-control" style="margin-top: 6px;" name="Sort" >
+                  <option value="ASC" selected="selected"  >Default</option>
+                  <option value="AZ">  Name (A - Z)</option>
+                  <option value="ZA">Name (Z - A)</option>
+                  <option value="LH">Price (Low &gt; High)</option>
+                  <option value="HL">Price (High &gt; Low)</option>
+                  
+                </select>
+              </div>
+              <span><i class="fa fa-angle-down" aria-hidden="true"></i></span>
+            </div>
+            </form>
+          </div>
+
+        
+               
 
        {{#each listedProducts}}
+       <div style="margin-top: 7rem;">   
             <div class="product-layout product-grid col-md-4 col-xs-6 " style="width:28rem;height:auto" >  
               <div class="item">
                 <div class="product-thumb clearfix mb_30">
@@ -35,16 +81,21 @@
                 </div>
               </div>
             </div>  
+            </div>
         {{/each}}
           </div>
+
           <div class="pagination-nav text-center mt_50">
             <ul>
-              <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
+
+              {{#each pagination}}
+              <li class="active"><a aria-label="page" href="?page={{this}}">{{this}}</a></li> 
+              {{/each}}
             </ul>
           </div>
-        </div>
+
+
+        </div>   
       </div>
 
 

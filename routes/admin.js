@@ -4,7 +4,7 @@ const multer = require('multer')
 const path = require('path')
 const adminControllers = require('../controllers/adminControllers')
 const authControllers = require('../controllers/authController');
-const { getDb } = require('../db');
+const { getDb } = require('../models/db');
 
 
 upload = multer({
@@ -19,97 +19,102 @@ upload = multer({
       }
 })
 
-//Admin Home
-router.get('/', adminControllers.adminHomeRendering)
+
+const errorHandler = fn=>(req,res,next) =>{
+      Promise.resolve(fn(req,res,next)).catch(next);
+}
+
+//Admin Home   
+router.get('/', errorHandler(adminControllers.adminHomeRendering))
 
 //Admin Login Page
 router.route('/login')
-      .get(adminControllers.adminLoginRendering)
+      .get(errorHandler(adminControllers.adminLoginRendering))
 
-      .post(authControllers.adminloginAuthentication)
+      .post(errorHandler(authControllers.adminloginAuthentication))
 
 //Admin User
 router.route('/Users')
-      .get(adminControllers.adminUserRendering)
+      .get(errorHandler(adminControllers.adminUserRendering))
 
 // Block Route
-router.route("/userBlock/:id")
-      .get(adminControllers.userBlock)
-
+router.route("/userBlock/:id")       
+      .get(errorHandler(adminControllers.userBlock))
+ 
 // Unblock Route
 router.route("/userUnBlock/:id")
-      .get(adminControllers.userUnblock)
-
+      .get(errorHandler(adminControllers.userUnblock))
+ 
 //Product page
 router.route('/product')
-      .get(adminControllers.allProducts)
+      .get(errorHandler(adminControllers.allProducts))
 
-      .post(adminControllers.productChecking)
+      .post(errorHandler(adminControllers.productChecking))
 
 
 //Category Routes
 
 router.route('/category')
-      .get(adminControllers.categoryRendering)
+      .get(errorHandler(adminControllers.categoryRendering))
 
-      .post(adminControllers.categorychecking)
+      .post(errorHandler(adminControllers.categorychecking))
 
-      .patch(adminControllers.categoryEditing)
+      .patch(errorHandler(adminControllers.categoryEditing))
 
 
 
 
 // User Logout
-router.get('/logout', adminControllers.adminLogout)
+router.get('/logout', errorHandler(adminControllers.adminLogout))
 
 // Delete category
 
 router.route('/cdelete/:id')
-      .get(adminControllers.categoryDelete)
+      .get(errorHandler(adminControllers.categoryDelete))
 
 
 
 //Add product
 
 router.route('/addproduct')
-      .get(adminControllers.renderaddProduct)
+      .get(errorHandler(adminControllers.renderaddProduct))
       .post(upload.fields([
             { name: 'image1', maxCount: 1 },
             { name: 'image2', maxCount: 1 },
             { name: 'image3', maxCount: 1 },
             //multer code
-      ]), adminControllers.addProduct)
+      ]),errorHandler( adminControllers.addProduct))
 
 
 router.route('/deleteproduct/:id')
-      .get(adminControllers.deleteProduct)
+      .get(errorHandler(adminControllers.deleteProduct))
 
 router.route('/editproduct/:id')
-      .get(adminControllers.renderEditProduct)
+      .get(errorHandler(adminControllers.renderEditProduct))
 
 router.post('/editproduct/:id', upload.fields([
       { name: 'image1', maxCount: 1 },
       { name: 'image2', maxCount: 1 },
       { name: 'image3', maxCount: 1 },
       //multer code
-]), adminControllers.editProduct)
+]), errorHandler(adminControllers.editProduct))
 
 
 
 // Admin Orders
 
 router.route('/orders')
-      .get(adminControllers.renderOrders)
+      .get(errorHandler(adminControllers.renderOrders))
 
 
 
 //cancell order list
-router.get('/cancellorders/:id', adminControllers.cancellOrder)
+router.get('/cancellorders/:id', errorHandler(adminControllers.cancellOrder))
 
 
 
 //View order list
-router.get('/vieworders/:id', adminControllers.renderViewOrders)
+router.get('/vieworders/:id', errorHandler(adminControllers.renderViewOrders))
 
 //Return Orders
 
@@ -118,129 +123,122 @@ router.get('/vieworders/:id', adminControllers.renderViewOrders)
 
 
 router.route('/report')
-      .get(adminControllers.renderReport)
+      .get(errorHandler(adminControllers.renderReport))
 
 
 
-router.get('/editCategory/:id', adminControllers.renderEditCategory)
+router.get('/editCategory/:id', errorHandler(adminControllers.renderEditCategory))
 
-router.post('/editCategory', adminControllers.editCategory)
+router.post('/editCategory',errorHandler( adminControllers.editCategory))
 
 
 
 // Admin Brands  
 
 router.route('/brand')
-      .get(adminControllers.renderBrand)
-      .post(adminControllers.addBrand)
+      .get(errorHandler(adminControllers.renderBrand))
+      .post(errorHandler(adminControllers.addBrand))
 
 //Brand Delete Route 
 
 router.route('/Branddelete/:id')
-      .get(adminControllers.deleteBrand)
+      .get(errorHandler(adminControllers.deleteBrand))
 
 
 //Edit Brands
 
 router.route('/editBrand/:id')
-      .get(adminControllers.renderEditBrand)
+      .get(errorHandler(adminControllers.renderEditBrand))
 
 //editBrand
-router.post('/editBrand', adminControllers.editBrand)
+router.post('/editBrand',errorHandler( adminControllers.editBrand))
 
 //Listing Products
-router.get('/listed/:id', adminControllers.listingProducts);
+router.get('/listed/:id', errorHandler(adminControllers.listingProducts));
 //unlisting Products
 
-router.get('/unlisted/:id', adminControllers.unlistingProducts);
+router.get('/unlisted/:id',errorHandler( adminControllers.unlistingProducts));
 
 //Chane Order Status
 
-router.post('/change-order-status/:id', adminControllers.changeOrderStatus)
+router.post('/change-order-status/:id', errorHandler(adminControllers.changeOrderStatus))
 
 
 
 //render Offer Page
 router.route('/offers')
-      .get(adminControllers.renderOffer)
+      .get(errorHandler(adminControllers.renderOffer))
 
 //Add product offer
 
-router.post('/addProductOffer', adminControllers.addProductOffer)
+router.post('/addProductOffer', errorHandler(adminControllers.addProductOffer))
 
 
 //Add category Offer
-router.post('/addCategoryOffer', adminControllers.addCategoryOffer)
+router.post('/addCategoryOffer', errorHandler(adminControllers.addCategoryOffer))
 
 
 // delete product  offer
-router.get('/deleteProductOffer/:id', adminControllers.deleteProductOffer)
+router.get('/deleteProductOffer/:id', errorHandler(adminControllers.deleteProductOffer))
 
 // Delete Category offer
 
-router.get('/deleteCategoryOffer/:id', adminControllers.deleteCategoryOffer)
+router.get('/deleteCategoryOffer/:id', errorHandler(adminControllers.deleteCategoryOffer))
 
 //Render Coupon
 
 router.route('/coupon')
-      .get(adminControllers.renderCoupon)
+      .get(errorHandler(adminControllers.renderCoupon))
 
       //add Coupon
-      .post(adminControllers.addCoupon)
+      .post(errorHandler(adminControllers.addCoupon))
 
 //Delete Coupon
 
-router.get('/deletecoupon/:id', adminControllers.deleteCoupon)
+router.get('/deletecoupon/:id', errorHandler(adminControllers.deleteCoupon))
 
 //edit coupon
 
-router.post('/editCoupon/:id', adminControllers.editCoupon)
+router.post('/editCoupon/:id', errorHandler(adminControllers.editCoupon))
 
 //List Category
-router.get('/listedCategory/:id', adminControllers.listCategory)
+router.get('/listedCategory/:id', errorHandler(adminControllers.listCategory))
 
 //unList Category
-router.get('/unlistCategory/:id', adminControllers.unlistCategory)
+router.get('/unlistCategory/:id', errorHandler(adminControllers.unlistCategory))
 
 
 //List Brand
-router.get('/listedBrand/:id', adminControllers.listBrand)
+router.get('/listedBrand/:id',errorHandler( adminControllers.listBrand))
 
 //unList Brand
-router.get('/unlistBrand/:id', adminControllers.unlistBrand)
+router.get('/unlistBrand/:id',errorHandler( adminControllers.unlistBrand))
 
 
 //Sales Report
-router.get('/sales-report',async (req,res)=>{
-let {start,end} = req.query
-
-start = new Date(start)
-end = new Date(end)
-
-start = start.toISOString()
-
-console.log(start,end);
+router.get('/sales-report',errorHandler(adminControllers.salesReport))
 
 
-console.log(start);
+// Banner Management 
+router.get('/banner',errorHandler(adminControllers.bannerMannagement))
+//Add banner
+router.post('/addBanner',upload.fields([
+      { name: 'image1', maxCount: 1 },
+     
+      //multer code
+]),errorHandler(adminControllers.addBanner))
 
-let Datas = await getDb().collection('orders').aggregate([
-      {
-        $match:
-          
-          {
-            detailedDate: {
-              $gte:start,
-              $lte: end, 
-            },
-            status:"delivered"
-          },
-      },
-    ]).toArray()
 
-    console.log(Datas);
+//Edit banner
+router.post('/editBanner',upload.fields([  { name: 'image1', maxCount: 1 },]),errorHandler(adminControllers.editBanner))
 
-})
+// unlist banner
+
+router.get('/banerListed/:id',errorHandler(adminControllers.bannerListed))
+
+//List Banner
+router.get('/bannerUnListed/:id',errorHandler(adminControllers.bannerUnListed))
+
 
 
 

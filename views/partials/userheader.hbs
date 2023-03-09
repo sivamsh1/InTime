@@ -1,3 +1,20 @@
+ <style>
+
+
+
+  #searchButton{
+              height: 3rem;
+    width: 8rem;
+    margin-left: -6rem;
+    margin-top: -3px;
+    color: white;
+    background:transparent;
+}
+  
+ </style>
+ 
+ 
+ 
  <!-- =====  HEADER START  ===== -->
     <header id="header">
       <div class="header-top">
@@ -32,13 +49,15 @@
         <div class="container">
           <div class="row">
             <div class="col-xs-12 col-sm-4">
-              <div class="main-search mt_40">
-                <input id="search-input" name="search" value="" placeholder="Search" class="form-control input-lg" autocomplete="off" type="text">
+              <div id="mainSearch" class="main-search mt_40">
+                <form action="/search" method="post" >
+                <input id="search-input"  name="search" value="" class="form-control input-lg" autocomplete="off" type="text">
                 <span class="input-group-btn">
-              <button type="button" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
+                  <button  class="btn" id="searchButton" type="submit" > Search </button>
               </span> </div>
+              </form>
             </div>
-            <div class="navbar-header col-xs-6 col-sm-4"> <a class="navbar-brand" href="/"> <img alt="themini" src="/images/logo.png"> </a> </div>
+            <div class="navbar-header col-xs-6 col-sm-4"> <a class="navbar-brand" href="/"> <img alt="themini" src="/images/logo3.png" style=" height: 14rem;width: 41rem; margin-top: -5rem;" > </a> </div>
             <div class="col-xs-6 col-sm-4 shopcart">
               <div id="cart" class="btn-group btn-block mtb_40">
                 <a type="button" href="/cart" class="btn"><span id="shippingcart">Shopping cart</span><span id="cart-total">items</span> </a>

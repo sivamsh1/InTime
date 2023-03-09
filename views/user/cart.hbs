@@ -8,19 +8,20 @@
     color: white;
     font-weight: 500;
   }
+   
 </style>
 
 
 
   
   
-  <div style="margin-left:13rem;" class="container">
+  <div  class="container">
 
   
-    <div id="cartTable" class="col-sm-8 col-lg-9 mtb_20">
+    <div id="cartTable"  class="col-sm-8 col-lg-9 mtb_20">
       <form enctype="multipart/form-data" method="post" action="#">
         <div class="table-responsive">
-          <table class="table table-bordered">
+          <table  style="margin-left: 5rem;" class="table table-bordered">
             <thead>
               <tr>
                 <td class="text-center">Image</td>
@@ -42,7 +43,7 @@
                 <td class="text-left"><a href="product.html">{{this.product.name}}</a></td>
                 <td class="text-left">{{this.product.brand}}</td>
                   
-                <td class="text-left"> 
+                <td class="text-center"> 
                 <a class="btn" onclick=changeQuantity("{{this._id}}","{{this.product._id}}",-1,"{{this.subTotal}}",) > -</a>
                 <span id='{{this.product._id}}' >{{this.quantity}}</span>
                 <a class="btn" onclick=changeQuantity("{{this._id}}","{{this.product._id}}",1,"{{this.subTotal}}",) >+</a>
@@ -50,22 +51,21 @@
                 <td class="text-right" > <span id="{{this.subTotal}}" > {{this.subTotal}} </span> </td>
                
          
-                <td class="text-right"><button id="remove" onclick=removeItem("{{this._id}}","{{this.product._id}}") class="btn remove"  >Remove</button></td>
+                <td class="text-center"><button id="remove" onclick=removeItem("{{this._id}}","{{this.product._id}}") class="btn remove"  >Remove</button></td>
                 {{/each}}             
                </tr>
             </tbody>
-           
- 
+
           </table>
         </div>
       </div>
       <div class="row">
       </div>
     
-      <div id="Total" style="margin-left:95rem;" >
-      <h3 id="totalHeader" >Total Amount: <span id="totalAmount" > {{totalAmount}}</span> </h3>
+      <div id="Total" style="margin-left:85rem;" >
+      <h3 id="totalHeader" >Total Price :  <span id="totalAmount" > {{totalAmount}}</span> </h3>
       </div>
-      <a  class="btn pull-right mt_30" href="/checkout" style="margin-bottom: 2rem;" >Confirm order </a>
+      <a  class="btn " href="/checkout" style="margin-bottom: 2rem; margin-left:93rem;margin-top:3rem;" >Confirm order </a>
   
   </div>  
 

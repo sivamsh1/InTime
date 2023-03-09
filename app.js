@@ -12,7 +12,7 @@ const colors=require('colors')
 
 const userRouter = require('./routes/users');
 const adminrouter = require('./routes/admin')
-const {initDb}= require('./db')
+const {initDb}= require('./models/db')
 const dotenv=require('dotenv')
 dotenv.config({path:"./config.env"})
 const app = express();
@@ -51,18 +51,32 @@ initDb((err, db) => {
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  
   next(createError(404));
+
 });
 
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
-  res.locals.message = err.message;
+  console.log(err);
+
+  res.render("user/404")
+
+  res.locals.message = "errroorrrr"
   res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+if(err.statusCode === 404){
+  res.render("user/404")
+}else{
+
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render("user/404")
+}
 });
+
+
 
 module.exports = app;

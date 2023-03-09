@@ -27,7 +27,7 @@
                             <button class="btn btn-primary" onclick="ExportToExcel('xlsx')">Export to excel</button>
                             <button type="button" class="btn btn-primary ms-3 btn_print me-3" id="rep"
                     value="Download as Pdf">Download PDF</button>
-                            <input class="ms-1" type="text" name="daterange" value="01/01/2022 - 12/01/2023" />     
+                            <input class="ms-1" type="text" name="daterange" value="01/01/2022 - 12/01/2023" />  
                             </div>
                              
                             <div class="table-responsive">
@@ -100,8 +100,6 @@
          XLSX.writeFile(wb, fn || ('MySheetName.' + (type || 'xlsx')));
     }
 
-
-    
    
 $(function() {
   $('input[name="daterange"]').daterangepicker({
@@ -114,6 +112,5 @@ $(function() {
     location.assign(`/admin/sales-report?start=${start}&end=${end}`)
   });
 });
-
  </script>
 

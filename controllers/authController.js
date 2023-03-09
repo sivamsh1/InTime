@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const { getDb } = require('../db');
+const { getDb } = require('../models/db');
 const { ObjectId } = require('mongodb');
 const jwt = require("jsonwebtoken")
 const multer = require('multer')
@@ -10,7 +10,10 @@ const cloudinary = require('../utils/cloudinary')
 const { order } = require('paypal-rest-sdk');
 
 module.exports = ({
-    verifyUserLogin: async (req, res, next) => {            
+    verifyUserLogin: async (req, res, next) => {   
+      
+
+      
         let { email, password } = req.body;
         const user = await getDb().collection('users').findOne({ email })
         if (user) {
@@ -53,7 +56,10 @@ module.exports = ({
         }
       },
       userSignup: async (req, res, next) => {
+
+
         let { name, email, number, password } = req.body
+        number = parseInt(number);
         const dbEmail = await getDb().collection('users').findOne({ email })
         if (dbEmail == null) {
           //Data Insertion
@@ -203,17 +209,12 @@ if(req.cookies.userjwt){
   },
   numberVerify : async(req,res)=>{
 
-
-    let {number} = req.body
+    let {number} = req.body;
+    number = parseInt(number);
 
     let isExistNumber = await getDb().collection('users').findOne({number:number })
    
     if(isExistNumber){
-
-      const accountSid = "AC0e70c9e8e3caa07ed6329cccf0acf716";
-      const authToken = "fb457e6b81e7ddb2ddc86780f2b119c4";
-      const client = require("twilio")(accountSid, authToken);
-      
 
 // Function to generate a random OTP
 function generateOTP() {
@@ -225,12 +226,12 @@ const otp = generateOTP();
 async function sendOTP(toNumber) {
   console.log(otp);
 
-    const accountSid = "AC0e70c9e8e3caa07ed6329cccf0acf716";
-    const authToken = "bd77f71d6db860983ce0fa9042529538";
+       const accountSid = process.env.TWILLIO_accountSid;
+       const authToken = process.env.TWILLIO_authToken;
     const client = require("twilio")(accountSid, authToken);
     
     client.messages
-      .create({ body: `Your OTP is ${otp}`, from: "+13148974734", to:`+91${toNumber}`})
+      .create({ body: `Your OTP is ${otp}`, from: "+12765660833", to:`+91${toNumber}`})
       .then(message => console.log(message.sid));
 
 }
@@ -240,6 +241,7 @@ const toNumber = number;
 sendOTP(toNumber);
 console.log("OTP Sent Successfully");
 
+
 res.render('user/sendOtp',{user:true,otp,number})
        
     }else{
@@ -247,13 +249,5 @@ res.render('user/sendOtp',{user:true,otp,number})
       res.render('user/otpLogin',{user:true,errorss})
     }
   }
-
- 
-
-
-
-
-
-
 
 })
