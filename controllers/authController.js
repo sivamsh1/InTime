@@ -15,6 +15,7 @@ module.exports = ({
       
       let { email, password } = req.body;
       console.log(email,password) 
+      console.log(process.env.JWT_SECRET,"oooooooooooooooooooo");
         const user = await getDb().collection('users').findOne({ email })
         if (user) {
           const userId = user._id;
