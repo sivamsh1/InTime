@@ -12,6 +12,7 @@ const { order } = require('paypal-rest-sdk');
 module.exports = ({
     verifyUserLogin: async (req, res, next) => {   
       console.log("verify login")
+      console.log(process.env.JWT_SECRET);
       
       let { email, password } = req.body;
       console.log(email,password) 
