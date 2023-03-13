@@ -11,10 +11,10 @@ const { order } = require('paypal-rest-sdk');
 
 module.exports = ({
     verifyUserLogin: async (req, res, next) => {   
+      console.log("verify login")
       
-
-      
-        let { email, password } = req.body;
+      let { email, password } = req.body;
+      console.log(email,password) 
         const user = await getDb().collection('users').findOne({ email })
         if (user) {
           const userId = user._id;
