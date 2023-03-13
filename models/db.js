@@ -1,6 +1,6 @@
 const mongodb = require("mongodb");
   
-const db = "mongodb://127.0.0.1:27017"
+const db = "mongodb+srv://Sivamsan:Siva123@cluster0.vvihdul.mongodb.net/?retryWrites=true&w=majority"
 
 const MongoClient = mongodb.MongoClient;
 
@@ -21,7 +21,7 @@ const initDb = (callback) => {
     })
     .catch((err) => {
       callback(err);
-    });         
+    });            
 };
 
 const getDb = () => {
