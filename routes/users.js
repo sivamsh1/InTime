@@ -36,7 +36,7 @@ router.route('/allProducts')
 
 //Cart route
 router.route('/cart',)
-  .get( errorHandler(authControllers.isLoggedin),errorHandler(authControllers.blockedAuthentication),errorHandler( userControllers.renderCartPage))
+  .get( errorHandler(authControllers.blockedAuthentication),errorHandler( userControllers.renderCartPage))
 
 //Product detail route
 router.route('/productdetails/:id')

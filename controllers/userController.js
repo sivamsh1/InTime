@@ -235,7 +235,7 @@ module.exports = {
         res.render("user/emptyCart", { user: true, category });
       }
     } else {
-      res.send("cart Not exist");
+      res.render("user/emptyCart", { user: true, category });
     }
   },
 
