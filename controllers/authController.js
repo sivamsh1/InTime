@@ -12,7 +12,6 @@ const { order } = require('paypal-rest-sdk');
 module.exports = ({
     verifyUserLogin: async (req, res, next) => {   
       console.log("verify login")
-      console.log(process.env.JWT_SECRET);
       
       let { email, password } = req.body;
       console.log(email,password) 
@@ -23,7 +22,7 @@ module.exports = ({
           const isPasswordCorrect = await bcrypt.compare(password, dbPassword)
           if (isPasswordCorrect) {
             //Token creation
-            const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+            const token = jwt.sign({ userId }, "secretKey", {
               expiresIn: "1d",
             });
             //storing in cookies
