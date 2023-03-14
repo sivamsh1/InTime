@@ -157,7 +157,7 @@ blockedAuthentication: async(req,res,next)=>{
   console.log(process.env.JWT_SECRET,"secretkeyyyyy");
   console.log(req.cookies.userjwt);
 
-   const loggedIn = await promisify(jwt.verify)(req.cookies.userjwt,"secretcodeisthis");
+   const loggedIn = await promisify(jwt.verify)(req.cookies.userjwt,process.env.JWT_SECRET);
       if(loggedIn){
          const userId= loggedIn.userId;
          let user = await getDb().collection('users').findOne({_id:ObjectId(userId) })
