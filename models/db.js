@@ -1,6 +1,6 @@
 const mongodb = require("mongodb");
   
-const db = "mongodb+srv://Sivamsan:Siva123@cluster0.vvihdul.mongodb.net/?retryWrites=true&w=majority"
+const db = "mongodb+srv://Sivamsan:Siva123@cluster0.vvihdul.mongodb.net/?retryWrites=true&w=majority";
 
 const MongoClient = mongodb.MongoClient;
 

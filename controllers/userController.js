@@ -278,8 +278,7 @@ module.exports = {
     }
     const category = await getDb().collection("category").find().toArray();
     const product = await getDb().collection("products").findOne();
-    const userId = await jwt.verify(req.cookies.userjwt, process.env.JWT_SECRET)
-      .userId;
+    const userId = await jwt.verify(req.cookies.userjwt, process.env.JWT_SECRET) .userId;
     const user = await getDb()
       .collection("users")
       .findOne({ _id: ObjectId(userId) });

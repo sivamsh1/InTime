@@ -27,6 +27,13 @@ const upload = multer({
 module.exports = ({
   adminHomeRendering :  async (req, res, next) => {
 
+
+    const email = await  jwt.verify(req.cookies.adminjwt, process.env.JWT_SECRET).email 
+     console.log(email);
+
+
+
+
     const TotalUsers = await getDb().collection('users').find().count()
     const TotalProducts = await getDb().collection('products').find().count()
     const TodaySales = await getDb().collection('orders').find({ date: new Date().toDateString() }).count()
@@ -138,11 +145,15 @@ categoryEditing:async (req, res) => {
 
 },
 adminLogout  :  (req, res) => {
-    res.cookie('userjwt', 'loggedout', {
+
+
+    res.cookie('adminjwt', 'loggedout', {
           maxAge: 1,
           httpOnly: true
     })
-    res.redirect('/login')
+
+
+    res.redirect('/admin/login')
 
 },
 categoryDelete: async (req, res) => {

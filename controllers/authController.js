@@ -129,6 +129,26 @@ module.exports = ({
               const isPasswordCorrect = (password == dbPassword)
               console.log(isPasswordCorrect);
               if (isPasswordCorrect) {
+
+
+
+                try {
+         //Token creation
+         const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+          expiresIn: "1d",
+        }); 
+        //storing in cookies
+        res.cookie("adminjwt", token, {
+          httpOnly: true,
+          sameSite: "lax",
+          secure: false,
+          maxAge: 24 * 60 * 60 * 1000,
+        });}
+        catch(err){
+          console.log(err);
+        }
+
+
                     res.json({
                           status: 200,
                           message: "success"
@@ -252,6 +272,14 @@ res.render('user/sendOtp',{user:true,otp,number})
       let errorss = "Please Enter Valid Number "
       res.render('user/otpLogin',{user:true,errorss})
     }
+  },
+  adminAuthentication :async (req,res,next)=>{
+    if(!req.cookies.adminjwt){
+        res.redirect('/admin/login')
+    }else{
+      next();
+    }
   }
+   
 
 })

@@ -25,7 +25,7 @@ const errorHandler = fn=>(req,res,next) =>{
 }
 
 //Admin Home   
-router.get('/', errorHandler(adminControllers.adminHomeRendering))
+router.get('/', errorHandler(authControllers.adminAuthentication) , errorHandler(adminControllers.adminHomeRendering))
 
 //Admin Login Page
 router.route('/login')
@@ -35,7 +35,7 @@ router.route('/login')
 
 //Admin User
 router.route('/Users')
-      .get(errorHandler(adminControllers.adminUserRendering))
+      .get( errorHandler(authControllers.adminAuthentication) ,errorHandler(adminControllers.adminUserRendering))
 
 // Block Route
 router.route("/userBlock/:id")       
@@ -55,7 +55,7 @@ router.route('/product')
 //Category Routes
 
 router.route('/category')
-      .get(errorHandler(adminControllers.categoryRendering))
+      .get( errorHandler(authControllers.adminAuthentication) ,errorHandler(adminControllers.categoryRendering))
 
       .post(errorHandler(adminControllers.categorychecking))
 
@@ -90,7 +90,7 @@ router.route('/deleteproduct/:id')
       .get(errorHandler(adminControllers.deleteProduct))
 
 router.route('/editproduct/:id')
-      .get(errorHandler(adminControllers.renderEditProduct))
+      .get( errorHandler(authControllers.adminAuthentication) ,errorHandler(adminControllers.renderEditProduct))
 
 router.post('/editproduct/:id', upload.fields([
       { name: 'image1', maxCount: 1 },
@@ -104,7 +104,7 @@ router.post('/editproduct/:id', upload.fields([
 // Admin Orders
 
 router.route('/orders')
-      .get(errorHandler(adminControllers.renderOrders))
+      .get( errorHandler(authControllers.adminAuthentication) ,errorHandler(adminControllers.renderOrders))
 
 
 
@@ -114,7 +114,7 @@ router.get('/cancellorders/:id', errorHandler(adminControllers.cancellOrder))
 
 
 //View order list
-router.get('/vieworders/:id', errorHandler(adminControllers.renderViewOrders))
+router.get('/vieworders/:id', errorHandler(authControllers.adminAuthentication) , errorHandler(adminControllers.renderViewOrders))
 
 //Return Orders
 
@@ -123,7 +123,7 @@ router.get('/vieworders/:id', errorHandler(adminControllers.renderViewOrders))
 
 
 router.route('/report')
-      .get(errorHandler(adminControllers.renderReport))
+      .get( errorHandler(authControllers.adminAuthentication) ,errorHandler(adminControllers.renderReport))
 
 
 
@@ -136,7 +136,7 @@ router.post('/editCategory',errorHandler( adminControllers.editCategory))
 // Admin Brands  
 
 router.route('/brand')
-      .get(errorHandler(adminControllers.renderBrand))
+      .get( errorHandler(authControllers.adminAuthentication) ,errorHandler(adminControllers.renderBrand))
       .post(errorHandler(adminControllers.addBrand))
 
 //Brand Delete Route 
@@ -167,7 +167,7 @@ router.post('/change-order-status/:id', errorHandler(adminControllers.changeOrde
 
 //render Offer Page
 router.route('/offers')
-      .get(errorHandler(adminControllers.renderOffer))
+      .get( errorHandler(authControllers.adminAuthentication) ,errorHandler(adminControllers.renderOffer))
 
 //Add product offer
 
@@ -188,7 +188,7 @@ router.get('/deleteCategoryOffer/:id', errorHandler(adminControllers.deleteCateg
 //Render Coupon
 
 router.route('/coupon')
-      .get(errorHandler(adminControllers.renderCoupon))
+      .get( errorHandler(authControllers.adminAuthentication) ,errorHandler(adminControllers.renderCoupon))
 
       //add Coupon
       .post(errorHandler(adminControllers.addCoupon))
@@ -216,11 +216,11 @@ router.get('/unlistBrand/:id',errorHandler( adminControllers.unlistBrand))
 
 
 //Sales Report
-router.get('/sales-report',errorHandler(adminControllers.salesReport))
+router.get('/sales-report', errorHandler(authControllers.adminAuthentication) ,errorHandler(adminControllers.salesReport))
 
 
 // Banner Management 
-router.get('/banner',errorHandler(adminControllers.bannerMannagement))
+router.get('/banner', errorHandler(authControllers.adminAuthentication) ,errorHandler(adminControllers.bannerMannagement))
 //Add banner
 router.post('/addBanner',upload.fields([
       { name: 'image1', maxCount: 1 },
