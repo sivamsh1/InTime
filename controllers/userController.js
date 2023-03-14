@@ -70,6 +70,14 @@ module.exports = {
   },
 
   renderProductPage: async (req, res) => {
+
+    if (req.cookies.userjwt) {
+      cookie = true;
+    } else {
+      cookie = false;
+    }
+
+
     let Sort = req.query.Sort;
     let sortData;
     if (Sort === "AZ") {
@@ -124,10 +132,18 @@ module.exports = {
       listedProducts,
       category,
       pagination,
+      cookie,
     });
   },
 
   renderCartPage: async (req, res) => {
+
+    if (req.cookies.userjwt) {
+      cookie = true;
+    } else {
+      cookie = false;
+    }
+
     const category = await getDb().collection("category").find().toArray();
     if (req.cookies.userjwt) {
       const userId = await jwt.verify(
@@ -230,6 +246,7 @@ module.exports = {
           category,
           cartItemsWithSubTotal,
           totalAmount,
+          cookie,
         });
       } else {
         res.render("user/emptyCart", { user: true, category });
@@ -240,15 +257,25 @@ module.exports = {
   },
 
   renderPrductDetailPage: async (req, res) => {
+    if (req.cookies.userjwt) {
+      cookie = true;
+    } else {
+      cookie = false;
+    }
     const userid = req.params.id;
     const category = await getDb().collection("category").find().toArray();
     const product = await getDb()
       .collection("products")
       .findOne({ _id: ObjectId(userid) });
-    res.render("user/productDetail", { user: true, category, product });
+    res.render("user/productDetail", { user: true, category, product,cookie });
   },
 
   renderCheckoutPage: async (req, res) => {
+    if (req.cookies.userjwt) {
+      cookie = true;
+    } else {
+      cookie = false;
+    }
     const category = await getDb().collection("category").find().toArray();
     const product = await getDb().collection("products").findOne();
     const userId = await jwt.verify(req.cookies.userjwt, process.env.JWT_SECRET)
@@ -308,6 +335,7 @@ module.exports = {
       totalAmount,
       userId,
       Address,
+      cookie,
     });
   },
 
@@ -718,8 +746,8 @@ module.exports = {
                 quantity: item.quantity,
               };
             }),
-            success_url: `http://localhost:5000/successpage`,
-            cancel_url: `http://localhost:5000`,
+            success_url: `http://localhost:3000/successpage`,
+            cancel_url: `http://localhost:3000`,
           });
           res.redirect(session.url);
         } catch (e) {
@@ -765,6 +793,13 @@ module.exports = {
   },
 
   renderViewOrders: async (req, res) => {
+
+    if (req.cookies.userjwt) {
+      cookie = true;
+    } else {
+      cookie = false;
+    }
+
     const orderId = req.params.id;
     const orders = await getDb()
       .collection("orders")
@@ -811,7 +846,7 @@ module.exports = {
       .find()
       .sort({ date: 1 })
       .toArray();
-    res.render("user/orderProducts", { user: true, orderProducts, category });
+    res.render("user/orderProducts", { user: true, orderProducts, category,cookie });
   },
 
   cancellOrder: async (req, res) => {
@@ -869,6 +904,11 @@ module.exports = {
   },
 
   renderCategoryPage: async (req, res) => {
+    if (req.cookies.userjwt) {
+      cookie = true;
+    } else {
+      cookie = false;
+    }
     const categoryname = req.params.category;
     const Product = await getDb()
       .collection("products")
@@ -877,10 +917,11 @@ module.exports = {
     const category = await getDb().collection("category").find().toArray();
     const offerPrice = Product.offerPrice;
     console.log(Product);
-    res.render("user/category", { user: true, Product, category, offerPrice });
+    res.render("user/category", { user: true, Product, category, offerPrice,cookie});
   },
 
   renderUserProfile: async (req, res) => {
+
     const userId = await jwt.verify(req.cookies.userjwt, process.env.JWT_SECRET)
       .userId;
     const currentUser = await getDb()
