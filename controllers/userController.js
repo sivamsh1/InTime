@@ -701,7 +701,8 @@ module.exports = {
 
         paypal.payment.create(create_payment_json, function (error, payment) {
           if (error) {
-            res.send("Use another payment method");
+             console.log(error,"errorrrrrrrrrrrrrrrrrrrrrrrr");
+            res.send("Use another payment method");           
           } else {
             for (let i = 0; i < payment.links.length; i++) {
               if (payment.links[i].rel === "approval_url") {
