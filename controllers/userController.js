@@ -9,6 +9,7 @@ const paypal = require("paypal-rest-sdk");
 const { checkout } = require("../routes/users");
 const { config } = require("dotenv");
 const passport = require("passport");
+const { object } = require("underscore");
 const googleStrategy = require("passport-google-oauth").OAuth2Strategy;
 paypal.configure({
   mode: "sandbox", //sandbox or live
@@ -234,8 +235,8 @@ module.exports = {
         res.render("user/emptyCart", { user: true, category });
       }
     } else {
-      res.render("user/emptyCart", { user: true, category });
-    }
+       res.redirect('/')
+    }    
   },
 
   renderPrductDetailPage: async (req, res) => {
@@ -848,13 +849,23 @@ module.exports = {
   },
 
   renderConfirmPage: async (req, res) => {
+
+    const userId = await jwt.verify(req.cookies.userjwt, process.env.JWT_SECRET).userId
+   console.log(userId);
+
+
     const orders = await getDb()
       .collection("orders")
-      .find()
+      .find({userId:ObjectId(userId)})
       .sort({ detailedDate: -1 })
       .toArray();
 
-    res.render("user/confirmedOrderList", { user: true, orders });
+      if(orders.length === 0){
+        res.redirect('/')
+      }else{
+        res.render("user/confirmedOrderList", { user: true, orders });
+      }
+
   },
 
   renderCategoryPage: async (req, res) => {
