@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken")
 const multer = require('multer')
 const path = require('path')
 const cloudinary = require('../utils/cloudinary')
+const {promisify} = require("util")
 const { order } = require('paypal-rest-sdk');
 
 module.exports = ({
@@ -22,7 +23,7 @@ module.exports = ({
           const isPasswordCorrect = await bcrypt.compare(password, dbPassword)
           if (isPasswordCorrect) {
             //Token creation
-            const token = jwt.sign({ userId }, "secretKey", {
+            const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
               expiresIn: "1d",
             });
             //storing in cookies
@@ -153,7 +154,10 @@ module.exports = ({
 blockedAuthentication: async(req,res,next)=>{
   if(req.cookies.userjwt){
       
-   const loggedIn = await jwt.verify(req.cookies.userjwt,process.env.JWT_SECRET);
+  console.log(process.env.JWT_SECRET,"secretkeyyyyy");
+  console.log(req.cookies.userjwt);
+
+   const loggedIn = await promisify(jwt.verify)(req.cookies.userjwt,"secretcodeisthis");
       if(loggedIn){
          const userId= loggedIn.userId;
          let user = await getDb().collection('users').findOne({_id:ObjectId(userId) })

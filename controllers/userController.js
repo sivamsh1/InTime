@@ -18,7 +18,6 @@ paypal.configure({
 
 module.exports = {
   renderHomepage: async (req, res, next) => {
-    console.log( process.env.TWILLIO_accountSid);
 
     if (req.cookies.userjwt) {
       cookie = true;
