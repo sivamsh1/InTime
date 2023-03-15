@@ -28,6 +28,7 @@
                                     <th scope="col">Date</th>
                                     <th scope="col">Address</th>
                                     <th scope="col"> Total Amount</th>
+                                    <th scope="col"> Discount</th>
                                     <th scope="col">Payment</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Action</th>
@@ -38,8 +39,9 @@
                                 <tr>
                                     <th scope="row">{{inc @index}}</th>
                                     <td>{{this.date}}</td>
-                                    <td>{{this.deliveryDetails.address}}</td>
+                                    <td style="width: 19rem;" >{{this.deliveryDetails.address}}</td>
                                     <td>{{this.totalAmount}}</td>
+                                    <td>{{this.discount}}</td>
                                     <td>{{this.PaymentMethod}}</td>
                                     <td>{{this.status}}</td>
                                      <td>

@@ -688,21 +688,29 @@ res.redirect('/admin/category')
                   },
                 ]).toArray()
             
-       console.log(deliveredOrders);
 
 
                 let TotalAmount =  await getDb().collection('orders').aggregate([{
-                  $match :{status: 'delivered' }
-                 },
+                  date: {
+                    $gte:start,
+                    $lte: end, 
+                  },
+                  status:"delivered"
+                },
                  {
-                  "$group":{
+                  "$group":{          
                         _id:null,
                         totalAmount:{$sum:"$totalAmount"} 
                   }
                  },
             ]).toArray() 
+            let grandTotal;
               
-             const  grandTotal = TotalAmount[0].totalAmount
+              if (TotalAmount.length ===0){
+                  grandTotal = 0;
+              }else{
+                  grandTotal = TotalAmount[0].totalAmount;
+              }
             
                 res.render('admin/salesReport', { admin: true, categoryDatas,deliveredOrders,grandTotal})
             

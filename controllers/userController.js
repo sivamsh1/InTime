@@ -10,6 +10,7 @@ const { checkout } = require("../routes/users");
 const { config } = require("dotenv");
 const passport = require("passport");
 const { object } = require("underscore");
+const { MAX_ACCESS_BOUNDARY_RULES_COUNT } = require("google-auth-library/build/src/auth/downscopedclient");
 const googleStrategy = require("passport-google-oauth").OAuth2Strategy;
 paypal.configure({
   mode: "sandbox", //sandbox or live
@@ -78,20 +79,29 @@ module.exports = {
     }
 
 
+    let startPrice = req.query.startPrice;
+    let endPrice = req.query.endPrice;
+
+
+    if(startPrice===undefined){
+      startPrice = 0;
+    }
+    if(endPrice===undefined){
+      endPrice  = 1000000;
+    }
+
+
     let Sort = req.query.Sort;
     let sortData;
     if (Sort === "AZ") {
       sortData = { name: 1 };
     } else if (Sort === "ZA") {
       sortData = { name: -1 };
-      // sortedProducts =  await getDb().collection('products').find().sort({name:-1}).toArray()
     } else if (Sort === "LH") {
       sortData = { price: 1 };
-      // sortedProducts =  await getDb().collection('products').find().sort({price:1}).toArray()
     } else if (Sort === "HL") {
       sortData = { price: -1 };
 
-      // sortedProducts =  await getDb().collection('products').find().sort({price:-1}).toArray()
     } else {
       sortData = { name: 1 };
     }
@@ -103,16 +113,13 @@ module.exports = {
     console.log(num);
 
     const category = await getDb().collection("category").find().toArray();
-    const Product = await getDb()
-      .collection("products")
-      .find({ listed: true })
-      .sort(sortData)
-      .skip(num)
-      .limit(8)
-      .toArray();
+    const Product = await getDb().collection("products").find({ listed: true }).sort(sortData).skip(num).limit(8).toArray();
     let listedProducts = Product.filter((pro) => {
-      return pro.listed == true;
+      return pro.listed == true &&  pro.offerPrice > startPrice && pro.offerPrice < endPrice 
     });
+
+
+
 
     let TotalProduct = await getDb()
       .collection("products")
@@ -541,6 +548,8 @@ module.exports = {
     const { name, address, phone, pin } = req.body;
     const order = req.body;
 
+  let discount = req.body.balence
+
     let AddressId = order.addressId;
     const PaymentMethod = order.Paymentmethod;
 
@@ -611,7 +620,6 @@ module.exports = {
         ])
         .toArray();
 
-      console.log(products);
 
       let totalAmount = order.totalAmount;
       totalAmount = parseInt(totalAmount);
@@ -629,13 +637,17 @@ module.exports = {
         products: products,
         status: status,
         totalAmount: totalAmount,
+        discount: discount,
         date: new Date().toDateString(),
         detailedDate: new Date(),
       };
 
+      console.log(orderObj,"orderObect");
       //Ading items to order collection
-      await getDb().collection("orders").insertOne(orderObj);
+       let insertion =   await getDb().collection("orders").insertOne(orderObj);
       //Ading address to users list
+
+      console.log(insertion,"insertionnnnnnnn");
 
       const userlist = await getDb()
         .collection("users")
@@ -1081,6 +1093,7 @@ module.exports = {
               status: 200,
               message: "success",
               total: Grandtotal,
+              balence:offerAmount,
             });
           } else {
             const userId = await jwt.verify(
@@ -1142,6 +1155,7 @@ module.exports = {
               status: 200,
               message: "success",
               total: Grandtotal,
+              balence:offerAmount,
             });
           }
         } else {

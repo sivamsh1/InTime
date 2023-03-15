@@ -135,6 +135,7 @@
               {{/each}}
               <hr>
               <input name="totalAmount" id="total" value={{totalAmount}} hidden>
+              <input name="balence" id="balenceHAmount" value = "null"  hidden>
 
             </div>
 
@@ -198,6 +199,7 @@
             </h5>
           </div> <br><br>
           <h3 id="modalHeader2">Total Amount :<span id="totalAmount"> {{totalAmount}} </span> </h3><br>
+          <div id="balence" style="display:none;" ><h3 id="modalHeader2" >Discount:<span style="color: lightgreen;" id="balenceAmount">0</span></h3>  </div><br>
           <h3 id="modalHeader2">Enter Coupon Code If You have:</h3><br>
           <input name="coupon" type="text" id="form7Example6" class="form-control" required /><br>
           <p id="errorId"></p><br>
@@ -229,6 +231,10 @@
     if (res.data.message == "success") {
       document.getElementById("totalAmount").textContent = res.data.total
       document.getElementById("total").value = res.data.total
+      document.getElementById("balenceAmount").textContent = res.data.balence;
+      document.getElementById("balenceHAmount").value = res.data.balence;
+      const balence =  document.getElementById("balence")
+       balence.style.display = "block";
       Toastify({
         text: "Coupon Is added",
         duration: 3000,
