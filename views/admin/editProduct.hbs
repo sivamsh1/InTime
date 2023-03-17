@@ -52,6 +52,7 @@
          <input type="text" name="brand" id="description" class="form-control" value={{Product.brand}}  required>
          <label for="">Image: </label><br>
          <img src={{Product.images.[0]}} style="height:71px;width:88px" ><br><br>
+       
           <p>{{errorr}}</p>
         <button type="submit" class="btn btn-primary">Submit</button>
         
@@ -63,9 +64,15 @@
                 <label for="productimage" class="">
                 Image
                 </label>
-
+   <div class="inputTag">
                 <input type="file"  id="id_image1" name="image1" accept="image/*" class="form-control"
                 onchange="viewImage1(event)" style="width:44rem;margin-left:-5rem"><br>
+                
+                <input type="file"  id="id_image1" name="image2" class="form-control" style="width:44rem;margin-left:-5rem"><br>
+                
+                <input type="file"  id="id_image1" class="form-control" name="image3"
+                 style="width:44rem;margin-left:-5rem"><br>
+                <
                 <img src="" id="imgView1" alt="" class="clr" style="height:100px">
 
                 <div class="vald-info" id="info"></div>

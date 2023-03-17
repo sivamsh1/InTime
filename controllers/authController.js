@@ -105,8 +105,7 @@ module.exports = ({
         const currentUser = await getDb().collection('users').findOne({_id:ObjectId(userId)})  
       console.log(currentUser.Address[0]);
       Address = Address.trim();
-        if(name==currentUser.name && email==currentUser.email && number==currentUser.number && currentUser.Address[0] == Address ){
-          console.log('if Part');
+        if(name==currentUser.name && email==currentUser.email && number==currentUser.number && currentUser.address[0] == Address ){
          res.json({
           status:200,
           message:'failed',

@@ -116,6 +116,7 @@ categoryRendering : async (req, res) => {
 categorychecking:async (req, res) => {
     console.log(req.body);
     let { name, description } = req.body
+    name = name.toUpperCase();
 
     const isCollectionExist = await getDb().collection('category').findOne({ name: name })
     console.log(isCollectionExist);

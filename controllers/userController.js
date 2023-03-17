@@ -939,6 +939,11 @@ module.exports = {
     const currentUser = await getDb()
       .collection("users")
       .findOne({ _id: ObjectId(userId) });
+
+
+console.log(currentUser.address[0]);
+
+
     res.render("user/userProfile", { currentUser });
   },
   editUserProfile: async (req, res) => {
