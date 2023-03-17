@@ -129,10 +129,9 @@ router.route('/report')
 
 router.get('/editCategory/:id', errorHandler(adminControllers.renderEditCategory))
 
-router.post('/editCategory',errorHandler( adminControllers.editCategory))
+router.post('/editCategory',errorHandler( adminControllers.editCategory))    
 
-
-
+  
 // Admin Brands  
 
 router.route('/brand')

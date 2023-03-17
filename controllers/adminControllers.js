@@ -27,9 +27,7 @@ const upload = multer({
 module.exports = ({
   adminHomeRendering :  async (req, res, next) => {
 
-
     const email = await  jwt.verify(req.cookies.adminjwt, process.env.JWT_SECRET).email 
-     console.log(email);
 
 
 
@@ -38,6 +36,11 @@ module.exports = ({
     const TotalProducts = await getDb().collection('products').find().count()
     const TodaySales = await getDb().collection('orders').find({ date: new Date().toDateString() }).count()
     let TotalRevenue = await getDb().collection('orders').aggregate([{
+      $match:{
+            "status":"delivered"
+      }
+    },
+      {
           "$group": {
                 "_id": null,
                 "totalAmount": { "$sum": "$totalAmount" }

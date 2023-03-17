@@ -8,13 +8,13 @@
             <h2 class="main_title">Images</h2>
           </div>
          <div>
-          <img src={{product.images.[0]}} alt="" style="height: 12rem;" >
+          <img src={{product.images.[0]}}  onclick=cImage(this) alt="" style="height: 12rem;" >
          </div><br>
          <div>
-          <img src={{product.images.[1]}} alt="" style="height: 12rem;" >
+          <img src={{product.images.[1]}} onclick=cImage(this)  alt="" style="height: 12rem;" >
          </div><br>
          <div>
-          <img src={{product.images.[2]}} alt="" style="height: 12rem;" >
+          <img src={{product.images.[2]}}  onclick=cImage(this) alt="" style="height: 12rem;" >
          </div><br>
         </div>
       </div>
@@ -46,7 +46,7 @@
        
 
               <div class="xzoom-container">
-                   <img class="img-fluid" id="zoom"  style="height: 36rem;" src={{product.images.[0]}}>
+                   <img class="img-fluid" id="zoom"  style="height: 36rem;" src={{product.images.[0]}}>         
                
               </div>
        
@@ -96,6 +96,13 @@
 
 
 <script>
+
+
+
+
+
+
+
 
   
 	setTimeout(() => {
@@ -159,7 +166,17 @@
 			addToCart(this.dataset.product);
 		});
 	})
+
+
+
+
+
+  let cImage = (image)=>{
+   let mainImage = document.getElementById("zoom")
+    mainImage.src = image.src
+  }
       
+
 
   
 </script>
