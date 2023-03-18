@@ -8,8 +8,6 @@ const helpers=require('handlebars-helpers')();
 const handlebars = require('handlebars');
 const colors=require('colors')
 
-
-
 const userRouter = require('./routes/users');
 const adminrouter = require('./routes/admin')
 const {initDb}= require('./models/db')

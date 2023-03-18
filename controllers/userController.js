@@ -677,7 +677,7 @@ module.exports = {
       } else if (order.Paymentmethod == "Razorpay") {
         res.send("RAZORPAY IS NOT WOKING CURRENTLY");
       } else if (order.Paymentmethod == "Paypal") {
-        console.log(totalAmount);
+      
 
         //Paypal Integration
         const create_payment_json = {
@@ -686,7 +686,7 @@ module.exports = {
             payment_method: "paypal",
           },
           redirect_urls: {
-            return_url: "http://localhost:5000/success",
+            return_url: "https://intimeestore.shop/success",
             cancel_url: "http://localhost:3000/cancel",
           },
           transactions: [
@@ -713,7 +713,7 @@ module.exports = {
 
         paypal.payment.create(create_payment_json, function (error, payment) {
           if (error) {
-             console.log(error,"errorrrrrrrrrrrrrrrrrrrrrrrr");
+            console.log(error);
             res.send("Use another payment method");           
           } else {
             for (let i = 0; i < payment.links.length; i++) {
